@@ -11,7 +11,10 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html"
+import "phoenix_html";
+
+const elmDiv = document.getElementById('elm-main')
+    , elmApp = Elm.Main.embed(elmDiv);
 
 // Import local files
 //
