@@ -3,6 +3,8 @@
 /db
 /deps
 /*.ez
+/web/elm/elm-stuff/build-artifacts
+/web/static/vendor/main.js
 
 # Generate on crash by the VM
 erl_crash.dump
