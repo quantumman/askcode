@@ -26,5 +26,8 @@
       "es2015",
       "stage-0"
     ]
+  },
+  "scripts": {
+    "start": "webpack --watch-stdin --progress --color"
   }
 }
