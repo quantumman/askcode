@@ -3,5 +3,9 @@ export default {
   output: {
     path: "./priv/static/js",
     filename: "app.js"
-  }
+  },
+
+  resolve: {
+    extensions: ['', '.js', '.elm', '.elmx'],
+  },
 };
