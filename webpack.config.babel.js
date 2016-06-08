@@ -9,6 +9,8 @@ export default {
     filename: "app.js"
   },
 
+  devtool: "#source-map",
+
   resolve: {
     extensions: ['', '.js', '.elm', '.elmx'],
   },
