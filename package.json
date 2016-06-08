@@ -21,6 +21,7 @@
     ]
   },
   "scripts": {
-    "start": "webpack --watch-stdin --progress --color"
+    "start": "webpack --watch-stdin --progress --color",
+    "compile": "webpack -p"
   }
 }
