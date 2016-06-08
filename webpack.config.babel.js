@@ -32,7 +32,10 @@ export default {
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
         loader: 'elm-webpack',
-        include: [join(__dirname, ".tmp/elm")]
+      }, {
+        test: /\.js$/,
+        exclude:  [/elm-stuff/, /node_modules/],
+        loader: 'babel',
       },
     ]
   },
