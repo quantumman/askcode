@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   entry: "./web/static/js/app.js",
   output: {
     path: "./priv/static/js",
