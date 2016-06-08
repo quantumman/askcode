@@ -14,6 +14,9 @@
 import "phoenix_html";
 import Elm from "../../elm/Main.elm";
 
+import 'bootstrap/dist/css/bootstrap.css';
+import '../../static/css/app.css';
+
 const elmDiv = document.getElementById("elm-main")
     , elmApp = Elm.Main.embed(elmDiv);
 
