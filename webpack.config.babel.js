@@ -1,3 +1,5 @@
+import { join } from 'path';
+
 export default {
   entry: {
     app: ["./web/static/js/app.js", "./web/elm/Main.elm"],
@@ -12,11 +14,23 @@ export default {
   },
 
   module: {
+    preLoaders: [
+      {
+        // Notice that the preloader actually reads .elm files looking for dependencies to be compiled from elmx
+        test: /\.elm$/,
+        loader: 'elmx-webpack-preloader',
+        query: {
+          sourceDirectories: [join(__dirname, "web/elm")],
+          outputDirectory: '.tmp/elm',
+        }
+      },
+    ],
     loaders: [
       {
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
-        loader: 'elm-webpack'
+        loader: 'elm-webpack',
+        include: [join(__dirname, ".tmp/elm")]
       },
     ]
   },
