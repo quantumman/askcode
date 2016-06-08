@@ -37,6 +37,7 @@ export default {
         exclude:  [/elm-stuff/, /node_modules/],
         loader: 'babel',
       },
-    ]
+    ],
+    noParse: [/.elm$/],
   },
 };
