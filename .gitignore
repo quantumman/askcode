@@ -5,6 +5,7 @@
 /*.ez
 /elm-stuff
 /web/static/vendor/main.js
+/.tmp
 
 # Generate on crash by the VM
 erl_crash.dump
