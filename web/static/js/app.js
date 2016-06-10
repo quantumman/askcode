@@ -12,7 +12,7 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html";
-import Elm from "../../elm/Main.elm";
+import Elm from "../../static/elm/Main.elm";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../static/css/app.css';
