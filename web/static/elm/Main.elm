@@ -1,8 +1,8 @@
 module Main exposing (..)
 
 import Html
+import App
 
 
-main : Html.Html a
 main =
-    Html.text "Hello from Elm"
+    App.app
