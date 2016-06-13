@@ -1,6 +1,5 @@
 module Main exposing (..)
 
-import Html
 import App
 
 
