@@ -49,11 +49,11 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  <body>
-    <div class="container">
-      <div class="col-xs-6">
-      </div>
-      <div class="col-xs-6">
-      </div>
-    </div>
-  </body>
+  Html.body [] [
+    Html.div [Html.Attributes.attribute "class" "container"] [
+      Html.div [Html.Attributes.attribute "class" "col-xs-6"] [
+      ]
+      , Html.div [Html.Attributes.attribute "class" "col-xs-6"] [
+      ]
+    ]
+  ]
