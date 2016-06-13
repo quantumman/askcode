@@ -4,7 +4,7 @@ export default {
   entry: {
     app: [
       "./web/static/js/app.js",
-      "./web/elm/Main.elm"
+      "./web/static/elm/Main.elm"
     ],
   },
   output: {
@@ -25,7 +25,7 @@ export default {
         test: /\.elm$/,
         loader: 'elmx-webpack-preloader',
         query: {
-          sourceDirectories: [join(__dirname, "web/elm")],
+          sourceDirectories: [join(__dirname, "web/static/elm")],
           outputDirectory: '.tmp/elm',
         }
       },
