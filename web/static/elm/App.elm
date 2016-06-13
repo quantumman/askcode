@@ -25,9 +25,16 @@ type alias User =
     }
 
 
+type alias Proposal =
+    { description : String
+    , votes : Int
+    , user : User
+    }
+
+
 type alias Model =
     { answerers : List User
-    , questioner : User
+    , question : Proposal
     }
 
 
@@ -43,8 +50,14 @@ init =
 
         questioner =
             { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000" }
+
+        question =
+            { description = "I propsed hoge hoge"
+            , votes = 1
+            , user = { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000" }
+            }
     in
-        ( { answerers = answerers, questioner = questioner }, Cmd.none )
+        ( { answerers = answerers, question = question }, Cmd.none )
 
 
 
@@ -84,11 +97,8 @@ view model =
         [ div
             [ class "col-xs-6"
             ]
-            [ div
-                [ style avatarStyle
-                , class "pull-xs-left"
-                ]
-                [ (avatars [ model.questioner ]) ]
+            [ div []
+                [ (proposalCard model.question) ]
             ]
         , div
             [ class "col-xs-6"
@@ -97,33 +107,58 @@ view model =
                 [ style avatarStyle
                 , class "pull-xs-right"
                 ]
-                [ (avatars model.answerers) ]
+                [ (avatars 2 model.answerers) ]
             ]
         ]
 
 
-avatars : List User -> Html Msg
-avatars users =
+proposalCard : Proposal -> Html Msg
+proposalCard proposal =
     let
-        imageStyle =
-            [ Style.width (Style.em 2)
-            , Style.height (Style.em 2)
-            , Style.marginTop (Style.em 1)
+        avatarStyle =
+            [ Style.marginRight (Style.em 0.5)
+            ]
+    in
+        div [ class "card card-blocks" ]
+            [ h4 [ class "card-title" ]
+                [ avatar avatarStyle 1.5 proposal.user
+                , text "proposed"
+                ]
+            , p [ class "card-tex" ]
+                [text proposal.description]
             ]
 
-        avatar x =
+
+avatar : List Style -> Float -> User -> Html Msg
+avatar styles size user =
+    let
+        imageStyle =
+            [ Style.width (Style.em size)
+            , Style.height (Style.em size)
+            ]
+    in
+        img
+            [ style (imageStyle ++ styles)
+            , class "img-circle"
+            , src user.avatar
+            , alt "avatar"
+            ]
+            []
+
+
+avatars : Float -> List User -> Html Msg
+avatars size users =
+    let
+        imageStyle =
+            [ Style.marginTop (Style.em 1)
+            ]
+
+        avatarLi x =
             li [ style avatarStyle ]
-                [ img
-                    [ style imageStyle
-                    , class "img-circle"
-                    , src x.avatar
-                    , alt "avatar"
-                    ]
-                    []
-                ]
+                [ avatar imageStyle 2 x ]
 
         avatars =
-            List.map avatar users
+            List.map avatarLi users
     in
         ul
             [ class "list-unstyled"
