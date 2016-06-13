@@ -22,6 +22,7 @@ app =
 
 type alias User =
     { avatar : String
+    , name : String
     }
 
 
@@ -29,11 +30,13 @@ type alias Proposal =
     { description : String
     , votes : Int
     , user : User
+    , isReply : Bool
     }
 
 
 type alias Model =
     { answerers : List User
+    , reply : Proposal
     , question : Proposal
     }
 
@@ -41,23 +44,36 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     let
+        sampleUser =
+            { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000"
+            , name = "test"
+            }
+
         answerers =
-            [ { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000" }
-            , { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000" }
-            , { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000" }
-            , { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000" }
+            [ sampleUser
+            , sampleUser
+            , sampleUser
+            , sampleUser
             ]
 
         questioner =
-            { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000" }
+            sampleUser
+
+        reply =
+            { description = "I have an opposite opinion..."
+            , votes = 20
+            , user = sampleUser
+            , isReply = True
+            }
 
         question =
             { description = "I propsed hoge hoge"
             , votes = 1
-            , user = { avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000" }
+            , user = sampleUser
+            , isReply = False
             }
     in
-        ( { answerers = answerers, question = question }, Cmd.none )
+        ( { answerers = answerers, reply = reply, question = question }, Cmd.none )
 
 
 
@@ -103,11 +119,14 @@ view model =
         , div
             [ class "col-xs-6"
             ]
-            [ div
-                [ style avatarStyle
-                , class "pull-xs-right"
+            [ div []
+                [ proposalCard model.reply
+                , div
+                    [ style avatarStyle
+                    , class "pull-xs-right"
+                    ]
+                    [ (avatars 2 model.answerers) ]
                 ]
-                [ (avatars 2 model.answerers) ]
             ]
         ]
 
@@ -118,14 +137,25 @@ proposalCard proposal =
         avatarStyle =
             [ Style.marginRight (Style.em 0.5)
             ]
-    in
-        div [ class "card card-blocks" ]
-            [ h4 [ class "card-title" ]
+
+        header =
+            if proposal.isReply then
+                [ span []
+                    [ text proposal.user.name ]
+                , text " repiled"
+                , div [ class "pull-xs-right" ]
+                    [ avatar avatarStyle 1.5 proposal.user ]
+                ]
+            else
                 [ avatar avatarStyle 1.5 proposal.user
                 , text "proposed"
                 ]
+    in
+        div [ class "card card-blocks" ]
+            [ h4 [ class "card-title" ]
+                header
             , p [ class "card-tex" ]
-                [text proposal.description]
+                [ text proposal.description ]
             ]
 
 
