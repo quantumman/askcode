@@ -8,6 +8,12 @@
     <meta name="author" content="">
 
     <title>Hello Askcode!</title>
+
+    <style type="text/css">
+      .container {
+        min-width: 90% !important;
+      }
+    </style>
   </head>
 
   <body>
