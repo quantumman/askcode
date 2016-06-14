@@ -154,7 +154,7 @@ proposalCard proposal =
         div [ class "card card-blocks" ]
             [ h4 [ class "card-title" ]
                 header
-            , p [ class "card-tex" ]
+            , p [ class "card-text" ]
                 [ text proposal.description ]
             ]
 
