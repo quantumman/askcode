@@ -19,17 +19,6 @@ export default {
   },
 
   module: {
-    preLoaders: [
-      {
-        // Notice that the preloader actually reads .elm files looking for dependencies to be compiled from elmx
-        test: /\.elm$/,
-        loader: 'elmx-webpack-preloader',
-        query: {
-          sourceDirectories: [join(__dirname, "web/static/elm")],
-          outputDirectory: '.tmp/elm',
-        }
-      },
-    ],
     loaders: [
       {
         test: /\.elm$/,
