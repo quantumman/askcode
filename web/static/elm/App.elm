@@ -151,7 +151,7 @@ proposalCard proposal =
                 , text "proposed"
                 ]
     in
-        div [ class "card card-blocks" ]
+        div [ class "card card-block" ]
             [ h4 [ class "card-title" ]
                 header
             , p [ class "card-text" ]
