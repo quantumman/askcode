@@ -183,8 +183,14 @@ avatars size users =
             [ Style.marginTop (Style.em 1)
             ]
 
+        floatMenuStyle =
+            [ position relative
+            , top (Style.em -9)
+            , right (Style.em -5)
+            ]
+
         avatarLi x =
-            li [ style avatarStyle ]
+            li [ style (avatarStyle ++ floatMenuStyle) ]
                 [ avatar imageStyle 2 x ]
 
         avatars =
