@@ -12,6 +12,7 @@ erl_crash.dump
 
 # Generate on crash by npm
 npm-debug.log
+npm-debug.log.*
 
 # Static artifacts
 /node_modules
