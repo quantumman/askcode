@@ -3,6 +3,7 @@ port module Ace exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
+import Style
 
 
 -- MODEL
@@ -10,19 +11,20 @@ import Html.Attributes exposing (..)
 
 type alias Model =
     { code : String
+    , id : String
     }
 
 
 init : Model
 init =
-    { code = "" }
+    { code = "", id = "test" }
 
 
 
 -- UPDATE
 
 
-port send : String -> Cmd msg
+port initialize : ( Id, String ) -> Cmd msg
 
 
 type Msg
@@ -37,7 +39,7 @@ update msg model =
             ( { model | code = code }, Cmd.none )
 
         Ready _ ->
-            ( model, send model.code )
+            ( model, initialize ( model.id, model.code ) )
 
 
 
@@ -56,3 +58,20 @@ subscriptions model =
         [ change Change
         , ready Ready
         ]
+
+
+
+-- VIEW
+
+
+type alias Id =
+    String
+
+
+view : Model -> Html Msg
+view model =
+    div
+        [ id model.id
+        , style [ Style.height (Style.em 20) ]
+        ]
+        []
