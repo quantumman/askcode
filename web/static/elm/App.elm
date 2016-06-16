@@ -39,7 +39,8 @@ type alias Model =
     { answerers : List User
     , reply : Proposal
     , question : Proposal
-    , ace : Ace.Model
+    , questionCode : Ace.Model
+    , replyCode : Ace.Model
     }
 
 
@@ -78,7 +79,8 @@ init =
         ( { answerers = answerers
           , reply = reply
           , question = question
-          , ace = Ace.init
+          , questionCode = Ace.init "question"
+          , replyCode = Ace.init "reply"
           }
         , Cmd.none
         )
@@ -90,7 +92,8 @@ init =
 
 type Msg
     = DoSomehting
-    | AceMsg Ace.Msg
+    | Ask Ace.Msg
+    | Reply Ace.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -99,12 +102,19 @@ update msg model =
         DoSomehting ->
             ( model, Cmd.none )
 
-        AceMsg subMsg ->
+        Ask subMsg ->
             let
                 ( aceModel, aceCmd ) =
-                    Ace.update subMsg model.ace
+                    Ace.update subMsg model.questionCode
             in
-                ( { model | ace = aceModel }, Cmd.map AceMsg aceCmd )
+                ( { model | questionCode = aceModel }, Cmd.map Ask aceCmd )
+
+        Reply subMsg ->
+            let
+                ( aceModel, aceCmd ) =
+                    Ace.update subMsg model.replyCode
+            in
+                ( { model | replyCode = aceModel }, Cmd.map Reply aceCmd )
 
 
 
@@ -113,7 +123,10 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.map AceMsg (Ace.subscriptions model.ace)
+    Sub.batch
+        [ Sub.map Ask (Ace.subscriptions model.questionCode)
+        , Sub.map Reply (Ace.subscriptions model.replyCode)
+        ]
 
 
 
@@ -140,14 +153,16 @@ view model =
             [ class "col-xs-6"
             ]
             [ div []
-                [ (proposalCard model.question) ]
-            , Html.map AceMsg (Ace.view model.ace)
+                [ (proposalCard model.question)
+                , Html.map Ask (Ace.view  model.questionCode)
+                ]
             ]
         , div
             [ class "col-xs-6"
             ]
             [ div []
                 [ proposalCard model.reply
+                , Html.map Reply (Ace.view model.replyCode)
                 , div
                     [ style avatarStyle
                     , class "pull-xs-right"
