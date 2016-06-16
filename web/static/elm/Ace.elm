@@ -15,9 +15,9 @@ type alias Model =
     }
 
 
-init : Model
-init =
-    { code = "", id = "test" }
+init : Id -> Model
+init id =
+    { code = "", id = id }
 
 
 
