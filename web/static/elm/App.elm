@@ -141,6 +141,7 @@ view model =
             ]
             [ div []
                 [ (proposalCard model.question) ]
+            , Html.map AceMsg (Ace.view model.ace)
             ]
         , div
             [ class "col-xs-6"
