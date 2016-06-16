@@ -1,5 +1,6 @@
 module App exposing (..)
 
+import Ace
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
@@ -12,7 +13,7 @@ app =
         { init = init
         , update = update
         , view = view
-        , subscriptions = (always Sub.none)
+        , subscriptions = subscriptions
         }
 
 
@@ -38,6 +39,7 @@ type alias Model =
     { answerers : List User
     , reply : Proposal
     , question : Proposal
+    , ace : Ace.Model
     }
 
 
@@ -73,7 +75,13 @@ init =
             , isReply = False
             }
     in
-        ( { answerers = answerers, reply = reply, question = question }, Cmd.none )
+        ( { answerers = answerers
+          , reply = reply
+          , question = question
+          , ace = Ace.init
+          }
+        , Cmd.none
+        )
 
 
 
@@ -82,6 +90,7 @@ init =
 
 type Msg
     = DoSomehting
+    | AceMsg Ace.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -89,6 +98,22 @@ update msg model =
     case msg of
         DoSomehting ->
             ( model, Cmd.none )
+
+        AceMsg subMsg ->
+            let
+                ( aceModel, aceCmd ) =
+                    Ace.update subMsg model.ace
+            in
+                ( { model | ace = aceModel }, Cmd.map AceMsg aceCmd )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.map AceMsg (Ace.subscriptions model.ace)
 
 
 
