@@ -134,6 +134,7 @@ view : Model -> Html Msg
 view model =
     div
         [ class "container"
+        , id "elm-main-app"
         ]
         [ div
             [ class "col-xs-6"
