@@ -56,7 +56,7 @@ callWhenIdAdded(
 // initialize
 const editor = {};
 elmApp.ports.initialize.subscribe(([id, text]) => {
-  if (editor[id] === undefined) {
+  if (id && editor[id] === undefined) {
     editor[id] = Ace.edit(id);
 
     editor[id].setValue(text);
