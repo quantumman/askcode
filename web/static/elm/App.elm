@@ -154,7 +154,7 @@ view model =
             ]
             [ div []
                 [ (proposalCard model.question)
-                , Html.map Ask (Ace.view  model.questionCode)
+                , Html.map Ask (Ace.view model.questionCode)
                 ]
             ]
         , div
@@ -163,12 +163,12 @@ view model =
             [ div []
                 [ proposalCard model.reply
                 , Html.map Reply (Ace.view model.replyCode)
-                , div
-                    [ style avatarStyle
-                    , class "pull-xs-right"
-                    ]
-                    [ (avatars 2 model.answerers) ]
                 ]
+            , div
+                [ style avatarStyle
+                , class "pull-xs-right"
+                ]
+                [ (avatars 2 model.answerers) ]
             ]
         ]
 

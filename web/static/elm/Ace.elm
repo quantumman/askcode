@@ -28,15 +28,22 @@ port initialize : ( Id, String ) -> Cmd msg
 
 
 type Msg
-    = Change String
+    = Change ( Id, String )
     | Ready String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Change code ->
-            ( { model | code = code }, Cmd.none )
+        Change ( id, code ) ->
+            let
+                model' =
+                    if id == model.id then
+                        { model | code = code }
+                    else
+                        model
+            in
+                ( model', Cmd.none )
 
         Ready _ ->
             ( model, initialize ( model.id, model.code ) )
@@ -46,7 +53,7 @@ update msg model =
 -- SUBSCRIPTION
 
 
-port change : (String -> msg) -> Sub msg
+port change : (( Id, String ) -> msg) -> Sub msg
 
 
 port ready : (String -> msg) -> Sub msg

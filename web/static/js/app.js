@@ -21,24 +21,21 @@ import '../../static/css/app.css';
 const elmDiv = document.getElementById("elm-main")
     , elmApp = Elm.Main.embed(elmDiv);
 
-const callWhenIdAdded = (parent, id, fun) => {
-  const observer = new MutationObserver((mutations) => {
-    // Get an array of the added ids
-    const addedIds = mutations.reduce((acc, mutationRecord) => {
+const onNodeMutated = (id, parent, selector, callback) => {
+  const observer = new MutationObserver(mutations => {
+    const mutatedIds = mutations.reduce((acc, mutationRecord) => {
       const ids = Array
-        .from(mutationRecord.addedNodes)
+        .from(selector(mutationRecord))
         .filter(node => node.attributes.getNamedItem('id') !== null)
         .map(node => node.attributes.getNamedItem('id').value);
-
       return acc.concat(ids);
     }, []);
 
-    // If that contains the id we are looking for then invoke the function and remove the observer
-    if (addedIds.indexOf(id) >= 0) {
+    if (mutatedIds.indexOf(id) >= 0) {
       observer.disconnect();
-      fun();
+      callback(mutatedIds);
     }
-  })
+  });
 
   observer.observe(parent, {
     childList: true,
@@ -46,14 +43,10 @@ const callWhenIdAdded = (parent, id, fun) => {
   });
 };
 
+onNodeMutated('elm-main-app', elmDiv, m => m.addedNodes, ids => {
+  elmApp.ports.ready.send('ready');
+});
 
-callWhenIdAdded(
-  elmDiv, 'elm-main-app', () => {
-    elmApp.ports.ready.send('ready');
-  }
-);
-
-// initialize
 const editor = {};
 elmApp.ports.initialize.subscribe(([id, text]) => {
   if (id && editor[id] === undefined) {
@@ -61,7 +54,14 @@ elmApp.ports.initialize.subscribe(([id, text]) => {
 
     editor[id].setValue(text);
     editor[id].on('change', e => {
-      elmApp.ports.change.send(editor[id].getValue());
+      elmApp.ports.change.send([id, editor[id].getValue()]);
+    });
+
+    onNodeMutated(id, elmDiv, m => m.removedNodes, ids => {
+      if (editor[id]) {
+        editor[id].destroy();
+        delete editor[id];
+      }
     });
   }
 });
