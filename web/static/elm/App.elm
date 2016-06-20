@@ -92,8 +92,7 @@ init =
 
 type Msg
     = DoSomehting
-    | Ask Ace.Msg
-    | Reply Ace.Msg
+    | AceMsg Ace.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -102,19 +101,27 @@ update msg model =
         DoSomehting ->
             ( model, Cmd.none )
 
-        Ask subMsg ->
+        AceMsg subMsg ->
             let
-                ( aceModel, aceCmd ) =
-                    Ace.update subMsg model.questionCode
-            in
-                ( { model | questionCode = aceModel }, Cmd.map Ask aceCmd )
+                question =
+                    ( .questionCode, \x -> { model | questionCode = x } )
 
-        Reply subMsg ->
-            let
-                ( aceModel, aceCmd ) =
-                    Ace.update subMsg model.replyCode
+                reply =
+                    ( .replyCode, \x -> { model | replyCode = x } )
+
+                update' ( getter, setter ) ( model', cmds ) =
+                    let
+                        ( model'', cmd ) =
+                            Ace.update subMsg (getter model')
+                    in
+                        ( setter model'', (Cmd.map AceMsg cmd) :: cmds )
+
+                ( model', cmds ) =
+                    (model, [])
+                        |> update' question
+                        |> update' reply
             in
-                ( { model | replyCode = aceModel }, Cmd.map Reply aceCmd )
+                ( model', Cmd.batch cmds )
 
 
 
@@ -123,10 +130,10 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch
-        [ Sub.map Ask (Ace.subscriptions model.questionCode)
-        , Sub.map Reply (Ace.subscriptions model.replyCode)
-        ]
+    [ model.questionCode, model.replyCode ]
+        |> List.map Ace.subscriptions
+        |> List.map (Sub.map AceMsg)
+        |> Sub.batch
 
 
 
@@ -154,7 +161,7 @@ view model =
             ]
             [ div []
                 [ (proposalCard model.question)
-                , Html.map Ask (Ace.view model.questionCode)
+                , Html.map AceMsg (Ace.view model.questionCode)
                 ]
             ]
         , div
@@ -162,7 +169,7 @@ view model =
             ]
             [ div []
                 [ proposalCard model.reply
-                , Html.map Reply (Ace.view model.replyCode)
+                , Html.map AceMsg (Ace.view model.replyCode)
                 ]
             , div
                 [ style avatarStyle
