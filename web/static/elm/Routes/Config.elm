@@ -23,3 +23,10 @@ topicsMatcher =
 topicMatcher : PathMatcher Route
 topicMatcher =
     match2 Topic "/topics/" int
+
+
+matchers : List (PathMatcher Route)
+matchers =
+    [ topicsMatcher
+    , topicMatcher
+    ]
