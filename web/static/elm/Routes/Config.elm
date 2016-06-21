@@ -18,3 +18,8 @@ type Route
 topicsMatcher : PathMatcher Route
 topicsMatcher =
     match1 Topics "/topics"
+
+
+topicMatcher : PathMatcher Route
+topicMatcher =
+    match2 Topic "/topics/" int
