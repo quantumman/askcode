@@ -43,3 +43,12 @@ reverse route =
 
         NotFound ->
             ""
+
+
+routerConfig : Config Route
+routerConfig =
+    { hash = True
+    , basePath = ""
+    , matchers = matchers
+    , notFound = NotFound
+    }
