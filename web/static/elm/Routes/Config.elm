@@ -13,3 +13,8 @@ type Route
     = Topics
     | Topic Int
     | NotFound
+
+
+topicsMatcher : PathMatcher Route
+topicsMatcher =
+    match1 Topics "/topics"
