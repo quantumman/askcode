@@ -1,6 +1,6 @@
 module Routes.Config exposing (..)
 
-import Hop exposing (makeUrl, makeUrlFromLocation, matchUrl, setQuery)
+import Hop exposing (makeUrl, makeUrlFromLocation, matchUrl, matcherToPath, setQuery)
 import Hop.Matchers exposing (..)
 import Hop.Types exposing (Config, Query, Location, PathMatcher, Router)
 import Navigation
@@ -30,3 +30,16 @@ matchers =
     [ topicsMatcher
     , topicMatcher
     ]
+
+
+reverse : Route -> String
+reverse route =
+    case route of
+        Topics ->
+            matcherToPath topicsMatcher []
+
+        Topic id ->
+            matcherToPath topicMatcher [ toString id ]
+
+        NotFound ->
+            ""
