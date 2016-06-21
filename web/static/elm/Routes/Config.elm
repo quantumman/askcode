@@ -52,3 +52,13 @@ routerConfig =
     , matchers = matchers
     , notFound = NotFound
     }
+
+
+
+-- MODEL
+
+
+type alias Model =
+    { location : Hop.Types.Location
+    , route : Route
+    }
