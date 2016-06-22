@@ -70,6 +70,14 @@ make ( route, location ) =
 
 
 
+-- UPDATE
+
+
+type Msg
+    = NavigateTo Route
+
+
+
 -- APP
 
 
