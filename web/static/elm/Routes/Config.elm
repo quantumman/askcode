@@ -67,3 +67,17 @@ type alias Model =
 make : ( Route, Hop.Types.Location ) -> Model
 make ( route, location ) =
     Model location route
+
+
+
+-- APP
+
+
+urlParser : Navigation.Parser ( Route, Hop.Types.Location )
+urlParser =
+    Navigation.makeParser (.href >> matchUrl routerConfig)
+
+
+init : ( Route, Hop.Types.Location ) -> ( Model, Cmd a )
+init ( route, location ) =
+    ( Model location route, Cmd.none )
