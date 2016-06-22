@@ -62,3 +62,8 @@ type alias Model =
     { location : Hop.Types.Location
     , route : Route
     }
+
+
+make : ( Route, Hop.Types.Location ) -> Model
+make ( route, location ) =
+    Model location route
