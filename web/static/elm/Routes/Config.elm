@@ -77,6 +77,21 @@ type Msg
     = NavigateTo Route
 
 
+update : Msg -> Model -> ( Model, Cmd Msg )
+update message model =
+    case message of
+        NavigateTo route ->
+            let
+                path =
+                    reverse route
+
+                command =
+                    makeUrl routerConfig path
+                        |> Navigation.modifyUrl
+            in
+                ( model, command )
+
+
 
 -- APP
 
