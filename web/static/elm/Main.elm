@@ -24,23 +24,19 @@ type alias Model =
 
 
 type Msg
-    = NavigateTo Route
+    = NavigateTo Routes.Config.Msg
     | App App.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NavigateTo route ->
+        NavigateTo subMessage ->
             let
-                path =
-                    reverse route
-
-                command =
-                    makeUrl routerConfig path
-                        |> Navigation.modifyUrl
+                ( routes, command ) =
+                    Routes.Config.update subMessage model.routes
             in
-                ( model, command )
+                ( { model | routes = routes }, Cmd.map NavigateTo command )
 
         App subMessage ->
             let
