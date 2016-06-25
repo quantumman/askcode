@@ -23,16 +23,38 @@ port disconnect : Id -> Cmd msg
 
 
 type alias OnAddDom msg =
-    Id -> Cmd msg
+    Cmd msg
 
 
 type alias OnRemoveDom msg =
-    Id -> Cmd msg
+    Cmd msg
 
 
 type Msg
     = AddDom Id
     | RemoveDom Id
+
+
+update : Msg -> OnAddDom msg -> OnRemoveDom msg -> Id -> Cmd msg
+update message onAddDom onRemoveDom model =
+    case message of
+        AddDom id ->
+            if id == model then
+                Cmd.batch
+                    [ onAddDom
+                    , disconnect model
+                    ]
+            else
+                Cmd.none
+
+        RemoveDom id ->
+            if id == model then
+                Cmd.batch
+                    [ onRemoveDom
+                    , observe model
+                    ]
+            else
+                Cmd.none
 
 
 
