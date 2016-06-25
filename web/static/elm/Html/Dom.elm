@@ -1,5 +1,13 @@
 port module Html.Dom exposing (..)
 
+-- MODEL
+
+
+type alias Id =
+    String
+
+
+
 -- UPDATE
 
 
@@ -9,9 +17,18 @@ port observe : Id -> Cmd msg
 port disconnect : Id -> Cmd msg
 
 
+type alias OnAddDom msg =
+    Id -> Cmd msg
+
+
+type alias OnRemoveDom msg =
+    Id -> Cmd msg
+
+
 type Msg
     = AddDom Id
     | RemoveDom Id
+
 
 
 -- SUBSCRIPTION
