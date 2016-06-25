@@ -7,6 +7,11 @@ type alias Id =
     String
 
 
+init : Id -> Cmd msg
+init id =
+    observe id
+
+
 
 -- UPDATE
 
