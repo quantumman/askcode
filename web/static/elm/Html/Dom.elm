@@ -65,3 +65,13 @@ port addDom : (Id -> msg) -> Sub msg
 
 
 port removeDom : (Id -> msg) -> Sub msg
+
+
+subscriptions : (Msg -> msg) -> Sub msg
+subscriptions sub =
+    Sub.map sub
+        (Sub.batch
+            [ addDom AddDom
+            , removeDom RemoveDom
+            ]
+        )
