@@ -7,17 +7,6 @@ import Html.Attributes exposing (..)
 import Style exposing (..)
 
 
-app : Program Never
-app =
-    Html.program
-        { init = init
-        , update = update
-        , view = view
-        , subscriptions = subscriptions
-        }
-
-
-
 -- MODEL
 
 
