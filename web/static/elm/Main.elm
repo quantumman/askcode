@@ -10,6 +10,41 @@ import Navigation
 import Routes.Config exposing (..)
 
 
+-- APP
+
+
+urlUpdate : ( Route, Hop.Types.Location ) -> Model -> ( Model, Cmd Msg )
+urlUpdate router model =
+    ( { model | routes = Routes.Config.make router }, Cmd.none )
+
+
+init : ( Route, Hop.Types.Location ) -> ( Model, Cmd Msg )
+init router =
+    let
+        ( model, command ) =
+            Routes.Config.init router
+
+        ( appModel, appCommand ) =
+            App.init
+
+        commands =
+            Cmd.batch [ command, Cmd.map App appCommand ]
+    in
+        ( Model (Routes.Config.make router) appModel, commands )
+
+
+main : Program Never
+main =
+    Navigation.program Routes.Config.urlParser
+        { init = init
+        , view = dispatcher
+        , update = update
+        , urlUpdate = urlUpdate
+        , subscriptions = subscriptions
+        }
+
+
+
 -- MODEL
 
 
@@ -72,38 +107,3 @@ dispatcher model =
 
         NotFound ->
             div [] [ h2 [] [ text "Not Found " ] ]
-
-
-
--- APP
-
-
-urlUpdate : ( Route, Hop.Types.Location ) -> Model -> ( Model, Cmd Msg )
-urlUpdate router model =
-    ( { model | routes = Routes.Config.make router }, Cmd.none )
-
-
-init : ( Route, Hop.Types.Location ) -> ( Model, Cmd Msg )
-init router =
-    let
-        ( model, command ) =
-            Routes.Config.init router
-
-        ( appModel, appCommand ) =
-            App.init
-
-        commands =
-            Cmd.batch [ command, Cmd.map App appCommand ]
-    in
-        ( Model (Routes.Config.make router) appModel, commands )
-
-
-main : Program Never
-main =
-    Navigation.program Routes.Config.urlParser
-        { init = init
-        , view = dispatcher
-        , update = update
-        , urlUpdate = urlUpdate
-        , subscriptions = subscriptions
-        }
