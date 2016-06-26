@@ -89,10 +89,13 @@ init router =
         ( model, command ) =
             Routes.Config.init router
 
-        ( route, location ) =
-            ( model.route, model.location )
+        ( appModel, appCommand ) =
+            App.init
+
+        commands =
+            Cmd.batch [ command, Cmd.map App appCommand ]
     in
-        ( Model (Routes.Config.make router) App.init, command )
+        ( Model (Routes.Config.make router) appModel, commands )
 
 
 main : Program Never
