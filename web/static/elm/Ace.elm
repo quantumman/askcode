@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Style
+import Html.Dom as Dom
 
 
 -- MODEL
@@ -11,25 +12,28 @@ import Style
 
 type alias Model =
     { code : String
-    , id : String
+    , id : Dom.Id
     }
 
 
-init : Id -> Model
+init : Dom.Id -> ( Model, Cmd Msg )
 init id =
-    { code = "", id = id }
+    ( { code = "", id = id }, (Dom.init id) )
 
 
 
 -- UPDATE
 
 
-port initialize : ( Id, String ) -> Cmd msg
+port initialize : ( Dom.Id, String ) -> Cmd msg
+
+
+port destroy : Dom.Id -> Cmd msg
 
 
 type Msg
-    = Change ( Id, String )
-    | Ready String
+    = Change ( Dom.Id, String )
+    | Dom Dom.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -45,34 +49,34 @@ update msg model =
             in
                 ( model', Cmd.none )
 
-        Ready _ ->
-            ( model, initialize ( model.id, model.code ) )
+        Dom subMessage ->
+            let
+                command =
+                    Dom.update subMessage
+                        (initialize ( model.id, model.code ))
+                        (destroy model.id)
+                        model.id
+            in
+                ( model, command )
 
 
 
 -- SUBSCRIPTION
 
 
-port change : (( Id, String ) -> msg) -> Sub msg
-
-
-port ready : (String -> msg) -> Sub msg
+port change : (( Dom.Id, String ) -> msg) -> Sub msg
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ change Change
-        , ready Ready
+        , Dom.subscriptions Dom
         ]
 
 
 
 -- VIEW
-
-
-type alias Id =
-    String
 
 
 view : Model -> Html Msg

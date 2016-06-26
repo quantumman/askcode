@@ -4,6 +4,7 @@
     "ace": "^1.0.3",
     "bootstrap": "github:twbs/bootstrap#v4-dev",
     "brace": "^0.8.0",
+    "lazy.js": "^0.4.2",
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html"
   },

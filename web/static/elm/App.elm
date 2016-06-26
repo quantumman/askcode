@@ -75,14 +75,22 @@ init =
             , user = sampleUser
             , isReply = False
             }
+
+        ( questionCode, questionCommand ) =
+            Ace.init "question"
+
+        ( replyCode, replyCommand ) =
+            Ace.init "reply"
     in
         ( { answerers = answerers
           , reply = reply
           , question = question
-          , questionCode = Ace.init "question"
-          , replyCode = Ace.init "reply"
+          , questionCode = questionCode
+          , replyCode = replyCode
           }
-        , Cmd.none
+        , [ questionCommand, replyCommand ]
+            |> List.map (Cmd.map AceMsg)
+            |> Cmd.batch
         )
 
 
@@ -117,7 +125,7 @@ update msg model =
                         ( setter model'', (Cmd.map AceMsg cmd) :: cmds )
 
                 ( model', cmds ) =
-                    (model, [])
+                    ( model, [] )
                         |> update' question
                         |> update' reply
             in
