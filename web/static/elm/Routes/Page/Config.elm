@@ -44,3 +44,22 @@ matchers =
     , indexMatcher
     , showMatcher
     ]
+
+
+reverse : Route -> String
+reverse route =
+    case route of
+        New ->
+            matcherToPath newMatcher []
+
+        Edit id ->
+            matcherToPath editMatcher [ toString id ]
+
+        Index ->
+            matcherToPath indexMatcher []
+
+        Show id ->
+            matcherToPath showMatcher [ toString id ]
+
+        NotFound ->
+            ""
