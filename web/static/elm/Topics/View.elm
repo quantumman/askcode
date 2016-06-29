@@ -18,7 +18,7 @@ view route model =
             div [] [ text "edit" ]
 
         Index ->
-            div [] [ text "index" ]
+            Index.view model
 
         Show id ->
             div [] [ text "show" ]
