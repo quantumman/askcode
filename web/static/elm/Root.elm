@@ -16,7 +16,7 @@ type alias Model =
     }
 
 
-init : ( Model, Cmd Msg )
+init : ( App.Model, Cmd App.Msg )
 init =
     App.init
 
