@@ -4,10 +4,12 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Page.Config exposing (..)
+import Topics.Index as Index
+import Topics.Model as Topics
 
 
-view : Route -> Html msg
-view route =
+view : Route -> Topics.Model -> Html msg
+view route model =
     case route of
         New ->
             div [] [ text "new" ]
@@ -16,7 +18,7 @@ view route =
             div [] [ text "edit" ]
 
         Index ->
-            div [] [ text "index" ]
+            Index.view model
 
         Show id ->
             div [] [ text "show" ]
