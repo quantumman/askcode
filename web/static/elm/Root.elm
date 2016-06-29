@@ -16,6 +16,11 @@ type alias Model =
     }
 
 
+init : ( Model, Cmd Msg )
+init =
+    App.init
+
+
 
 -- UPDATE
 
