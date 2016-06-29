@@ -16,3 +16,9 @@ type alias Proposal =
     , created_at : String
     , updated_at : String
     }
+
+
+type alias Model =
+    { proposal : Proposal
+    , replies : List Proposal
+    }
