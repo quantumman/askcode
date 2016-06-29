@@ -7,7 +7,7 @@ import Hop.Types exposing (Config, Query, Location, PathMatcher, Router)
 import Html exposing (..)
 import Html.App as Html
 import Navigation
-import Routes.Config exposing (..)
+import Routing.Config exposing (..)
 import Topics.View as Topics
 
 
@@ -16,14 +16,14 @@ import Topics.View as Topics
 
 urlUpdate : ( Route, Hop.Types.Location ) -> Model -> ( Model, Cmd Msg )
 urlUpdate router model =
-    ( { model | routes = Routes.Config.make router }, Cmd.none )
+    ( { model | routes = Routing.Config.make router }, Cmd.none )
 
 
 init : ( Route, Hop.Types.Location ) -> ( Model, Cmd Msg )
 init router =
     let
         ( model, command ) =
-            Routes.Config.init router
+            Routing.Config.init router
 
         ( appModel, appCommand ) =
             App.init
@@ -31,12 +31,12 @@ init router =
         commands =
             Cmd.batch [ command, Cmd.map App appCommand ]
     in
-        ( Model (Routes.Config.make router) appModel, commands )
+        ( Model (Routing.Config.make router) appModel, commands )
 
 
 main : Program Never
 main =
-    Navigation.program Routes.Config.urlParser
+    Navigation.program Routing.Config.urlParser
         { init = init
         , view = dispatcher
         , update = update
@@ -50,7 +50,7 @@ main =
 
 
 type alias Model =
-    { routes : Routes.Config.Model
+    { routes : Routing.Config.Model
     , app : App.Model
     }
 
@@ -60,7 +60,7 @@ type alias Model =
 
 
 type Msg
-    = NavigateTo Routes.Config.Msg
+    = NavigateTo Routing.Config.Msg
     | App App.Msg
 
 
@@ -70,7 +70,7 @@ update msg model =
         NavigateTo subMessage ->
             let
                 ( routes, command ) =
-                    Routes.Config.update subMessage model.routes
+                    Routing.Config.update subMessage model.routes
             in
                 ( { model | routes = routes }, Cmd.map NavigateTo command )
 
