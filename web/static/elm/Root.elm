@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
 import Topics.View as Topics
+import Topics.Model as Topics
 
 
 -- MODEL
@@ -20,6 +21,7 @@ type alias Model =
 
 type alias AppModel =
     { app : App.Model
+    , topics : Topics.Model
     }
 
 
@@ -28,8 +30,11 @@ init =
     let
         ( appModel, appCommand ) =
             App.init
+
+        topicsModel =
+            Topics.init
     in
-        ( AppModel appModel, Cmd.map App appCommand )
+        ( AppModel appModel topicsModel, Cmd.map App appCommand )
 
 
 
@@ -57,7 +62,7 @@ update msg model =
                     App.update subMessage model.app.app
 
                 appModel =
-                    { app = app }
+                    { app = app, topics = model.app.topics }
             in
                 ( { model | app = appModel }, Cmd.map App command )
 
@@ -81,7 +86,7 @@ view model =
         content =
             case model.routes.route of
                 Topics subRoute ->
-                    Topics.view subRoute
+                    Topics.view subRoute model.app.topics
 
                 NotFound ->
                     div [] [ h2 [] [ text "Not Found!" ] ]
