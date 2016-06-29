@@ -1,11 +1,11 @@
-module Routes.Config exposing (..)
+module Routing.Config exposing (..)
 
 import Hop exposing (makeUrl, makeUrlFromLocation, matchUrl, matcherToPath, setQuery)
 import Hop.Matchers exposing (..)
 import Hop.Types exposing (Config, Query, Location, PathMatcher, Router)
 import Navigation
-import Routes.Page.Config as Page exposing (..)
-import Routes.Page.Utility exposing (..)
+import Routing.Page.Config as Page exposing (..)
+import Routing.Page.Utility exposing (..)
 
 
 -- ROUTES

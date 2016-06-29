@@ -1,4 +1,4 @@
-module Routes.Page.Config exposing (..)
+module Routing.Page.Config exposing (..)
 
 import Hop exposing (makeUrl, makeUrlFromLocation, matchUrl, matcherToPath, setQuery)
 import Hop.Matchers exposing (..)
