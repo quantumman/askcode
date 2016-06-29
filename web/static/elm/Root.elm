@@ -12,13 +12,22 @@ import Topics.View as Topics
 
 type alias Model =
     { routes : Routing.Model
-    , app : App.Model
+    , app : AppModel
     }
 
 
-init : ( App.Model, Cmd App.Msg )
+type alias AppModel =
+    { app : App.Model
+    }
+
+
+init : ( AppModel, Cmd Msg )
 init =
-    App.init
+    let
+        ( appModel, appCommand ) =
+            App.init
+    in
+        ( AppModel appModel, Cmd.map App appCommand )
 
 
 
@@ -43,9 +52,12 @@ update msg model =
         App subMessage ->
             let
                 ( app, command ) =
-                    App.update subMessage model.app
+                    App.update subMessage model.app.app
+
+                appModel =
+                    { app = app }
             in
-                ( { model | app = app }, Cmd.map App command )
+                ( { model | app = appModel }, Cmd.map App command )
 
 
 
@@ -54,7 +66,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.map App (App.subscriptions model.app)
+    Sub.map App (App.subscriptions model.app.app)
 
 
 

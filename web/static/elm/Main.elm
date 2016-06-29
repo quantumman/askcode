@@ -25,7 +25,7 @@ init router =
             Root.init
 
         commands =
-            Cmd.batch [ command, Cmd.map App rootCommand ]
+            Cmd.batch [ command, rootCommand ]
     in
         ( Model (Routing.Config.make router) rootModel, commands )
 
