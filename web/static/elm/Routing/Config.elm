@@ -13,7 +13,13 @@ import Routing.Page.Utility exposing (..)
 
 type Route
     = Topics Page.Route
+    | Root
     | NotFound
+
+
+rootMatcher : PathMatcher Route
+rootMatcher =
+    match1 Root ""
 
 
 topicsMatcher : PathMatcher Route
@@ -23,13 +29,17 @@ topicsMatcher =
 
 matchers : List (PathMatcher Route)
 matchers =
-    [ topicsMatcher
+    [ rootMatcher
+    , topicsMatcher
     ]
 
 
 reverse : Route -> String
 reverse route =
     case route of
+        Root ->
+            matcherToPath rootMatcher []
+
         Topics subRoute ->
             topicsMatcher ./ subRoute
 

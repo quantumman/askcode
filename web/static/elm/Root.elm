@@ -85,6 +85,9 @@ view model =
     let
         content =
             case model.routes.route of
+                Root ->
+                    Topics.view (Page.Index) model.app.topics
+
                 Topics subRoute ->
                     Topics.view subRoute model.app.topics
 
@@ -97,7 +100,7 @@ view model =
 navBar : Model -> Html Msg
 navBar model =
     nav [ class "navbar navbar-full navbar-light bg-faded" ]
-        [ a [ class "navbar-brand", href "#" ]
+        [ a [ class "navbar-brand", href "#/" ]
             [ text "Ask Code" ]
         , ul [ class "nav navbar-nav" ]
             [ item "Home" (Routing.Topics Page.Index) model.routes.route
