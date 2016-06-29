@@ -91,24 +91,17 @@ view model =
 
 navBar : Model -> Html Msg
 navBar model =
-    let
-        item t =
-            li [ class "nav-item" ]
-                [ a [ class "nav-link", href "#" ]
-                    [ text t ]
-                ]
-    in
-        nav [ class "navbar navbar-full navbar-light bg-faded" ]
-            [ a [ class "navbar-brand", href "#" ]
-                [ text "Ask Code" ]
-            , ul [ class "nav navbar-nav" ]
-                [ item "Home"
-                ]
-            , Html.form [ class "form-inline pull-xs-right" ]
-                [ button [ class "btn btn-outline-primary", type' "button" ]
-                    [ text "Login" ]
-                ]
+    nav [ class "navbar navbar-full navbar-light bg-faded" ]
+        [ a [ class "navbar-brand", href "#" ]
+            [ text "Ask Code" ]
+        , ul [ class "nav navbar-nav" ]
+            [ item "Home" (Routing.Topics Page.Index) model.routes.route
             ]
+        , Html.form [ class "form-inline pull-xs-right" ]
+            [ button [ class "btn btn-outline-primary", type' "button" ]
+                [ text "Login" ]
+            ]
+        ]
 
 
 item : String -> Routing.Route -> Routing.Route -> Html Msg
