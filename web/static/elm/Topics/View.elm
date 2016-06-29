@@ -3,7 +3,7 @@ module Topics.View exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
-import Routes.Page.Config exposing (..)
+import Routing.Page.Config exposing (..)
 
 
 view : Route -> Html msg

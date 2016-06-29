@@ -2,7 +2,7 @@ module Routing.Page.Utility exposing (..)
 
 import Hop exposing (matcherToPath)
 import Hop.Types exposing (PathMatcher)
-import Routes.Page.Config exposing (..)
+import Routing.Page.Config exposing (..)
 import Navigation
 
 
