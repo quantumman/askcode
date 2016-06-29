@@ -1,6 +1,5 @@
 module Main exposing (..)
 
-import App
 import Hop exposing (makeUrl, makeUrlFromLocation, matchUrl, setQuery)
 import Hop.Types exposing (Config, Query, Location, PathMatcher, Router)
 import Navigation
@@ -22,13 +21,13 @@ init router =
         ( model, command ) =
             Routing.Config.init router
 
-        ( appModel, appCommand ) =
-            App.init
+        ( rootModel, rootCommand ) =
+            Root.init
 
         commands =
-            Cmd.batch [ command, Cmd.map App appCommand ]
+            Cmd.batch [ command, Cmd.map App rootCommand ]
     in
-        ( Model (Routing.Config.make router) appModel, commands )
+        ( Model (Routing.Config.make router) rootModel, commands )
 
 
 main : Program Never
