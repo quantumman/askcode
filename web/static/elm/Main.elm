@@ -8,6 +8,7 @@ import Html exposing (..)
 import Html.App as Html
 import Navigation
 import Routes.Config exposing (..)
+import Topics.View as Topics
 
 
 -- APP
@@ -97,13 +98,8 @@ subscriptions model =
 dispatcher : Model -> Html Msg
 dispatcher model =
     case model.routes.route of
-        Topics ->
-            div []
-                [ Html.map App (App.view model.app)
-                ]
-
-        Topic id ->
-            div [] [ h2 [] [ text "Temporary View" ] ]
+        Topics subRoute ->
+            Topics.view subRoute
 
         NotFound ->
             div [] [ h2 [] [ text "Not Found " ] ]

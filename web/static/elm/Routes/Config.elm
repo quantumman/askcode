@@ -4,42 +4,34 @@ import Hop exposing (makeUrl, makeUrlFromLocation, matchUrl, matcherToPath, setQ
 import Hop.Matchers exposing (..)
 import Hop.Types exposing (Config, Query, Location, PathMatcher, Router)
 import Navigation
+import Routes.Page.Config as Page exposing (..)
+import Routes.Page.Utility exposing (..)
 
 
 -- ROUTES
 
 
 type Route
-    = Topics
-    | Topic Int
+    = Topics Page.Route
     | NotFound
 
 
 topicsMatcher : PathMatcher Route
 topicsMatcher =
-    match1 Topics "/topics"
-
-
-topicMatcher : PathMatcher Route
-topicMatcher =
-    match2 Topic "/topics/" int
+    nested1 Topics "/topics" Page.matchers
 
 
 matchers : List (PathMatcher Route)
 matchers =
     [ topicsMatcher
-    , topicMatcher
     ]
 
 
 reverse : Route -> String
 reverse route =
     case route of
-        Topics ->
-            matcherToPath topicsMatcher []
-
-        Topic id ->
-            matcherToPath topicMatcher [ toString id ]
+        Topics subRoute ->
+            topicsMatcher ./ subRoute
 
         NotFound ->
             ""
