@@ -1,4 +1,4 @@
-module Routes.Page.Utility exposing (..)
+module Routing.Page.Utility exposing (..)
 
 import Hop exposing (matcherToPath)
 import Hop.Types exposing (PathMatcher)
