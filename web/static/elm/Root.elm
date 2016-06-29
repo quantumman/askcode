@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Config as Routing exposing (..)
+import Routing.Page.Config as Page exposing (Route)
 import Topics.View as Topics
 
 
@@ -107,4 +108,25 @@ navBar model =
                 [ button [ class "btn btn-outline-primary", type' "button" ]
                     [ text "Login" ]
                 ]
+            ]
+
+
+item : String -> Routing.Route -> Routing.Route -> Html Msg
+item text ref current =
+    let
+        ref' =
+            Routing.reverse ref
+
+        current' =
+            Routing.reverse current
+
+        active =
+            if ref' == current' then
+                "active"
+            else
+                ""
+    in
+        li [ class ("nav-item " ++ active) ]
+            [ a [ class "nav-link", href ("/#" ++ ref') ]
+                [ Html.text text ]
             ]
