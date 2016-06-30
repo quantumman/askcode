@@ -18,10 +18,14 @@ type alias Proposal =
     }
 
 
-type alias Model =
+type alias Discussion =
     { proposal : Proposal
     , replies : List Proposal
     }
+
+
+type alias Model =
+    List Discussion
 
 
 init : Model
@@ -77,4 +81,4 @@ init =
               }
             ]
     in
-        Model proposal replies
+        [ Discussion proposal replies ]
