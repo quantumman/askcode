@@ -18,7 +18,8 @@ type alias Proposal =
 
 
 type alias Discussion =
-    { proposal : Proposal
+    { subject : String
+    , proposal : Proposal
     , replies : List Proposal
     }
 
@@ -75,4 +76,4 @@ init =
               }
             ]
     in
-        [ Discussion proposal replies ]
+        [ Discussion "subject" proposal replies ]
