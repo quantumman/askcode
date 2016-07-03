@@ -1,4 +1,4 @@
-module Topics.Model exposing (..)
+module Discussions.Model exposing (..)
 
 
 type alias User =

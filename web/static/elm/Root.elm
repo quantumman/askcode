@@ -6,8 +6,8 @@ import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
-import Topics.View as Topics
-import Topics.Model as Topics
+import Discussions.View as Discussions
+import Discussions.Model as Discussions
 
 
 -- MODEL
@@ -21,7 +21,7 @@ type alias Model =
 
 type alias AppModel =
     { app : App.Model
-    , topics : Topics.Model
+    , topics : Discussions.Model
     }
 
 
@@ -32,7 +32,7 @@ init =
             App.init
 
         topicsModel =
-            Topics.init
+            Discussions.init
     in
         ( AppModel appModel topicsModel, Cmd.map App appCommand )
 
@@ -86,10 +86,10 @@ view model =
         content =
             case model.routes.route of
                 Root ->
-                    Topics.view (Page.Index) model.app.topics
+                    Discussions.view (Page.Index) model.app.topics
 
-                Topics subRoute ->
-                    Topics.view subRoute model.app.topics
+                Discussions subRoute ->
+                    Discussions.view subRoute model.app.topics
 
                 NotFound ->
                     div [] [ h2 [] [ text "Not Found!" ] ]
@@ -103,7 +103,7 @@ navBar model =
         [ a [ class "navbar-brand", href "#/" ]
             [ text "Ask Code" ]
         , ul [ class "nav navbar-nav" ]
-            [ item "Home" (Routing.Topics Page.Index) model.routes.route
+            [ item "Home" (Routing.Discussions Page.Index) model.routes.route
             ]
         , Html.form [ class "form-inline pull-xs-right" ]
             [ button [ class "btn btn-outline-primary", type' "button" ]
