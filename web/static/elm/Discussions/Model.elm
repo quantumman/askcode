@@ -16,6 +16,9 @@ type alias Reply =
 
 type alias Discussion =
     { subject : String
+    , description : String
+    , code : String
+    , replies : List Reply
     }
 
 
