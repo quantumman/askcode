@@ -12,7 +12,7 @@ import Routing.Page.Utility exposing (..)
 
 
 type Route
-    = Topics Page.Route
+    = Discussions Page.Route
     | Root
     | NotFound
 
@@ -24,7 +24,7 @@ rootMatcher =
 
 topicsMatcher : PathMatcher Route
 topicsMatcher =
-    nested1 Topics "/topics" Page.matchers
+    nested1 Discussions "/discussions" Page.matchers
 
 
 matchers : List (PathMatcher Route)
@@ -40,7 +40,7 @@ reverse route =
         Root ->
             matcherToPath rootMatcher []
 
-        Topics subRoute ->
+        Discussions subRoute ->
             topicsMatcher ./ subRoute
 
         NotFound ->

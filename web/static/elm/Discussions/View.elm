@@ -1,14 +1,14 @@
-module Topics.View exposing (..)
+module Discussions.View exposing (..)
 
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Page.Config exposing (..)
-import Topics.Index as Index
-import Topics.Model as Topics
+import Discussions.Index as Index
+import Discussions.Model as Discussions
 
 
-view : Route -> Topics.Model -> Html msg
+view : Route -> Discussions.Model -> Html msg
 view route model =
     case route of
         New ->

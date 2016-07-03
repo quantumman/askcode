@@ -1,9 +1,9 @@
-module Topics.Index exposing (..)
+module Discussions.Index exposing (..)
 
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
-import Topics.Model exposing (..)
+import Discussions.Model exposing (..)
 
 
 -- VIEW
