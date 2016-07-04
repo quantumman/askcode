@@ -8,6 +8,8 @@ import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
+import Style exposing (..)
+import Styles exposing (..)
 
 
 -- MODEL
@@ -88,6 +90,7 @@ view model =
     in
         div []
             [ navBar model
+            , div [ style [ vspace 1 Style.em ] ] []
             , div [ class "container" ]
                 [ content ]
             ]
