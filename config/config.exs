@@ -5,10 +5,11 @@
 # is restricted to this project.
 use Mix.Config
 
+config :askcode, ecto_repos: [Askcode.Repo]
+
 # Configures the endpoint
 config :askcode, Askcode.Endpoint,
   url: [host: "localhost"],
-  root: Path.dirname(__DIR__),
   secret_key_base: "4pKINtjISV1BEWENa8sHvumBZDPTvp9kzfAjMBem2Ujcn3RzkN82tLJS0wRIbRxZ",
   render_errors: [accepts: ~w(html json)],
   pubsub: [name: Askcode.PubSub,
