@@ -94,7 +94,10 @@ view model =
                 NotFound ->
                     div [] [ h2 [] [ text "Not Found!" ] ]
     in
-        div [] [ navBar model, content ]
+        div []
+            [ navBar model
+            , content
+            ]
 
 
 navBar : Model -> Html Msg
