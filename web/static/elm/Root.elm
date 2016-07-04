@@ -1,13 +1,13 @@
 module Root exposing (..)
 
 import App
+import Discussions.Model as Discussions
+import Discussions.View as Discussions
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
-import Discussions.View as Discussions
-import Discussions.Model as Discussions
 
 
 -- MODEL
