@@ -5,6 +5,8 @@
 # is restricted to this project.
 use Mix.Config
 
+config :askcode, ecto_repos: [Askcode.Repo]
+
 # Configures the endpoint
 config :askcode, Askcode.Endpoint,
   url: [host: "localhost"],
