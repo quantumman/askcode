@@ -6,7 +6,9 @@ defmodule Askcode.Discussion do
     field :description, :string
     field :code, :string
 
-    timestamps()
+    has_many :replies, Askcode.Reply
+
+    timestamps
   end
 
   @doc """

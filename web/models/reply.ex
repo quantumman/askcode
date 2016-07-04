@@ -1,16 +1,17 @@
-defmodule Askcode.User do
+defmodule Askcode.Reply do
   use Askcode.Web, :model
 
-  schema "users" do
-    field :name, :string
-    field :avatar, :string
+  schema "replies" do
+    field :description, :string
+    field :code, :string
 
-    has_many :replies, Askcode.Reply
+    belongs_to :user, Askcode.User
+    belongs_to :discussion, Askcode.Discussion
 
     timestamps
   end
 
-  @required_fields ~w(name avatar)
+  @required_fields ~w(description code)
   @optional_fields ~w()
 
   @doc """
