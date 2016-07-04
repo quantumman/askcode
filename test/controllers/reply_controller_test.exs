@@ -2,6 +2,7 @@ defmodule Askcode.ReplyControllerTest do
   use Askcode.ConnCase
 
   alias Askcode.Reply
+  @discussion_id 1
   @valid_attrs %{code: "some content", description: "some content"}
   @invalid_attrs %{}
 
@@ -24,7 +25,7 @@ defmodule Askcode.ReplyControllerTest do
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, reply_path(conn, :show, -1)
+      get conn, discussion_reply_path(conn, :show, @discussion_id, -1)
     end
   end
 
@@ -35,7 +36,7 @@ defmodule Askcode.ReplyControllerTest do
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, reply_path(conn, :create), reply: @invalid_attrs
+    conn = post conn, discussion_reply_path(conn, :create, @discussion_id), reply: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
@@ -48,13 +49,13 @@ defmodule Askcode.ReplyControllerTest do
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     reply = Repo.insert! %Reply{}
-    conn = put conn, reply_path(conn, :update, reply), reply: @invalid_attrs
+    conn = put conn, discussion_reply_path(conn, :update, @discussion_id, reply), reply: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "deletes chosen resource", %{conn: conn} do
     reply = Repo.insert! %Reply{}
-    conn = delete conn, reply_path(conn, :delete, reply)
+    conn = delete conn, discussion_reply_path(conn, :delete, @discussion_id, reply)
     assert response(conn, 204)
     refute Repo.get(Reply, reply.id)
   end

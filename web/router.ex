@@ -23,7 +23,8 @@ defmodule Askcode.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
-    resources "/replies", ReplyController, except: [:new, :edit]
-    resources "/discussions", DiscussionController, except: [:new, :edit]
+    resources "/discussions", DiscussionController, except: [:new, :edit] do
+      resources "/replies", ReplyController, except: [:new, :edit]
+    end
   end
 end

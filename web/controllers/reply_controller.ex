@@ -8,14 +8,14 @@ defmodule Askcode.ReplyController do
     render(conn, "index.json", replies: replies)
   end
 
-  def create(conn, %{"reply" => reply_params}) do
+  def create(conn, %{"discussion_id" => discussion_id, "reply" => reply_params}) do
     changeset = Reply.changeset(%Reply{}, reply_params)
 
     case Repo.insert(changeset) do
       {:ok, reply} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", reply_path(conn, :show, reply))
+        |> put_resp_header("location", discussion_reply_path(conn, :show, discussion_id, reply))
         |> render("show.json", reply: reply)
       {:error, changeset} ->
         conn
