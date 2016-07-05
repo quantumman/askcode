@@ -25,7 +25,7 @@ defmodule Askcode.DiscussionController do
   end
 
   def show(conn, %{"id" => id}) do
-    discussion = Repo.get!(Discussion, id)
+    discussion = Repo.get!(Discussion, id) |> Repo.preload([:proposal, :replies])
     render(conn, "show.json", discussion: discussion)
   end
 
