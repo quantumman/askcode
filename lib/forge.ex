@@ -9,4 +9,9 @@ defmodule Forge do
     description: Faker.Lorem.Shakespeare.hamlet,
     code: Faker.Lorem.sentence(%Range{first: 1, last: 10})
   }
+
+  register :reply, %Askcode.Reply{
+    description: Faker.Lorem.Shakespeare.hamlet,
+    code: Faker.Lorem.sentence(%Range{first: 1, last: 10})
+  }
 end
