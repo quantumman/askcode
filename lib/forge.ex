@@ -14,4 +14,9 @@ defmodule Forge do
     description: Faker.Lorem.Shakespeare.hamlet,
     code: Faker.Lorem.sentence(%Range{first: 1, last: 10})
   }
+
+  register :user, %Askcode.User{
+    name: Faker.Internet.user_name,
+    avatar: Faker.Avatar.image_url(64, 64)
+  }
 end
