@@ -25,7 +25,8 @@ defmodule Askcode.Mixfile do
                     :logger,
                     :gettext,
                     :phoenix_ecto,
-                    :postgrex
+                    :postgrex,
+                    :blacksmith
                    ]]
   end
 
@@ -45,6 +46,7 @@ defmodule Askcode.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
+     {:blacksmith, "~> 0.1"}
     ]
   end
 
