@@ -13,6 +13,7 @@ defmodule Askcode.DiscussionView do
     %{id: discussion.id,
       subject: discussion.subject,
       description: discussion.description,
-      code: discussion.code}
+      code: discussion.code
+      replies: Askcode.ReplyView.render("index.json", replies: discussion.replies)}
   end
 end
