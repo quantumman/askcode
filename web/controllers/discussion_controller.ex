@@ -4,7 +4,9 @@ defmodule Askcode.DiscussionController do
   alias Askcode.Discussion
 
   def index(conn, _params) do
-    discussions = Repo.all(Discussion)
+    discussions =
+      Repo.all(Discussion)
+      |> Repo.preload([:replies])
     render(conn, "index.json", discussions: discussions)
   end
 
@@ -25,7 +27,9 @@ defmodule Askcode.DiscussionController do
   end
 
   def show(conn, %{"id" => id}) do
-    discussion = Repo.get!(Discussion, id) |> Repo.preload([:proposal, :replies])
+    discussion =
+      Repo.get!(Discussion, id)
+      |> Repo.preload([:replies])
     render(conn, "show.json", discussion: discussion)
   end
 
