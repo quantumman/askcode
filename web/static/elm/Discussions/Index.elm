@@ -1,11 +1,22 @@
 module Discussions.Index exposing (..)
 
+import Discussions.Model exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
+import Http
 import Style exposing (..)
 import Styles exposing (..)
-import Discussions.Model exposing (..)
+
+
+-- UPDATE
+
+
+type Msg
+    = Fetch
+    | FetchSuccess (List Discussion)
+    | FetchError Http.Error
+
 
 
 -- VIEW
