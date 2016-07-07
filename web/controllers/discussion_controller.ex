@@ -18,7 +18,7 @@ defmodule Askcode.DiscussionController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", discussion_path(conn, :show, discussion))
-        |> render("show.json", discussion: discussion)
+        |> render("new.json", discussion: discussion)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
