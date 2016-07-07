@@ -34,7 +34,7 @@ defmodule Askcode.DiscussionController do
   end
 
   def update(conn, %{"id" => id, "discussion" => discussion_params}) do
-    discussion = Repo.get!(Discussion, id)
+    discussion = Repo.get!(Discussion, id) |> Repo.preload([:replies])
     changeset = Discussion.changeset(discussion, discussion_params)
 
     case Repo.update(changeset) do
