@@ -5,8 +5,10 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Http
+import Json.Decode as Decode exposing (..)
 import Style exposing (..)
 import Styles exposing (..)
+import Task exposing (Task)
 
 
 -- UPDATE
@@ -16,6 +18,26 @@ type Msg
     = Fetch
     | FetchSuccess (List Discussion)
     | FetchError Http.Error
+
+
+fetchCommand : Cmd Msg
+fetchCommand =
+    let
+        dummyUser =
+            User "a" "b"
+
+        decode =
+            Decode.list
+                (Decode.object3 (\a b c -> Discussion a b c [] dummyUser)
+                    ("subject" := Decode.string)
+                    ("description" := Decode.string)
+                    ("code" := Decode.string)
+                )
+
+        task =
+            Http.get decode "/api/discussions"
+    in
+        Task.perform FetchError FetchSuccess task
 
 
 
