@@ -9,3 +9,20 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+require Forge
+
+generate = fn _ ->
+  {:ok, discussion} = Forge.saved_discussion Askcode.Repo
+  {:ok, user} = Forge.saved_user Askcode.Repo
+  users = Forge.saved_user_list(Askcode.Repo, 10) |> Enum.map(&elem(&1, 1))
+
+  replies = users
+  |> Enum.map(&Ecto.build_assoc(&1, :replies, Forge.reply))
+  |> Enum.map(&Ecto.build_assoc(discussion, :replies, &1))
+  |> Enum.each(&Askcode.Repo.insert(&1)) # FIXME Insert insdie transaction
+end
+
+
+1..10
+|> Enum.each(generate)
