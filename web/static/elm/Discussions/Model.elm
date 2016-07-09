@@ -11,6 +11,7 @@ type alias Reply =
     { id : Int
     , description : String
     , code : String
+    , creator : User
     }
 
 
