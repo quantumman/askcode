@@ -19,6 +19,7 @@ type alias Discussion =
     , description : String
     , code : String
     , replies : List Reply
+    , creator : User
     }
 
 
