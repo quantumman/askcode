@@ -8,7 +8,7 @@ import Discussions.Index as Index
 import Discussions.Model exposing (Discussion)
 
 
-view : Route -> List Discussion -> Html msg
+view : Route -> List Discussion -> Html Index.Msg
 view route model =
     case route of
         New ->
