@@ -6,6 +6,14 @@ type alias User =
     , name : String
     }
 
+
+type alias Reply =
+    { id : Int
+    , description : String
+    , code : String
+    }
+
+
 type alias Discussion =
     { subject : String
     }
