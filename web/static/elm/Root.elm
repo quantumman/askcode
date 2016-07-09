@@ -16,7 +16,7 @@ import Discussions.Model as Discussions
 type alias Model =
     { routes : Routing.Model
     , app : App.Model
-    , topics : Discussions.Model
+    , topics : List Discussions.Discussion
     }
 
 
@@ -55,7 +55,6 @@ update msg model =
             let
                 ( app, command ) =
                     App.update subMessage model.app
-
             in
                 ( { model | app = app }, Cmd.map App command )
 

@@ -5,10 +5,10 @@ import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Page.Config exposing (..)
 import Discussions.Index as Index
-import Discussions.Model as Discussions
+import Discussions.Model exposing (Discussion)
 
 
-view : Route -> Discussions.Model -> Html msg
+view : Route -> List Discussion -> Html msg
 view route model =
     case route of
         New ->

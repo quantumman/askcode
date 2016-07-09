@@ -24,10 +24,6 @@ type alias Discussion =
     }
 
 
-type alias Model =
-    List Discussion
-
-
-init : Model
+init : List Discussion
 init =
     []

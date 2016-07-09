@@ -9,7 +9,7 @@ import Discussions.Model exposing (..)
 -- VIEW
 
 
-view : Model -> Html msg
+view : List Discussion -> Html msg
 view model =
     div []
         [ text "test" ]
