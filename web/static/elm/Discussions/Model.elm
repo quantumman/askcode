@@ -6,20 +6,8 @@ type alias User =
     , name : String
     }
 
-
-type alias Proposal =
-    { id : Int
-    , description : String
-    , code : String
-    , user : User
-    , created_at : String
-    , updated_at : String
-    }
-
-
 type alias Discussion =
-    { proposal : Proposal
-    , replies : List Proposal
+    { subject : String
     }
 
 
