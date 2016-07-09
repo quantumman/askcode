@@ -20,6 +20,19 @@ type Msg
     | FetchError Http.Error
 
 
+update : Msg -> List Discussion -> ( List Discussion, Cmd Msg )
+update message model =
+    case message of
+        Fetch ->
+            ( model, fetchCommand )
+
+        FetchSuccess model' ->
+            ( model', Cmd.none )
+
+        FetchError _ ->
+            ( model, Cmd.none )
+
+
 fetchCommand : Cmd Msg
 fetchCommand =
     let
