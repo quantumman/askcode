@@ -6,11 +6,12 @@ defmodule Askcode.DiscussionController do
   def index(conn, _params) do
     discussions =
       Repo.all(Discussion)
-      |> Repo.preload([:replies])
+      |> Repo.preload([:replies, :creator])
     render(conn, "index.json", discussions: discussions)
   end
 
   def create(conn, %{"discussion" => discussion_params}) do
+    # TODO: Save with created user
     changeset = Discussion.changeset(%Discussion{}, discussion_params)
 
     case Repo.insert(changeset) do
@@ -29,12 +30,12 @@ defmodule Askcode.DiscussionController do
   def show(conn, %{"id" => id}) do
     discussion =
       Repo.get!(Discussion, id)
-      |> Repo.preload([:replies])
+      |> Repo.preload([:replies, :creator])
     render(conn, "show.json", discussion: discussion)
   end
 
   def update(conn, %{"id" => id, "discussion" => discussion_params}) do
-    discussion = Repo.get!(Discussion, id) |> Repo.preload([:replies])
+    discussion = Repo.get!(Discussion, id) |> Repo.preload([:replies, :creator])
     changeset = Discussion.changeset(discussion, discussion_params)
 
     case Repo.update(changeset) do

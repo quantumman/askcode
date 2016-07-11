@@ -13,10 +13,12 @@
 require Forge
 
 generate = fn _ ->
-  {:ok, discussion} = Forge.saved_discussion Askcode.Repo
+  discussion = Forge.discussion
   {:ok, user} = Forge.saved_user Askcode.Repo
-  users = Forge.saved_user_list(Askcode.Repo, 10) |> Enum.map(&elem(&1, 1))
+  Ecto.build_assoc(user, :discussions, discussion)
+  |> Askcode.Repo.insert
 
+  users = Forge.saved_user_list(Askcode.Repo, 10) |> Enum.map(&elem(&1, 1))
   replies = users
   |> Enum.map(&Ecto.build_assoc(&1, :replies, Forge.reply))
   |> Enum.map(&Ecto.build_assoc(discussion, :replies, &1))
