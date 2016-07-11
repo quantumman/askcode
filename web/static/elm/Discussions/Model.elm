@@ -22,8 +22,3 @@ type alias Discussion =
     , replies : List Reply
     , creator : User
     }
-
-
-init : List Discussion
-init =
-    []
