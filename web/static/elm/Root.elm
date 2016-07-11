@@ -1,13 +1,14 @@
 module Root exposing (..)
 
 import App
+import Discussions
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
-import Topics.View as Topics
-import Topics.Model as Topics
+import Style exposing (..)
+import Styles exposing (..)
 
 
 -- MODEL
@@ -16,7 +17,7 @@ import Topics.Model as Topics
 type alias Model =
     { routes : Routing.Model
     , app : App.Model
-    , topics : Topics.Model
+    , discussions : Discussions.Model
     }
 
 
@@ -26,10 +27,15 @@ init routing =
         ( appModel, appCommand ) =
             App.init
 
-        topicsModel =
-            Topics.init
+        ( discussionsModel, discussionsCommand ) =
+            Discussions.init
     in
-        ( Model routing appModel topicsModel, Cmd.map App appCommand )
+        ( Model routing appModel discussionsModel
+        , Cmd.batch
+            [ Cmd.map App appCommand
+            , Cmd.map Discussion discussionsCommand
+            ]
+        )
 
 
 
@@ -39,6 +45,7 @@ init routing =
 type Msg
     = NavigateTo Routing.Msg
     | App App.Msg
+    | Discussion Discussions.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -55,9 +62,15 @@ update msg model =
             let
                 ( app, command ) =
                     App.update subMessage model.app
-
             in
                 ( { model | app = app }, Cmd.map App command )
+
+        Discussion subMessage ->
+            let
+                ( model', command ) =
+                    Discussions.update subMessage model.discussions
+            in
+                ( { model | discussions = model' }, Cmd.map Discussion command )
 
 
 
@@ -79,24 +92,29 @@ view model =
         content =
             case model.routes.route of
                 Root ->
-                    Topics.view (Page.Index) model.topics
+                    Discussions.view (Page.Index) model.discussions
 
-                Topics subRoute ->
-                    Topics.view subRoute model.topics
+                Discussions subRoute ->
+                    Discussions.view subRoute model.discussions
 
                 NotFound ->
                     div [] [ h2 [] [ text "Not Found!" ] ]
     in
-        div [] [ navBar model, content ]
+        div []
+            [ navBar model
+            , div [ style [ vspace 5 Style.em ] ] []
+            , div [ class "container" ]
+                [ Html.map Discussion content ]
+            ]
 
 
 navBar : Model -> Html Msg
 navBar model =
-    nav [ class "navbar navbar-full navbar-light bg-faded" ]
+    nav [ class "navbar navbar-full navbar-fixed-top navbar-light bg-faded" ]
         [ a [ class "navbar-brand", href "#/" ]
             [ text "Ask Code" ]
         , ul [ class "nav navbar-nav" ]
-            [ item "Home" (Routing.Topics Page.Index) model.routes.route
+            [ item "Home" (Routing.Discussions Page.Index) model.routes.route
             ]
         , Html.form [ class "form-inline pull-xs-right" ]
             [ button [ class "btn btn-outline-primary", type' "button" ]
