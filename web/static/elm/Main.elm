@@ -21,13 +21,15 @@ init router =
         ( model, command ) =
             Routing.Config.init router
 
+        routeModel = Routing.Config.make router
+
         ( rootModel, rootCommand ) =
-            Root.init
+            Root.init routeModel
 
         commands =
             Cmd.batch [ command, rootCommand ]
     in
-        ( Model (Routing.Config.make router) rootModel, commands )
+        ( rootModel, commands )
 
 
 main : Program Never

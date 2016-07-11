@@ -15,18 +15,13 @@ import Topics.Model as Topics
 
 type alias Model =
     { routes : Routing.Model
-    , app : AppModel
-    }
-
-
-type alias AppModel =
-    { app : App.Model
+    , app : App.Model
     , topics : Topics.Model
     }
 
 
-init : ( AppModel, Cmd Msg )
-init =
+init : Routing.Model -> ( Model, Cmd Msg )
+init routing =
     let
         ( appModel, appCommand ) =
             App.init
@@ -34,7 +29,7 @@ init =
         topicsModel =
             Topics.init
     in
-        ( AppModel appModel topicsModel, Cmd.map App appCommand )
+        ( Model routing appModel topicsModel, Cmd.map App appCommand )
 
 
 
@@ -59,12 +54,10 @@ update msg model =
         App subMessage ->
             let
                 ( app, command ) =
-                    App.update subMessage model.app.app
+                    App.update subMessage model.app
 
-                appModel =
-                    { app = app, topics = model.app.topics }
             in
-                ( { model | app = appModel }, Cmd.map App command )
+                ( { model | app = app }, Cmd.map App command )
 
 
 
@@ -73,7 +66,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.map App (App.subscriptions model.app.app)
+    Sub.map App (App.subscriptions model.app)
 
 
 
@@ -86,10 +79,10 @@ view model =
         content =
             case model.routes.route of
                 Root ->
-                    Topics.view (Page.Index) model.app.topics
+                    Topics.view (Page.Index) model.topics
 
                 Topics subRoute ->
-                    Topics.view subRoute model.app.topics
+                    Topics.view subRoute model.topics
 
                 NotFound ->
                     div [] [ h2 [] [ text "Not Found!" ] ]
