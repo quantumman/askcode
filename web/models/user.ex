@@ -6,6 +6,7 @@ defmodule Askcode.User do
     field :avatar, :string
 
     has_many :replies, Askcode.Reply
+    has_many :discussions, Askcode.Discussion
 
     timestamps
   end

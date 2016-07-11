@@ -7,6 +7,7 @@ defmodule Askcode.Discussion do
     field :code, :string
 
     has_many :replies, Askcode.Reply
+    belongs_to :creator, Askcode.User, foreign_key: :user_id
 
     timestamps
   end
