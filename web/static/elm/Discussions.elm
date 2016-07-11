@@ -1,5 +1,6 @@
 module Discussions exposing (..)
 
+import Discussions.Index as Index exposing (..)
 import Discussions.Model as Model exposing (..)
 import Html exposing (..)
 import Html.App as Html
@@ -28,7 +29,7 @@ init =
 type Msg
     = NewMsg
     | EditMsg
-    | IndexMsg
+    | IndexMsg Index.Msg
     | ShowMsg
 
 
@@ -41,8 +42,12 @@ update message model =
         EditMsg ->
             ( model, Cmd.none )
 
-        IndexMsg ->
-            ( model, Cmd.none )
+        IndexMsg subMessage ->
+            let
+                ( model', command ) =
+                    Index.update subMessage model.index
+            in
+                ( { model | index = model' }, Cmd.map IndexMsg command )
 
         ShowMsg ->
             ( model, Cmd.none )
@@ -62,7 +67,7 @@ view route model =
             div [] [ text "edit" ]
 
         Index ->
-            div [] [ text "index" ]
+            Html.map IndexMsg (Index.view model.index)
 
         Show id ->
             div [] [ text "show" ]
