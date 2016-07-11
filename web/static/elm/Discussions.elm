@@ -1,10 +1,19 @@
 module Discussions exposing (..)
 
-import Discussions.Model exposing (Model)
+import Discussions.Model as Model exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Routing.Page.Config exposing (..)
+
+
+-- MODEL
+
+
+type alias Model =
+    { index : List Model.Discussion
+    }
+
 
 
 -- UPDATE
