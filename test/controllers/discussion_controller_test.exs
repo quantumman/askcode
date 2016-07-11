@@ -20,7 +20,9 @@ defmodule Askcode.DiscussionControllerTest do
     assert json_response(conn, 200) == %{"id" => discussion.id,
       "subject" => discussion.subject,
       "description" => discussion.description,
-      "code" => discussion.code}
+      "code" => discussion.code,
+      "replies" => [],
+      "creator" => nil}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

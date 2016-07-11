@@ -2,6 +2,7 @@ defmodule Askcode.DiscussionView do
   use Askcode.Web, :view
 
   alias Askcode.ReplyView
+  alias Askcode.UserView
 
   def render("index.json", %{discussions: discussions}) do
     render_many(discussions, Askcode.DiscussionView, "discussion.json")
@@ -20,6 +21,8 @@ defmodule Askcode.DiscussionView do
     %{id: discussion.id,
       subject: discussion.subject,
       description: discussion.description,
-      code: discussion.code}
+      code: discussion.code,
+      creator: UserView.render("show.json", user: discussion.creator)
+    }
   end
 end
