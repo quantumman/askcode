@@ -102,7 +102,7 @@ view model =
     in
         div []
             [ navBar model
-            , div [ style [ vspace 1 Style.em ] ] []
+            , div [ style [ vspace 5 Style.em ] ] []
             , div [ class "container" ]
                 [ Html.map Discussion content ]
             ]
@@ -110,7 +110,7 @@ view model =
 
 navBar : Model -> Html Msg
 navBar model =
-    nav [ class "navbar navbar-full navbar-light bg-faded" ]
+    nav [ class "navbar navbar-full navbar-fixed-top navbar-light bg-faded" ]
         [ a [ class "navbar-brand", href "#/" ]
             [ text "Ask Code" ]
         , ul [ class "nav navbar-nav" ]
