@@ -15,6 +15,12 @@ type alias Model =
     }
 
 
+init : Model
+init =
+    { index = []
+    }
+
+
 
 -- UPDATE
 
