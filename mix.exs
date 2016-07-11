@@ -47,7 +47,8 @@ defmodule Askcode.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:blacksmith, "~> 0.1"},
-     {:faker, "~> 0.5"}
+     {:faker, "~> 0.5"},
+     {:guardian, "~> 0.12.0"}
     ]
   end
 
