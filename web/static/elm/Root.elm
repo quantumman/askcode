@@ -1,8 +1,7 @@
 module Root exposing (..)
 
 import App
-import Discussions.Model as Discussions
-import Discussions.View as Discussions
+import Discussions
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
@@ -18,7 +17,7 @@ import Styles exposing (..)
 type alias Model =
     { routes : Routing.Model
     , app : App.Model
-    , topics : List Discussions.Discussion
+    , topics : Discussions.Model
     }
 
 
@@ -41,6 +40,7 @@ init routing =
 type Msg
     = NavigateTo Routing.Msg
     | App App.Msg
+    | Discussion Discussions.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -59,6 +59,13 @@ update msg model =
                     App.update subMessage model.app
             in
                 ( { model | app = app }, Cmd.map App command )
+
+        Discussion subMessage ->
+            let
+                ( model', command ) =
+                    Discussions.update subMessage model.topics
+            in
+                ( { model | topics = model' }, Cmd.map Discussion command )
 
 
 
@@ -92,7 +99,7 @@ view model =
             [ navBar model
             , div [ style [ vspace 1 Style.em ] ] []
             , div [ class "container" ]
-                [ content ]
+                [ Html.map Discussion content ]
             ]
 
 
