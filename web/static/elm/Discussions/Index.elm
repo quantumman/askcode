@@ -36,15 +36,14 @@ update message model =
 fetchCommand : Cmd Msg
 fetchCommand =
     let
-        dummyUser =
-            User "a" "b"
-
         decode =
             Decode.list
-                (Decode.object3 (\a b c -> Discussion a b c [] dummyUser)
+                (Decode.object5 (\a b c d e -> Discussion a b c [] (User d e))
                     ("subject" := Decode.string)
                     ("description" := Decode.string)
                     ("code" := Decode.string)
+                    (Decode.at ["creator", "avatar"] Decode.string)
+                    (Decode.at ["creator", "name"] Decode.string)
                 )
 
         task =
