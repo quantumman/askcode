@@ -17,7 +17,7 @@ import Styles exposing (..)
 type alias Model =
     { routes : Routing.Model
     , app : App.Model
-    , topics : Discussions.Model
+    , discussions : Discussions.Model
     }
 
 
@@ -27,13 +27,13 @@ init routing =
         ( appModel, appCommand ) =
             App.init
 
-        ( topicsModel, topicsCommand ) =
+        ( discussionsModel, discussionsCommand ) =
             Discussions.init
     in
-        ( Model routing appModel topicsModel
+        ( Model routing appModel discussionsModel
         , Cmd.batch
             [ Cmd.map App appCommand
-            , Cmd.map Discussion topicsCommand
+            , Cmd.map Discussion discussionsCommand
             ]
         )
 
@@ -68,9 +68,9 @@ update msg model =
         Discussion subMessage ->
             let
                 ( model', command ) =
-                    Discussions.update subMessage model.topics
+                    Discussions.update subMessage model.discussions
             in
-                ( { model | topics = model' }, Cmd.map Discussion command )
+                ( { model | discussions = model' }, Cmd.map Discussion command )
 
 
 
@@ -92,10 +92,10 @@ view model =
         content =
             case model.routes.route of
                 Root ->
-                    Discussions.view (Page.Index) model.topics
+                    Discussions.view (Page.Index) model.discussions
 
                 Discussions subRoute ->
-                    Discussions.view subRoute model.topics
+                    Discussions.view subRoute model.discussions
 
                 NotFound ->
                     div [] [ h2 [] [ text "Not Found!" ] ]
