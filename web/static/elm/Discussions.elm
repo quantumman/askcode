@@ -22,8 +22,14 @@ init =
         model =
             { index = []
             }
+
+        command =
+            Cmd.batch
+                [ Cmd.map IndexMsg Index.fetchCommand
+                ]
     in
-        ( model, Cmd.none )
+        ( model, command )
+
 
 
 -- UPDATE
