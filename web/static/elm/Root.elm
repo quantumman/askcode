@@ -27,10 +27,15 @@ init routing =
         ( appModel, appCommand ) =
             App.init
 
-        topicsModel =
+        ( topicsModel, topicsCommand ) =
             Discussions.init
     in
-        ( Model routing appModel topicsModel, Cmd.map App appCommand )
+        ( Model routing appModel topicsModel
+        , Cmd.batch
+            [ Cmd.map App appCommand
+            , Cmd.map Discussion topicsCommand
+            ]
+        )
 
 
 

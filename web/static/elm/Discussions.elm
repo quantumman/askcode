@@ -16,11 +16,14 @@ type alias Model =
     }
 
 
-init : Model
+init : ( Model, Cmd Msg )
 init =
-    { index = []
-    }
-
+    let
+        model =
+            { index = []
+            }
+    in
+        ( model, Cmd.none )
 
 
 -- UPDATE
