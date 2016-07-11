@@ -11,6 +11,7 @@ defmodule Askcode.DiscussionController do
   end
 
   def create(conn, %{"discussion" => discussion_params}) do
+    # TODO: Save with created user
     changeset = Discussion.changeset(%Discussion{}, discussion_params)
 
     case Repo.insert(changeset) do
