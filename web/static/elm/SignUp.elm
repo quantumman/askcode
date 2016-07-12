@@ -35,6 +35,8 @@ type Msg
     | SignUp
     | SignUpSuccess Credential
     | SignUpFail Http.Error
+    | UpdateEmail String
+    | UpdatePassword String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -51,6 +53,12 @@ update message model =
 
         SignUpFail error ->
             model ! []
+
+        UpdateEmail email ->
+            { model | email = email } ! []
+
+        UpdatePassword password ->
+            { model | password = password } ! []
 
 
 signUp : Model -> Cmd Msg
@@ -114,6 +122,7 @@ view model =
                 , id "email"
                 , placeholder "Email"
                 , type' "email"
+                , onInput UpdateEmail
                 ]
                 []
             ]
@@ -124,6 +133,7 @@ view model =
                 , id "password"
                 , placeholder "Password"
                 , type' "password"
+                , onInput UpdatePassword
                 ]
                 []
             ]
