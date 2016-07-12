@@ -1,6 +1,7 @@
 defmodule Askcode.User do
   use Askcode.Web, :model
 
+  @derive {Poison.Encoder, only: [:name, :avatar, :email]}
   schema "users" do
     field :name, :string
     field :email, :string

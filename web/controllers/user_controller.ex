@@ -3,6 +3,8 @@ defmodule Askcode.UserController do
 
   alias Askcode.User
 
+  @derive {Poison.Encoder, only: [:id, :name, :avatar, :email]}
+
   def index(conn, _params) do
     users = Repo.all(User)
     render(conn, "index.json", users: users)
