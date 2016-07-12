@@ -29,6 +29,7 @@ defmodule Askcode.Router do
       resources "/replies", ReplyController, except: [:new, :edit]
     end
 
+    post "/registrations", RegistrationController, :create
     post "/sessions", SessionController, :create
   end
 end
