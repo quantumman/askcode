@@ -5,6 +5,7 @@ defmodule Askcode.User do
     field :name, :string
     field :email, :string
     field :avatar, :string
+    field :encrypted_password, :string
 
     has_many :replies, Askcode.Reply
     has_many :discussions, Askcode.Discussion
