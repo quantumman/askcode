@@ -26,6 +26,13 @@ type alias Credential =
     }
 
 
+init : Model
+init =
+    { email = ""
+    , password = ""
+    }
+
+
 
 -- UPDATE
 
