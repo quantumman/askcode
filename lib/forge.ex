@@ -18,6 +18,7 @@ defmodule Forge do
   register :user, %Askcode.User{
     name: Faker.Internet.user_name,
     avatar: Faker.Avatar.image_url(64, 64),
-    email: Faker.Internet.email
+    email: Faker.Internet.email,
+    encrypted_password: Faker.Bitcoin.address
   }
 end
