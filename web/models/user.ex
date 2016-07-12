@@ -12,7 +12,7 @@ defmodule Askcode.User do
     timestamps
   end
 
-  @required_fields ~w(name avatar)
+  @required_fields ~w(email)
   @optional_fields ~w()
 
   @doc """
