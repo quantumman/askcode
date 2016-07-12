@@ -33,6 +33,22 @@ type Msg
     | SignUpFail Http.Error
 
 
+update : Msg -> Model -> ( Model, Cmd Msg )
+update message model =
+    case message of
+        NoOp ->
+            model ! []
+
+        SignUp ->
+            model ! [ signUp model ]
+
+        SignUpSuccess response ->
+            model ! []
+
+        SignUpFail error ->
+            model ! []
+
+
 signUp : Model -> Cmd Msg
 signUp model =
     let
