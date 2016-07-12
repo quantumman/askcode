@@ -26,7 +26,8 @@ defmodule Askcode.Mixfile do
                     :gettext,
                     :phoenix_ecto,
                     :postgrex,
-                    :blacksmith
+                    :blacksmith,
+                    :comeonin
                    ]]
   end
 
@@ -48,7 +49,8 @@ defmodule Askcode.Mixfile do
      {:cowboy, "~> 1.0"},
      {:blacksmith, "~> 0.1"},
      {:faker, "~> 0.5"},
-     {:guardian, "~> 0.12.0"}
+     {:guardian, "~> 0.12.0"},
+     {:comeonin, "~> 2.5"}
     ]
   end
 
