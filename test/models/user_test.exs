@@ -3,7 +3,7 @@ defmodule Askcode.UserTest do
 
   alias Askcode.User
 
-  @valid_attrs %{avatar: "some content", name: "some content"}
+  @valid_attrs %{password: "xxxsdfsdf", email: Faker.Internet.email}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
