@@ -3,7 +3,7 @@ module SignUp exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
-import Html.Events exposing (on, keyCode)
+import Html.Events exposing (on, onInput, onClick, keyCode)
 import Http exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
@@ -98,3 +98,34 @@ onEnter msg =
                 NoOp
     in
         on "keydown" (Decode.map tagger keyCode)
+
+
+
+-- VIEW
+
+
+view : Model -> Html Msg
+view model =
+    Html.form []
+        [ fieldset [ class "form-group" ]
+            [ label [ for "email" ] [ text "Email" ]
+            , input
+                [ class "form-control"
+                , id "email"
+                , placeholder "Email"
+                , type' "email"
+                ]
+                []
+            ]
+        , fieldset [ class "form-group" ]
+            [ label [ for "password" ] [ text "Password" ]
+            , input
+                [ class "form-control"
+                , id "password"
+                , placeholder "Password"
+                , type' "password"
+                ]
+                []
+            ]
+        , button [ type' "button", class "btn btn-primary", onClick SignUp ] [ text "JOIN" ]
+        ]
