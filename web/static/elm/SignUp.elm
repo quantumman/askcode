@@ -1,5 +1,6 @@
 module SignUp exposing (..)
 
+import Http exposing (..)
 import Models exposing (..)
 
 
@@ -16,3 +17,14 @@ type alias Credential =
     { jwt : String
     , user : User
     }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = NoOp
+    | SignUp
+    | SignUpSuccess Credential
+    | SignUpFail Http.Error
