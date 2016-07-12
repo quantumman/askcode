@@ -3,6 +3,7 @@ defmodule Askcode.User do
 
   schema "users" do
     field :name, :string
+    field :email, :string
     field :avatar, :string
 
     has_many :replies, Askcode.Reply
