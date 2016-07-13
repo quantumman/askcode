@@ -106,10 +106,10 @@ view model =
         content =
             case model.routes.route of
                 Root ->
-                    Discussions.view (Page.Index) model.discussions
+                    topPage model
 
                 Discussions subRoute ->
-                    Discussions.view subRoute model.discussions
+                    Html.map Discussion (Discussions.view subRoute model.discussions)
 
                 NotFound ->
                     div [] [ h2 [] [ text "Not Found!" ] ]
@@ -117,8 +117,7 @@ view model =
         div []
             [ navBar model
             , div [ style [ vspace 5 Style.em ] ] []
-            , div [ class "container" ]
-                [ Html.map Discussion content ]
+            , div [ class "container" ] [ content ]
             ]
 
 
