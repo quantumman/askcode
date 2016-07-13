@@ -21,7 +21,8 @@ init router =
         ( model, command ) =
             Routing.Config.init router
 
-        routeModel = Routing.Config.make router
+        routeModel =
+            Routing.Config.make router
 
         ( rootModel, rootCommand ) =
             Root.init routeModel
