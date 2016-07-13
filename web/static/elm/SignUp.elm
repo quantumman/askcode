@@ -121,32 +121,7 @@ onEnter msg =
 
 view : Model -> Html Msg
 view model =
-    Html.form []
-        [ fieldset [ class "form-group" ]
-            [ label [ for "email" ] [ text "Email" ]
-            , input
-                [ class "form-control"
-                , id "email"
-                , placeholder "Email"
-                , type' "email"
-                , onInput UpdateEmail
-                ]
-                []
-            ]
-        , fieldset [ class "form-group" ]
-            [ label [ for "password" ] [ text "Password" ]
-            , input
-                [ class "form-control"
-                , id "password"
-                , placeholder "Password"
-                , type' "password"
-                , onInput UpdatePassword
-                ]
-                []
-            ]
-        , button [ type' "button", class "btn btn-primary", onClick SignUp ] [ text "JOIN" ]
-        ]
-
+    form
 
 form : Html Msg
 form =
