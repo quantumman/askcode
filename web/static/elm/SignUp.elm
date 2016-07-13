@@ -80,7 +80,7 @@ signUp model =
                 { verb = "POST"
                 , headers = [ ( "Content-Type", "application/json" ) ]
                 , url = Http.url "/api/registrations" []
-                , body = Http.string (Encode.encode 0 user)
+                , body = Http.string (Encode.encode 0 (encodeUser model))
                 }
                 |> Http.fromJson decodeCredential
     in
