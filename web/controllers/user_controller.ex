@@ -8,22 +8,6 @@ defmodule Askcode.UserController do
     render(conn, "index.json", users: users)
   end
 
-  def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
-
-    case Repo.insert(changeset) do
-      {:ok, user} ->
-        conn
-        |> put_status(:created)
-        |> put_resp_header("location", user_path(conn, :show, user))
-        |> render("show.json", user: user)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(Askcode.ChangesetView, "error.json", changeset: changeset)
-    end
-  end
-
   def show(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
     render(conn, "show.json", user: user)
@@ -32,6 +16,7 @@ defmodule Askcode.UserController do
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get!(User, id)
     changeset = User.changeset(user, user_params)
+    |> generate_encrypted_password
 
     case Repo.update(changeset) do
       {:ok, user} ->
@@ -51,5 +36,20 @@ defmodule Askcode.UserController do
     Repo.delete!(user)
 
     send_resp(conn, :no_content, "")
+  end
+
+  def changeset(model, params \\ :empty) do
+    model
+    |> User.changeset
+    |> generate_encrypted_password
+  end
+
+  defp generate_encrypted_password(current_changeset) do
+    case current_changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
+        Ecto.Changeset.put_change(current_changeset, :encrypted_password, Comeonin.Bcrypt.hashpwsalt(password))
+      _ ->
+        current_changeset
+    end
   end
 end

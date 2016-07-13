@@ -2,7 +2,7 @@ defmodule Askcode.UserControllerTest do
   use Askcode.ConnCase
 
   alias Askcode.User
-  @valid_attrs %{avatar: "some content", name: "some content"}
+  @valid_attrs %{password: "somecontent", email: Faker.Internet.email}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -28,22 +28,12 @@ defmodule Askcode.UserControllerTest do
     end
   end
 
-  test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, user_path(conn, :create), user: @valid_attrs
-    assert json_response(conn, 201)["id"]
-    assert Repo.get_by(User, @valid_attrs)
-  end
-
-  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, user_path(conn, :create), user: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
-  end
-
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    user = Repo.insert! %User{}
+    user = User.changeset(%User{}, %{"password" => @valid_attrs.password, "email" => @valid_attrs.email})
+    |> Repo.insert!
     conn = put conn, user_path(conn, :update, user), user: @valid_attrs
     assert json_response(conn, 200)["id"]
-    assert Repo.get_by(User, @valid_attrs)
+    assert Repo.get!(User, user.id)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do

@@ -11,6 +11,8 @@ defmodule Askcode.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.LoadResource
   end
 
   scope "/", Askcode do
@@ -26,5 +28,8 @@ defmodule Askcode.Router do
     resources "/discussions", DiscussionController, except: [:new, :edit] do
       resources "/replies", ReplyController, except: [:new, :edit]
     end
+
+    post "/registrations", RegistrationController, :create
+    post "/sessions", SessionController, :create
   end
 end
