@@ -1,5 +1,9 @@
 module SignUp exposing (..)
 
+import Html exposing (..)
+import Html.App as Html
+import Html.Attributes exposing (..)
+import Html.Events exposing (on, keyCode)
 import Http exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
@@ -82,3 +86,15 @@ signUp model =
                 |> Http.fromJson decode
     in
         Task.perform SignUpFail SignUpSuccess task
+
+
+onEnter : Msg -> Attribute Msg
+onEnter msg =
+    let
+        tagger code =
+            if code == 13 then
+                msg
+            else
+                NoOp
+    in
+        on "keydown" (Decode.map tagger keyCode)
