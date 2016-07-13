@@ -20,12 +20,6 @@ type alias Model =
     }
 
 
-type alias Credential =
-    { jwt : String
-    , user : User
-    }
-
-
 init : Model
 init =
     { email = ""
