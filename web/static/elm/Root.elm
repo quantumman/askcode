@@ -5,8 +5,10 @@ import Discussions
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
+import Html.Helpers as Html exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
+import SignUp
 import Style exposing (..)
 import Styles exposing (..)
 
@@ -18,6 +20,7 @@ type alias Model =
     { routes : Routing.Model
     , app : App.Model
     , discussions : Discussions.Model
+    , signUp : SignUp.Model
     }
 
 
@@ -29,8 +32,11 @@ init routing =
 
         ( discussionsModel, discussionsCommand ) =
             Discussions.init
+
+        signUpModel =
+            SignUp.init
     in
-        ( Model routing appModel discussionsModel
+        ( Model routing appModel discussionsModel signUpModel
         , Cmd.batch
             [ Cmd.map App appCommand
             , Cmd.map Discussion discussionsCommand
@@ -46,6 +52,7 @@ type Msg
     = NavigateTo Routing.Msg
     | App App.Msg
     | Discussion Discussions.Msg
+    | SignUp SignUp.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -72,6 +79,13 @@ update msg model =
             in
                 ( { model | discussions = model' }, Cmd.map Discussion command )
 
+        SignUp subMessage ->
+            let
+                ( model', command ) =
+                    SignUp.update subMessage model.signUp
+            in
+                { model | signUp = model' } ! [ Cmd.map SignUp command ]
+
 
 
 -- SUBSCRIPTIONS
@@ -92,10 +106,10 @@ view model =
         content =
             case model.routes.route of
                 Root ->
-                    Discussions.view (Page.Index) model.discussions
+                    topPage model
 
                 Discussions subRoute ->
-                    Discussions.view subRoute model.discussions
+                    Html.map Discussion (Discussions.view subRoute model.discussions)
 
                 NotFound ->
                     div [] [ h2 [] [ text "Not Found!" ] ]
@@ -103,8 +117,7 @@ view model =
         div []
             [ navBar model
             , div [ style [ vspace 5 Style.em ] ] []
-            , div [ class "container" ]
-                [ Html.map Discussion content ]
+            , div [ class "container" ] [ content ]
             ]
 
 
@@ -142,3 +155,15 @@ item text ref current =
             [ a [ class "nav-link", href ("/#" ++ ref') ]
                 [ Html.text text ]
             ]
+
+
+topPage : Model -> Html Msg
+topPage model =
+    Html.row
+        [ Html.column 12
+            [ Html.map SignUp (SignUp.view model.signUp) ]
+        , Html.column 12
+            [ Html.map Discussion
+                (Discussions.view (Page.Index) model.discussions)
+            ]
+        ]
