@@ -65,16 +65,6 @@ update message model =
 signUp : Model -> Cmd Msg
 signUp model =
     let
-        decode =
-            Decode.object2 Credential
-                ("jwt" := Decode.string)
-                ("user" := decodeUser)
-
-        decodeUser =
-            Decode.object2 User
-                ("avatar" := Decode.string)
-                ("email" := Decode.string)
-
         user =
             Encode.object
                 [ ( "user"
@@ -92,7 +82,7 @@ signUp model =
                 , url = Http.url "/api/registrations" []
                 , body = Http.string (Encode.encode 0 user)
                 }
-                |> Http.fromJson decode
+                |> Http.fromJson decodeCredential
     in
         Task.perform SignUpFail SignUpSuccess task
 
