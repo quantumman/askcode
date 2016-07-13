@@ -16,6 +16,7 @@ defmodule Askcode.UserController do
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get!(User, id)
     changeset = User.changeset(user, user_params)
+    |> generate_encrypted_password
 
     case Repo.update(changeset) do
       {:ok, user} ->
