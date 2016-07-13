@@ -24,3 +24,10 @@ decodeUser =
     Decode.object2 User
         ("avatar" := Decode.string)
         ("email" := Decode.string)
+
+
+decodeCredential : Decoder Credential
+decodeCredential =
+    Decode.object2 Credential
+        ("jwt" := Decode.string)
+        ("user" := decodeUser)
