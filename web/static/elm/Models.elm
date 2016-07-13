@@ -1,5 +1,7 @@
 module Models exposing (..)
 
+import Json.Decode as Decode exposing (..)
+
 
 type alias User =
     { avatar : String
@@ -11,3 +13,14 @@ type alias Credential =
     { jwt : String
     , user : User
     }
+
+
+
+-- JSON
+
+
+decodeUser : Decoder User
+decodeUser =
+    Decode.object2 User
+        ("avatar" := Decode.string)
+        ("email" := Decode.string)
