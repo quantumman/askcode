@@ -5,6 +5,7 @@ import Discussions
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
+import Html.Helpers as Html exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
 import SignUp
@@ -155,3 +156,15 @@ item text ref current =
             [ a [ class "nav-link", href ("/#" ++ ref') ]
                 [ Html.text text ]
             ]
+
+
+topPage : Model -> Html Msg
+topPage model =
+    Html.row
+        [ Html.column 12
+            [ Html.map SignUp (SignUp.view model.signUp) ]
+        , Html.column 12
+            [ Html.map Discussion
+                (Discussions.view (Page.Index) model.discussions)
+            ]
+        ]
