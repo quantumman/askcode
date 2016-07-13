@@ -121,7 +121,11 @@ onEnter msg =
 
 view : Model -> Html Msg
 view model =
-    form
+    div [ class "card" ]
+        [ div [ class "card-block" ]
+            [ form
+            ]
+        ]
 
 form : Html Msg
 form =
