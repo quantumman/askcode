@@ -5,6 +5,7 @@ import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (on, onInput, onClick, keyCode)
 import Http exposing (..)
+import Http.Ext as Http exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
 import Models exposing (..)
@@ -76,13 +77,9 @@ signUp model =
                 ]
 
         task =
-            Http.send Http.defaultSettings
-                { verb = "POST"
-                , headers = [ ( "Content-Type", "application/json" ) ]
-                , url = Http.url "/api/registrations" []
-                , body = Http.string (Encode.encode 0 (encodeUser model))
-                }
-                |> Http.fromJson decodeCredential
+            Http.post' decodeCredential
+                "/api/registrations"
+                (encodeUser model)
     in
         Task.perform SignUpFail SignUpSuccess task
 
