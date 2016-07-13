@@ -1,6 +1,7 @@
 module Models exposing (..)
 
 import Json.Decode as Decode exposing (..)
+import Json.Encode as Encode exposing (..)
 
 
 type alias User =
@@ -17,6 +18,18 @@ type alias Credential =
 
 
 -- JSON
+
+
+encodeUser : { a | email : String, password : String } -> Encode.Value
+encodeUser model =
+    Encode.object
+        [ ( "user"
+          , Encode.object
+                [ ( "email", Encode.string model.email )
+                , ( "password", Encode.string model.password )
+                ]
+          )
+        ]
 
 
 decodeUser : Decoder User
