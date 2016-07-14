@@ -1,5 +1,9 @@
 module SignIn exposing (..)
 
+import Html exposing (..)
+import Html.App as Html
+import Html.Attributes exposing (..)
+import Html.Events exposing (onInput, onClick)
 import Http
 import Http.Ext as Http exposing (..)
 import Models exposing (..)
@@ -55,3 +59,36 @@ signIn model =
                 (encodeUser model)
     in
         Task.perform SignInFail SignInSuccess task
+
+
+
+-- VIEW
+
+
+form : Html Msg
+form =
+    Html.form []
+        [ fieldset [ class "form-group" ]
+            [ label [ for "email" ] [ text "Email" ]
+            , input
+                [ class "form-control"
+                , id "email"
+                , placeholder "Email"
+                , type' "text"
+                , onInput EmailOrUserName
+                ]
+                []
+            ]
+        , fieldset [ class "form-group" ]
+            [ label [ for "password" ] [ text "Password" ]
+            , input
+                [ class "form-control"
+                , id "password"
+                , placeholder "Password"
+                , type' "password"
+                , onInput Password
+                ]
+                []
+            ]
+        , button [ type' "button", class "btn btn-primary", onClick SignIn ] [ text "LOGIN" ]
+        ]
