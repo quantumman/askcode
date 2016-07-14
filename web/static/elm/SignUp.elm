@@ -3,8 +3,9 @@ module SignUp exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
-import Html.Events exposing (on, onInput, onClick, keyCode)
+import Html.Events exposing (onInput, onClick)
 import Http exposing (..)
+import Http.Ext as Http exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
 import Models exposing (..)
@@ -20,12 +21,6 @@ type alias Model =
     }
 
 
-type alias Credential =
-    { jwt : String
-    , user : User
-    }
-
-
 init : Model
 init =
     { email = ""
@@ -38,8 +33,7 @@ init =
 
 
 type Msg
-    = NoOp
-    | SignUp
+    = SignUp
     | SignUpSuccess Credential
     | SignUpFail Http.Error
     | UpdateEmail String
@@ -49,9 +43,6 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
-        NoOp ->
-            model ! []
-
         SignUp ->
             model ! [ signUp model ]
 
@@ -71,16 +62,6 @@ update message model =
 signUp : Model -> Cmd Msg
 signUp model =
     let
-        decode =
-            Decode.object2 Credential
-                ("jwt" := Decode.string)
-                ("user" := decodeUser)
-
-        decodeUser =
-            Decode.object2 User
-                ("avatar" := Decode.string)
-                ("email" := Decode.string)
-
         user =
             Encode.object
                 [ ( "user"
@@ -92,27 +73,11 @@ signUp model =
                 ]
 
         task =
-            Http.send Http.defaultSettings
-                { verb = "POST"
-                , headers = [ ( "Content-Type", "application/json" ) ]
-                , url = Http.url "/api/registrations" []
-                , body = Http.string (Encode.encode 0 user)
-                }
-                |> Http.fromJson decode
+            Http.post' decodeCredential
+                "/api/registrations"
+                (encodeUser model)
     in
         Task.perform SignUpFail SignUpSuccess task
-
-
-onEnter : Msg -> Attribute Msg
-onEnter msg =
-    let
-        tagger code =
-            if code == 13 then
-                msg
-            else
-                NoOp
-    in
-        on "keydown" (Decode.map tagger keyCode)
 
 
 
@@ -126,6 +91,7 @@ view model =
             [ form
             ]
         ]
+
 
 form : Html Msg
 form =
