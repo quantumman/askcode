@@ -33,8 +33,7 @@ init =
 
 
 type Msg
-    = NoOp
-    | SignUp
+    = SignUp
     | SignUpSuccess Credential
     | SignUpFail Http.Error
     | UpdateEmail String
@@ -44,9 +43,6 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
-        NoOp ->
-            model ! []
-
         SignUp ->
             model ! [ signUp model ]
 
