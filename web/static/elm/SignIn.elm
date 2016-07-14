@@ -65,6 +65,15 @@ signIn model =
 -- VIEW
 
 
+view : Model -> Html Msg
+view model =
+    div [ class "card" ]
+        [ div [ class "card-block" ]
+            [ form
+            ]
+        ]
+
+
 form : Html Msg
 form =
     Html.form []
