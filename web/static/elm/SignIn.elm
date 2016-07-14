@@ -19,6 +19,13 @@ type alias Model =
     }
 
 
+init : Model
+init =
+    { email = ""
+    , password = ""
+    }
+
+
 
 -- UPDATE
 
