@@ -62,16 +62,6 @@ update message model =
 signUp : Model -> Cmd Msg
 signUp model =
     let
-        user =
-            Encode.object
-                [ ( "user"
-                  , Encode.object
-                        [ ( "email", Encode.string model.email )
-                        , ( "password", Encode.string model.password )
-                        ]
-                  )
-                ]
-
         task =
             Http.post' decodeCredential
                 "/api/registrations"
