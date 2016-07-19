@@ -8,8 +8,8 @@ import Html.Attributes exposing (..)
 import Html.Helpers as Html exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
-import SignIn
-import SignUp
+import Page.UI.SignIn as SignIn
+import Page.UI.SignUp as SignUp
 import Style exposing (..)
 import Styles exposing (..)
 

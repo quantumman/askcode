@@ -1,4 +1,4 @@
-module SignUp exposing (..)
+module Page.UI.SignUp exposing (..)
 
 import Html exposing (..)
 import Html.App as Html
