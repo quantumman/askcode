@@ -134,6 +134,20 @@ view model =
             ]
 
 
+content : Model -> Html Msg
+content model =
+    case model.routes.route of
+        Root ->
+            topPage model
+
+        Discussions subRoute ->
+            Html.map Discussion
+                (Discussions.view subRoute model.discussions)
+
+        NotFound ->
+            div [] [ h2 [] [ text "Not Found!" ] ]
+
+
 navBar : Model -> Html Msg
 navBar model =
     nav [ class "navbar navbar-full navbar-fixed-top navbar-light bg-faded" ]
