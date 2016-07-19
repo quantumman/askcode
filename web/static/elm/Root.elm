@@ -8,6 +8,7 @@ import Html.Attributes exposing (..)
 import Html.Helpers as Html exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
+import SignIn
 import SignUp
 import Style exposing (..)
 import Styles exposing (..)
@@ -21,6 +22,7 @@ type alias Model =
     , app : App.Model
     , discussions : Discussions.Model
     , signUp : SignUp.Model
+    , signIn : SignIn.Model
     }
 
 
@@ -35,8 +37,11 @@ init routing =
 
         signUpModel =
             SignUp.init
+
+        signInModel =
+            SignIn.init
     in
-        ( Model routing appModel discussionsModel signUpModel
+        ( Model routing appModel discussionsModel signUpModel signInModel
         , Cmd.batch
             [ Cmd.map App appCommand
             , Cmd.map Discussion discussionsCommand
@@ -53,6 +58,7 @@ type Msg
     | App App.Msg
     | Discussion Discussions.Msg
     | SignUp SignUp.Msg
+    | SignIn SignIn.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -85,6 +91,13 @@ update msg model =
                     SignUp.update subMessage model.signUp
             in
                 { model | signUp = model' } ! [ Cmd.map SignUp command ]
+
+        SignIn subMessage ->
+            let
+                ( model', command ) =
+                    SignIn.update subMessage model.signIn
+            in
+                { model | signIn = model' } ! [ Cmd.map SignIn command ]
 
 
 
