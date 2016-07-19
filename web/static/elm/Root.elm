@@ -115,23 +115,11 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    let
-        content =
-            case model.routes.route of
-                Root ->
-                    topPage model
-
-                Discussions subRoute ->
-                    Html.map Discussion (Discussions.view subRoute model.discussions)
-
-                NotFound ->
-                    div [] [ h2 [] [ text "Not Found!" ] ]
-    in
-        div []
-            [ navBar model
-            , div [ style [ vspace 5 Style.em ] ] []
-            , div [ class "container" ] [ content ]
-            ]
+    div []
+        [ navBar model
+        , div [ style [ vspace 5 Style.em ] ] []
+        , div [ class "container" ] [ (content model) ]
+        ]
 
 
 content : Model -> Html Msg
