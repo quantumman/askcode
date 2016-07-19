@@ -10,6 +10,7 @@ import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
 import Page.UI.SignIn as SignIn
 import Page.UI.SignUp as SignUp
+import Page.Login as Login
 import Style exposing (..)
 import Styles exposing (..)
 
@@ -23,6 +24,7 @@ type alias Model =
     , discussions : Discussions.Model
     , signUp : SignUp.Model
     , signIn : SignIn.Model
+    , login : Login.Model
     }
 
 
@@ -40,8 +42,11 @@ init routing =
 
         signInModel =
             SignIn.init
+
+        login =
+            Login.init
     in
-        ( Model routing appModel discussionsModel signUpModel signInModel
+        ( Model routing appModel discussionsModel signUpModel signInModel login
         , Cmd.batch
             [ Cmd.map App appCommand
             , Cmd.map Discussion discussionsCommand
@@ -59,6 +64,7 @@ type Msg
     | Discussion Discussions.Msg
     | SignUp SignUp.Msg
     | SignIn SignIn.Msg
+    | Login Login.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -99,6 +105,9 @@ update msg model =
             in
                 { model | signIn = model' } ! [ Cmd.map SignIn command ]
 
+        Login subMessage ->
+            Login.update' subMessage model Login
+
 
 
 -- SUBSCRIPTIONS
@@ -131,6 +140,10 @@ content model =
         Discussions subRoute ->
             Html.map Discussion
                 (Discussions.view subRoute model.discussions)
+
+        Routing.SignIn ->
+            Html.map Login
+                (Login.view model.login)
 
         NotFound ->
             div [] [ h2 [] [ text "Not Found!" ] ]
