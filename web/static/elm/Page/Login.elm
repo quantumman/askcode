@@ -23,15 +23,30 @@ type Msg
     = SignIn SignIn.Msg
 
 
-update : Msg -> Model -> Cmd Msg
+update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
         SignIn subMessage ->
             let
-                ( _, subCommand ) =
+                ( subModel, subCommand ) =
                     SignIn.update subMessage model.signIn
+
+                command =
+                    Cmd.map SignIn subCommand
             in
-                Cmd.map SignIn subCommand
+                ( { model | signIn = subModel }, command )
+
+
+update' : Msg -> { a | login : Model } -> (Msg -> msg) -> ( { a | login : Model }, Cmd msg )
+update' message rootModel fmsg =
+    let
+        model =
+            rootModel.login
+
+        ( model', command ) =
+            update message model
+    in
+        ( { rootModel | login = model' }, Cmd.map fmsg command )
 
 
 
