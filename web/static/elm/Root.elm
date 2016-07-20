@@ -5,13 +5,13 @@ import Discussions
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
-import Html.Helpers as Html exposing (..)
 import Html.Events exposing (..)
-import Routing.Config as Routing exposing (..)
-import Routing.Page.Config as Page exposing (Route)
+import Html.Helpers as Html exposing (..)
+import Page.Login as Login
 import Page.UI.SignIn as SignIn
 import Page.UI.SignUp as SignUp
-import Page.Login as Login
+import Routing.Config as Routing exposing (..)
+import Routing.Page.Config as Page exposing (Route)
 import Style exposing (..)
 import Styles exposing (..)
 
