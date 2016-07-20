@@ -2,7 +2,7 @@ defmodule Askcode.Session do
   alias Askcode.{Repo, User}
 
   def authenticate(%{"email" => email, "password" => password}) do
-    user = Repo.get_by(User, email, String.downcase(email))
+    user = Repo.get_by(User, email: String.downcase(email))
 
     case check_password(user, password) do
       true -> {:ok, user}
