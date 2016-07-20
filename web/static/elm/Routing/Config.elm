@@ -75,23 +75,21 @@ make ( route, location ) =
 -- UPDATE
 
 
-type Msg
-    = NavigateTo Route
+type alias Msg =
+    Route
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update message model =
-    case message of
-        NavigateTo route ->
-            let
-                path =
-                    reverse route
+update route model =
+    let
+        path =
+            reverse route
 
-                command =
-                    makeUrl routerConfig path
-                        |> Navigation.modifyUrl
-            in
-                ( model, command )
+        command =
+            makeUrl routerConfig path
+                |> Navigation.modifyUrl
+    in
+        ( model, command )
 
 
 
