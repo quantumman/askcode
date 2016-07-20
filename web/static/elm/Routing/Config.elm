@@ -13,6 +13,7 @@ import Routing.Page.Utility exposing (..)
 
 type Route
     = Discussions Page.Route
+    | SignIn
     | Root
     | NotFound
 
@@ -27,10 +28,16 @@ topicsMatcher =
     nested1 Discussions "/discussions" Page.matchers
 
 
+signInMatcher : PathMatcher Route
+signInMatcher =
+    match1 SignIn "/sigin"
+
+
 matchers : List (PathMatcher Route)
 matchers =
     [ rootMatcher
     , topicsMatcher
+    , signInMatcher
     ]
 
 
@@ -42,6 +49,9 @@ reverse route =
 
         Discussions subRoute ->
             topicsMatcher ./ subRoute
+
+        SignIn ->
+            matcherToPath signInMatcher []
 
         NotFound ->
             ""

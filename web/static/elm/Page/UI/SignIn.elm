@@ -63,7 +63,7 @@ signIn model =
         task =
             Http.post' decodeCredential
                 "/api/sessions"
-                (encodeUser model)
+                (encodeSession model)
     in
         Task.perform SignInFail SignInSuccess task
 
