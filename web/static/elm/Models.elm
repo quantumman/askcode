@@ -32,6 +32,14 @@ encodeUser model =
         ]
 
 
+encodeUser' : { a | email : String, password : String } -> Encode.Value
+encodeUser' model =
+    Encode.object
+        [ ( "email", Encode.string model.email )
+        , ( "password", Encode.string model.password )
+        ]
+
+
 decodeUser : Decoder User
 decodeUser =
     Decode.object2 User
