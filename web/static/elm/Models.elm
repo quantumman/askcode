@@ -20,6 +20,11 @@ type alias Credential =
 -- JSON
 
 
+encodeSession : { a | email : String, password : String } -> Encode.Value
+encodeSession model =
+    Encode.object [ ( "session", encodeUser' model ) ]
+
+
 encodeUser : { a | email : String, password : String } -> Encode.Value
 encodeUser model =
     Encode.object
