@@ -12,3 +12,12 @@ type Msg
     | StoreFail Error
     | LoadSuccess (Maybe Credential)
     | LoadFail Error
+
+
+
+-- TASK
+
+
+key : String
+key =
+    "session"
