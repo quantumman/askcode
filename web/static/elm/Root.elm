@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Helpers as Html exposing (..)
+import Html.Events exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
 import Page.UI.SignIn as SignIn
@@ -158,7 +159,11 @@ navBar model =
             [ item "Home" (Routing.Discussions Page.Index) model.routes.route
             ]
         , Html.form [ class "form-inline pull-xs-right" ]
-            [ button [ class "btn btn-outline-primary", type' "button" ]
+            [ button
+                [ class "btn btn-outline-primary"
+                , type' "button"
+                , onClick (NavigateTo Routing.SignIn)
+                ]
                 [ text "Login" ]
             ]
         ]
