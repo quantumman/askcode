@@ -65,7 +65,7 @@ signUp model =
         task =
             Http.post' decodeCredential
                 "/api/registrations"
-                (encodeUser model)
+                (encodeRegistration model)
     in
         Task.perform SignUpFail SignUpSuccess task
 
