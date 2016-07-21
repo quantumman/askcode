@@ -1,5 +1,5 @@
 
-var _elm_lang$local_storage$Native_LocalStorage = function() {
+var _user$project$Native_LocalStorage = function() {
 
 function get(key)
 {
