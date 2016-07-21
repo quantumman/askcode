@@ -53,6 +53,14 @@ decodeUser =
         ("email" := Decode.string)
 
 
+encodeCredential : Credential -> Encode.Value
+encodeCredential model =
+    Encode.object
+        [ ( "jwt", Encode.string model.jwt )
+        , ( "user", encodeUser model.user )
+        ]
+
+
 decodeCredential : Decoder Credential
 decodeCredential =
     Decode.object2 Credential
