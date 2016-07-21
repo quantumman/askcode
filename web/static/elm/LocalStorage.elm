@@ -2,14 +2,16 @@
 --- TODO: Install elm-lang/local-storage if published and remove this file
 ---       and Native/LocalStorage.js
 
-module LocalStorage exposing
-  ( get
-  , set
-  , remove
-  , clear
-  , keys
-  , Error(..)
-  )
+
+module LocalStorage
+    exposing
+        ( get
+        , set
+        , remove
+        , clear
+        , keys
+        , Error(..)
+        )
 
 {-|
 
@@ -21,12 +23,12 @@ module LocalStorage exposing
 
 -}
 
-
 import Native.LocalStorage
 import Task exposing (Task)
 
 
-type Error = KeyNotFound String
+type Error
+    = KeyNotFound String
 
 
 {-| Get the value at a particular key. This can fail if the key has never been
@@ -42,7 +44,7 @@ handle this possibility, you can make a helper like this:
 -}
 get : String -> Task Error String
 get =
-  Native.LocalStorage.get
+    Native.LocalStorage.get
 
 
 {-| Set a key to a particular value. If the key does not exist, it is added.
@@ -50,21 +52,21 @@ If the key already exists, we overwrite the old data.
 -}
 set : String -> String -> Task x ()
 set =
-  Native.LocalStorage.set
+    Native.LocalStorage.set
 
 
 {-| Remove a particular key and its corresponding value.
 -}
 remove : String -> Task x ()
 remove =
-  Native.LocalStorage.remove
+    Native.LocalStorage.remove
 
 
 {-| Remove everything in local storage.
 -}
 clear : Task x ()
 clear =
-  Native.LocalStorage.clear
+    Native.LocalStorage.clear
 
 
 {-| Get all the keys currently stored. So if you `set` two entries named
@@ -73,5 +75,4 @@ clear =
 -}
 keys : Task x (List String)
 keys =
-  Native.LocalStorage.keys
-
+    Native.LocalStorage.keys
