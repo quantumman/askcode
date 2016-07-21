@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Http
 import Http.Ext as Http exposing (..)
+import Http.Session as Session exposing (..)
 import Models exposing (..)
 import Task exposing (Task)
 
@@ -36,6 +37,7 @@ type Msg
     | SignInFail Http.Error
     | EmailOrUserName String
     | Password String
+    | Session Session.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -44,8 +46,8 @@ update message model =
         SignIn ->
             model ! [ signIn model ]
 
-        SignInSuccess response ->
-            model ! []
+        SignInSuccess credential ->
+            model ! [ Session.store Session credential ]
 
         SignInFail error ->
             model ! []
@@ -55,6 +57,9 @@ update message model =
 
         Password password ->
             { model | password = password } ! []
+
+        Session subMessage ->
+            model ! []
 
 
 signIn : Model -> Cmd Msg
