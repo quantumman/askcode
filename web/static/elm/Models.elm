@@ -22,16 +22,16 @@ type alias Credential =
 
 encodeSession : { a | email : String, password : String } -> Encode.Value
 encodeSession model =
-    Encode.object [ ( "session", encodeUser' model ) ]
+    Encode.object [ ( "session", encodeSession' model ) ]
 
 
 encodeRegistration : { a | email : String, password : String } -> Encode.Value
 encodeRegistration model =
-    Encode.object [ ( "user", encodeUser' model ) ]
+    Encode.object [ ( "user", encodeSession' model ) ]
 
 
-encodeUser' : { a | email : String, password : String } -> Encode.Value
-encodeUser' model =
+encodeSession' : { a | email : String, password : String } -> Encode.Value
+encodeSession' model =
     Encode.object
         [ ( "email", Encode.string model.email )
         , ( "password", Encode.string model.password )
