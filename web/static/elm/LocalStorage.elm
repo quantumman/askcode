@@ -1,3 +1,7 @@
+--- This module is clone for https://github.com/elm-lang/local-storage.git.
+--- TODO: Install elm-lang/local-storage if published and remove this file
+---       and Native/LocalStorage.js
+
 module LocalStorage exposing
   ( get
   , set
