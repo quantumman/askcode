@@ -25,6 +25,11 @@ encodeSession model =
     Encode.object [ ( "session", encodeUser' model ) ]
 
 
+encodeRegistration : { a | email : String, password : String } -> Encode.Value
+encodeRegistration model =
+    Encode.object [ ( "user", encodeUser' model ) ]
+
+
 encodeUser : { a | email : String, password : String } -> Encode.Value
 encodeUser model =
     Encode.object [ ( "user", encodeUser' model ) ]
