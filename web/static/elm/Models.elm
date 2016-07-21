@@ -38,6 +38,14 @@ encodeSession' model =
         ]
 
 
+encodeUser : User -> Encode.Value
+encodeUser model =
+    Encode.object
+        [ ( "avatar", Encode.string model.avatar )
+        , ( "email", Encode.string model.email )
+        ]
+
+
 decodeUser : Decoder User
 decodeUser =
     Decode.object2 User
