@@ -23,3 +23,10 @@ init =
 
 type Msg
     = Close
+
+
+update : Msg -> Model -> ( Model, Cmd msg )
+update message model =
+    case message of
+        Close ->
+            ( Dismiss, Cmd.none )
