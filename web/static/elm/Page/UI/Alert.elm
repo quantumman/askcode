@@ -15,3 +15,11 @@ type Model
 init : Model
 init =
     Dismiss
+
+
+
+-- UPDATE
+
+
+type Msg
+    = Close
