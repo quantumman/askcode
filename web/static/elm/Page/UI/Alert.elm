@@ -1,5 +1,12 @@
 module Page.UI.Alert exposing (..)
 
+import Html exposing (..)
+import Html.App as Html
+import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
+import Unicode exposing (text')
+
+
 -- MODEL
 
 
@@ -42,3 +49,38 @@ update' message rootModel fmsg =
             update message model
     in
         ( { rootModel | alert = model' }, Cmd.map fmsg command )
+
+
+
+-- VIEW
+
+
+view : Model -> Html Msg
+view model =
+    let
+        alert message style =
+            div [ class ("alert " ++ style) ]
+                [ button [ onClick Close, type' "button", class "close" ]
+                    [ span [] [ text' "&times;" ]
+                    ]
+                , text message
+                ]
+    in
+        case model of
+            Success text ->
+                alert text "alert-success"
+
+            Info text ->
+                alert text "alert-info"
+
+            Warning text ->
+                alert text "alert-warning"
+
+            Error text ->
+                alert text "alert-danger"
+
+            Note text ->
+                alert text ""
+
+            Dismiss ->
+                div [] []
