@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Http
 import Http.Ext as Http exposing (..)
+import Http.Session as Session exposing (..)
 import Models exposing (..)
 import Task exposing (Task)
 
@@ -16,6 +17,7 @@ import Task exposing (Task)
 type alias Model =
     { email : String
     , password : String
+    , error : Maybe Http.Error
     }
 
 
@@ -23,6 +25,7 @@ init : Model
 init =
     { email = ""
     , password = ""
+    , error = Nothing
     }
 
 
@@ -36,6 +39,7 @@ type Msg
     | SignInFail Http.Error
     | EmailOrUserName String
     | Password String
+    | Session Session.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -44,17 +48,20 @@ update message model =
         SignIn ->
             model ! [ signIn model ]
 
-        SignInSuccess response ->
-            model ! []
+        SignInSuccess credential ->
+            model ! [ Session.store Session credential ]
 
         SignInFail error ->
-            model ! []
+            { model | error = Just error } ! []
 
         EmailOrUserName email ->
             { model | email = email } ! []
 
         Password password ->
             { model | password = password } ! []
+
+        Session subMessage ->
+            model ! []
 
 
 signIn : Model -> Cmd Msg
@@ -72,10 +79,38 @@ signIn model =
 -- VIEW
 
 
+e2s : Maybe Http.Error -> String
+e2s error =
+    case error of
+        Nothing ->
+            ""
+
+        Just error' ->
+            case error' of
+                Http.Timeout ->
+                    "Timeout"
+
+                Http.NetworkError ->
+                    "Network Error"
+
+                Http.UnexpectedPayload e ->
+                    "UnexpectedPayload " ++ e
+
+                Http.BadResponse code s ->
+                    if code == 401 then
+                        "We could not identify you by the email address. Please enter your username to find your account."
+                    else
+                        "BadResponse: " ++ (toString code) ++ " " ++ s
+
+
+
 view : Model -> Html Msg
 view model =
     div [ class "card" ]
-        [ div [ class "card-block" ]
+        [ div []
+            [ text (e2s model.error)
+            ]
+        , div [ class "card-block" ]
             [ form
             ]
         ]
