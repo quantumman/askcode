@@ -41,7 +41,7 @@ encodeUser' model =
 decodeUser : Decoder User
 decodeUser =
     Decode.object2 User
-        ("avatar" := Decode.string)
+        ("avatar" := (Decode.null ""))
         ("email" := Decode.string)
 
 
