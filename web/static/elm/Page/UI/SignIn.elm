@@ -17,6 +17,7 @@ import Task exposing (Task)
 type alias Model =
     { email : String
     , password : String
+    , error : Maybe Http.Error
     }
 
 
@@ -24,6 +25,7 @@ init : Model
 init =
     { email = ""
     , password = ""
+    , error = Nothing
     }
 
 
@@ -50,7 +52,7 @@ update message model =
             model ! [ Session.store Session credential ]
 
         SignInFail error ->
-            model ! []
+            { model | error = Just error } ! []
 
         EmailOrUserName email ->
             { model | email = email } ! []
@@ -77,10 +79,34 @@ signIn model =
 -- VIEW
 
 
+e2s : Maybe Http.Error -> String
+e2s error =
+    case error of
+        Nothing ->
+            ""
+
+        Just error' ->
+            case error' of
+                Http.Timeout ->
+                    "Timeout"
+
+                Http.NetworkError ->
+                    "Network Error"
+
+                Http.UnexpectedPayload e ->
+                    "UnexpectedPayload " ++ e
+
+                Http.BadResponse code s ->
+                    "BadResponse " ++ s
+
+
 view : Model -> Html Msg
 view model =
     div [ class "card" ]
-        [ div [ class "card-block" ]
+        [ div []
+            [ text (e2s model.error)
+            ]
+        , div [ class "card-block" ]
             [ form
             ]
         ]
