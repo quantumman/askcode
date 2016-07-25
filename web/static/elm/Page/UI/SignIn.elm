@@ -97,7 +97,11 @@ e2s error =
                     "UnexpectedPayload " ++ e
 
                 Http.BadResponse code s ->
-                    "BadResponse " ++ s
+                    if code == 401 then
+                        "We could not identify you by the email address. Please enter your username to find your account."
+                    else
+                        "BadResponse: " ++ (toString code) ++ " " ++ s
+
 
 
 view : Model -> Html Msg
