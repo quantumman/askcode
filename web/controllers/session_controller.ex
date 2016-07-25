@@ -14,7 +14,7 @@ defmodule Askcode.SessionController do
 
       :error ->
         conn
-        |> put_status(:unprocessable_entity)
+        |> put_status(:unauthorized)
         |> render("error.json")
     end
   end
