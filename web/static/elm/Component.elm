@@ -12,3 +12,9 @@ first f ( x, y ) =
 second : (b -> c) -> ( a, b ) -> ( a, c )
 second f ( x, y ) =
     ( x, f y )
+
+
+infixr 3 ***
+(***) : (a -> a') -> (b -> b') -> (( a, b ) -> ( a', b' ))
+(***) f g =
+    \v -> (first f v) |> second g
