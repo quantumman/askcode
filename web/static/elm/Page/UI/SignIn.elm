@@ -68,6 +68,9 @@ update message model =
         NoOp ->
             model ! []
 
+        Form subMessage ->
+            ({ model | form = Form.update subMessage model.form }) ! []
+
         SignIn ->
             model ! [ signIn model ]
 
