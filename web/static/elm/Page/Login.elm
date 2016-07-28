@@ -1,5 +1,6 @@
 module Page.Login exposing (..)
 
+import Component exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
@@ -33,14 +34,9 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
         SignIn subMessage ->
-            let
-                ( subModel, subCommand ) =
-                    SignIn.update subMessage model.signIn
-
-                command =
-                    Cmd.map SignIn subCommand
-            in
-                ( { model | signIn = subModel }, command )
+            SignIn.update subMessage model.signIn
+                |> (\m -> { model | signIn = m })
+                *> SignIn
 
 
 update' : Msg -> { a | login : Model } -> (Msg -> msg) -> ( { a | login : Model }, Cmd msg )
