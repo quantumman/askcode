@@ -28,6 +28,7 @@ type alias Account =
 type alias Model =
     { email : String
     , password : String
+    , form : Form () Account
     }
 
 
@@ -35,6 +36,7 @@ init : Model
 init =
     { email = ""
     , password = ""
+    , form = Form.initial [] validate
     }
 
 
