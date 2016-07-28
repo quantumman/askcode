@@ -8,6 +8,7 @@ import Http
 import Http.Ext as Http exposing (..)
 import Http.Session as Session exposing (..)
 import Models exposing (..)
+import Page.UI.Alert as Alert exposing (notify, Model)
 import Task exposing (Task)
 
 
@@ -52,7 +53,7 @@ update message model =
             model ! [ Session.store Session credential ]
 
         SignInFail error ->
-            { model | error = Just error } ! []
+            { model | error = Just error } ! [ Alert.notify <| Alert.Error <| e2s (Just error) ]
 
         EmailOrUserName email ->
             { model | email = email } ! []
@@ -101,7 +102,6 @@ e2s error =
                         "We could not identify you by the email address. Please enter your username to find your account."
                     else
                         "BadResponse: " ++ (toString code) ++ " " ++ s
-
 
 
 view : Model -> Html Msg
