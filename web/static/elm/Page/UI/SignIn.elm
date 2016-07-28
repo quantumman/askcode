@@ -8,6 +8,7 @@ import Http
 import Http.Ext as Http exposing (..)
 import Http.Session as Session exposing (..)
 import Models exposing (..)
+import Page.UI.Alert as Alert exposing (notify, Model)
 import Task exposing (Task)
 
 
@@ -17,7 +18,6 @@ import Task exposing (Task)
 type alias Model =
     { email : String
     , password : String
-    , error : Maybe Http.Error
     }
 
 
@@ -25,7 +25,6 @@ init : Model
 init =
     { email = ""
     , password = ""
-    , error = Nothing
     }
 
 
@@ -52,7 +51,7 @@ update message model =
             model ! [ Session.store Session credential ]
 
         SignInFail error ->
-            { model | error = Just error } ! []
+            model ! [ Alert.notify <| Alert.Error <| e2s (Just error) ]
 
         EmailOrUserName email ->
             { model | email = email } ! []
@@ -103,14 +102,10 @@ e2s error =
                         "BadResponse: " ++ (toString code) ++ " " ++ s
 
 
-
 view : Model -> Html Msg
 view model =
     div [ class "card" ]
-        [ div []
-            [ text (e2s model.error)
-            ]
-        , div [ class "card-block" ]
+        [ div [ class "card-block" ]
             [ form
             ]
         ]
