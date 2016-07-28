@@ -91,6 +91,8 @@ update message model =
         Close ->
             ( Dismiss, Cmd.none )
 
+        Receive m ->
+            ( deserialize m, Cmd.none )
 
 
 -- VIEW
