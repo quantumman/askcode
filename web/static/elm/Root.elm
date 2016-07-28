@@ -1,6 +1,7 @@
 module Root exposing (..)
 
 import App
+import Component exposing (..)
 import Discussions
 import Html exposing (..)
 import Html.App as Html
@@ -72,38 +73,34 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NavigateTo subMessage ->
-            let
-                ( routes, command ) =
-                    Routing.update subMessage model.routes
-            in
-                ( { model | routes = routes }, Cmd.map NavigateTo command )
+            Routing.update subMessage model.routes
+                |> (\m -> { model | routes = m })
+                *> NavigateTo
 
         App subMessage ->
-            let
-                ( app, command ) =
-                    App.update subMessage model.app
-            in
-                ( { model | app = app }, Cmd.map App command )
+            App.update subMessage model.app
+                |> (\m -> { model | app = m })
+                *> App
 
         Discussion subMessage ->
-            let
-                ( model', command ) =
-                    Discussions.update subMessage model.discussions
-            in
-                ( { model | discussions = model' }, Cmd.map Discussion command )
+            Discussions.update subMessage model.discussions
+                |> (\m -> { model | discussions = m })
+                *> Discussion
 
         SignUp subMessage ->
-            let
-                ( model', command ) =
-                    SignUp.update subMessage model.signUp
-            in
-                { model | signUp = model' } ! [ Cmd.map SignUp command ]
+            SignUp.update subMessage model.signUp
+                |> (\m -> { model | signUp = m })
+                *> SignUp
 
         Login subMessage ->
-            Login.update' subMessage model Login
+            Login.update subMessage model.login
+                |> (\m -> { model | login = m })
+                *> Login
 
         Alert subMessage ->
-            Alert.update' subMessage model Alert
+            Alert.update subMessage model.alert
+                |> (\m -> { model | alert = m })
+                *> Alert
 
 
 
