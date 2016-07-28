@@ -72,6 +72,14 @@ deserialize data =
 -- UPDATE
 
 
+port notify' : ( String, String ) -> Cmd msg
+
+
+notify : Model -> Cmd msg
+notify model =
+    notify' <| serialize model
+
+
 type Msg
     = Close
 
