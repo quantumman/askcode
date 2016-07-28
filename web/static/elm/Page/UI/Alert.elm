@@ -10,23 +10,26 @@ import Unicode exposing (text')
 -- MODEL
 
 
-type Model
+type alias Model =
+    List Message
+
+
+type Message
     = Success String
     | Info String
     | Warning String
     | Error String
     | Note String
-    | Dismiss
 
 
 init : Model
 init =
-    Dismiss
+    []
 
 
-serialize : Model -> ( String, String )
-serialize model =
-    case model of
+serialize : Message -> ( String, String )
+serialize message =
+    case message of
         Success m ->
             ( "Success", m )
 
@@ -42,11 +45,8 @@ serialize model =
         Note m ->
             ( "Note", m )
 
-        Dismiss ->
-            ( "Dismiss", "" )
 
-
-deserialize : ( String, String ) -> Model
+deserialize : ( String, String ) -> Message
 deserialize data =
     case data of
         ( "Success", m ) ->
@@ -65,7 +65,7 @@ deserialize data =
             Note m
 
         _ ->
-            Dismiss
+            Debug.crash "Fatal: unexected data received"
 
 
 
@@ -75,7 +75,7 @@ deserialize data =
 port notify' : ( String, String ) -> Cmd msg
 
 
-notify : Model -> Cmd msg
+notify : Message -> Cmd msg
 notify model =
     notify' <| serialize model
 
@@ -89,10 +89,10 @@ update : Msg -> Model -> ( Model, Cmd msg )
 update message model =
     case message of
         Close ->
-            ( Dismiss, Cmd.none )
+            ( [], Cmd.none )
 
         Receive m ->
-            ( deserialize m, Cmd.none )
+            ( deserialize m :: model, Cmd.none )
 
 
 
@@ -121,22 +121,23 @@ view model =
                     ]
                 , text message
                 ]
+
+        print message =
+            case message of
+                Success text ->
+                    alert text "alert-success"
+
+                Info text ->
+                    alert text "alert-info"
+
+                Warning text ->
+                    alert text "alert-warning"
+
+                Error text ->
+                    alert text "alert-danger"
+
+                Note text ->
+                    alert text ""
     in
-        case model of
-            Success text ->
-                alert text "alert-success"
+        div [] (List.map print model)
 
-            Info text ->
-                alert text "alert-info"
-
-            Warning text ->
-                alert text "alert-warning"
-
-            Error text ->
-                alert text "alert-danger"
-
-            Note text ->
-                alert text ""
-
-            Dismiss ->
-                div [] []
