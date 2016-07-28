@@ -109,7 +109,10 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.map App (App.subscriptions model.app)
+    Sub.batch
+        [ Sub.map App (App.subscriptions model.app)
+        , Sub.map Alert Alert.subscriptions
+        ]
 
 
 
