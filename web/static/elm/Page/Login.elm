@@ -39,18 +39,6 @@ update message model =
                 *> SignIn
 
 
-update' : Msg -> { a | login : Model } -> (Msg -> msg) -> ( { a | login : Model }, Cmd msg )
-update' message rootModel fmsg =
-    let
-        model =
-            rootModel.login
-
-        ( model', command ) =
-            update message model
-    in
-        ( { rootModel | login = model' }, Cmd.map fmsg command )
-
-
 
 -- VIEW
 
