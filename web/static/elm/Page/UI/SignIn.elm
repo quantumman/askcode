@@ -16,6 +16,12 @@ import Task exposing (Task)
 -- MODEL
 
 
+type alias Account =
+    { email : String
+    , password : String
+    }
+
+
 type alias Model =
     { email : String
     , password : String
