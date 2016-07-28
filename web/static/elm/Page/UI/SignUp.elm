@@ -35,7 +35,7 @@ init =
 type Msg
     = SignUp
     | SignUpSuccess Credential
-    | SignUpFail Http.Error
+    | SignUpFail ErrorMessage
     | UpdateEmail String
     | UpdatePassword String
 

@@ -6,7 +6,10 @@ import Json.Encode as Encode exposing (..)
 import Task exposing (Task)
 
 
-post' : Decoder a -> String -> Encode.Value -> Task Http.Error a
+type alias ErrorMessage = String
+
+
+post' : Decoder a -> String -> Encode.Value -> Task ErrorMessage a
 post' decoder url payload =
     Http.send Http.defaultSettings
         { verb = "POST"
@@ -15,6 +18,7 @@ post' decoder url payload =
         , body = Http.string (Encode.encode 0 payload)
         }
         |> Http.fromJson decoder
+        |> Task.mapError errorToString
 
 
 errorToString : Http.Error -> String

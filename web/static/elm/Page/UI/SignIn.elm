@@ -35,7 +35,7 @@ init =
 type Msg
     = SignIn
     | SignInSuccess Credential
-    | SignInFail Http.Error
+    | SignInFail ErrorMessage
     | EmailOrUserName String
     | Password String
     | Session Session.Msg
@@ -51,7 +51,7 @@ update message model =
             model ! [ Session.store Session credential ]
 
         SignInFail error ->
-            model ! [ Alert.notify <| Alert.Error <| e2s (Just error) ]
+            model ! [ Alert.notify <| Alert.Error error ]
 
         EmailOrUserName email ->
             { model | email = email } ! []
