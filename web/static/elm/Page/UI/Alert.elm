@@ -1,4 +1,4 @@
-module Page.UI.Alert exposing (..)
+port module Page.UI.Alert exposing (..)
 
 import Html exposing (..)
 import Html.App as Html
