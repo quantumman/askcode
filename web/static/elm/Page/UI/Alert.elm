@@ -82,6 +82,7 @@ notify model =
 
 type Msg
     = Close
+    | Receive ( String, String )
 
 
 update : Msg -> Model -> ( Model, Cmd msg )
