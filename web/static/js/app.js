@@ -126,6 +126,12 @@ elmApp.ports.disconnect.subscribe(id => {
 
 
 
+// Alert.elm
+
+elmApp.ports["notify'"].subscribe(message => {
+  elmApp.ports.receive.send(message);
+});
+
 
 // Import local files
 //
