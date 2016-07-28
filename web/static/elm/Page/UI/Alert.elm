@@ -24,6 +24,50 @@ init =
     Dismiss
 
 
+serialize : Model -> ( String, String )
+serialize model =
+    case model of
+        Success m ->
+            ( "Success", m )
+
+        Info m ->
+            ( "Info", m )
+
+        Warning m ->
+            ( "Warning", m )
+
+        Error m ->
+            ( "Error", m )
+
+        Note m ->
+            ( "Note", m )
+
+        Dismiss ->
+            ( "Dismiss", "" )
+
+
+deserialize : ( String, String ) -> Model
+deserialize data =
+    case data of
+        ( "Success", m ) ->
+            Success m
+
+        ( "Info", m ) ->
+            Info m
+
+        ( "Warning", m ) ->
+            Warning m
+
+        ( "Error", m ) ->
+            Error m
+
+        ( "Note", m ) ->
+            Note m
+
+        _ ->
+            Dismiss
+
+
 
 -- UPDATE
 
