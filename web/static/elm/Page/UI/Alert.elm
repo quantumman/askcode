@@ -95,6 +95,19 @@ update message model =
             ( deserialize m, Cmd.none )
 
 
+
+-- SUBSCRIPTION
+
+
+port receive : (( String, String ) -> msg) -> Sub msg
+
+
+subscriptions : Sub Msg
+subscriptions =
+    receive Receive
+
+
+
 -- VIEW
 
 
