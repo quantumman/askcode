@@ -18,3 +18,9 @@ infixr 3 ***
 (***) : (a -> a') -> (b -> b') -> (( a, b ) -> ( a', b' ))
 (***) f g =
     \v -> (first f v) |> second g
+
+
+infixr 3 **!
+(*>) : (a -> a') -> (b -> b') -> (( a, Cmd b ) -> ( a', Cmd b' ))
+(*>) f g =
+    \v -> (first f v) |> second (Cmd.map g)
