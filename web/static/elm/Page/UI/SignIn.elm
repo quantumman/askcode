@@ -1,5 +1,8 @@
 module Page.UI.SignIn exposing (..)
 
+import Form exposing (Form)
+import Form.Input as Input
+import Form.Validate as Validate exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
@@ -33,6 +36,13 @@ init =
     { email = ""
     , password = ""
     }
+
+
+validate : Validation () Account
+validate =
+    form2 Account
+        (get "email" string)
+        (get "password" string)
 
 
 
