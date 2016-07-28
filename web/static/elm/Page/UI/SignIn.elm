@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
+import Html.Events.Ext exposing (..)
 import Http
 import Http.Ext as Http exposing (..)
 import Http.Session as Session exposing (..)
@@ -33,7 +34,8 @@ init =
 
 
 type Msg
-    = SignIn
+    = NoOp
+    | SignIn
     | SignInSuccess Credential
     | SignInFail ErrorMessage
     | EmailOrUserName String
@@ -44,6 +46,9 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
+        NoOp ->
+            model ! []
+
         SignIn ->
             model ! [ signIn model ]
 
@@ -89,7 +94,7 @@ view model =
 
 form : Html Msg
 form =
-    Html.form []
+    Html.form [ onEnter NoOp SignIn ]
         [ fieldset [ class "form-group" ]
             [ label [ for "email" ] [ text "Email" ]
             , input
