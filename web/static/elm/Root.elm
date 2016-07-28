@@ -124,8 +124,10 @@ view model =
     div []
         [ navBar model
         , div [ style [ vspace 5 Style.em ] ] []
-        , Html.map Alert (Alert.view model.alert)
-        , div [ class "container" ] [ (content model) ]
+        , div [ class "container" ]
+            [ Html.map Alert (Alert.view model.alert)
+            , (content model)
+            ]
         ]
 
 
