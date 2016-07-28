@@ -53,6 +53,7 @@ validate =
 
 type Msg
     = NoOp
+    | Form Form.Msg
     | SignIn
     | SignInSuccess Credential
     | SignInFail ErrorMessage
