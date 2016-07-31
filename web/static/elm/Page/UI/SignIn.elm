@@ -115,6 +115,17 @@ view model =
 form : Form () Account -> Html Form.Msg
 form form =
     let
+        validationFor { liveError } =
+            case liveError of
+                Just error ->
+                    ( "has-danger"
+                    , "form-control-danger"
+                    , div [ class "form-control-feedback" ] [ text <| toString error ]
+                    )
+
+                Nothing ->
+                    ( "", "", text "" )
+
         email =
             Form.getFieldAsString "email" form
 
