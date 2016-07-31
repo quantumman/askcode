@@ -152,15 +152,7 @@ form form =
             Form.getFieldAsString "password" form
     in
         Html.form [ onEnter Form.NoOp Form.Submit ]
-            [ fieldset [ class "form-group" ]
-                [ label [ for "email" ] [ text "Email" ]
-                , Input.textInput email
-                    [ class "form-control"
-                    , id "email"
-                    , placeholder "Email"
-                    , type' "text"
-                    ]
-                ]
+            [ input "text" "email" "Email" "Email"
             , fieldset [ class "form-group" ]
                 [ label [ for "password" ] [ text "Password" ]
                 , Input.textInput password
