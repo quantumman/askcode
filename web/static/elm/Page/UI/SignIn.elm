@@ -69,10 +69,24 @@ update message model =
             model ! []
 
         Form subMessage ->
-            ({ model | form = Form.update subMessage model.form }) ! []
+            let
+                form =
+                    Form.update subMessage model.form
+
+                commands =
+                    if Form.Submit == subMessage then
+                        [ Alert.dismiss
+                        , Form.getOutput form
+                            |> Maybe.map signIn
+                            |> Maybe.withDefault Cmd.none
+                        ]
+                    else
+                        [ Cmd.none ]
+            in
+                ({ model | form = form }) ! commands
 
         SignIn ->
-            model ! [ signIn model ]
+            model ! []
 
         SignInSuccess credential ->
             model ! [ Session.store Session credential ]
@@ -90,7 +104,7 @@ update message model =
             model ! []
 
 
-signIn : Model -> Cmd Msg
+signIn : Account -> Cmd Msg
 signIn model =
     let
         task =
@@ -109,35 +123,38 @@ view : Model -> Html Msg
 view model =
     div [ class "card" ]
         [ div [ class "card-block" ]
-            [ form
+            [ Html.map Form (form model.form)
             ]
         ]
 
 
-form : Html Msg
-form =
-    Html.form [ onEnter NoOp SignIn ]
-        [ fieldset [ class "form-group" ]
-            [ label [ for "email" ] [ text "Email" ]
-            , input
-                [ class "form-control"
-                , id "email"
-                , placeholder "Email"
-                , type' "text"
-                , onInput EmailOrUserName
+form : Form () Account -> Html Form.Msg
+form form =
+    let
+        email =
+            Form.getFieldAsString "email" form
+
+        password =
+            Form.getFieldAsString "password" form
+    in
+        Html.form [ onEnter Form.NoOp Form.Submit ]
+            [ fieldset [ class "form-group" ]
+                [ label [ for "email" ] [ text "Email" ]
+                , Input.textInput email
+                    [ class "form-control"
+                    , id "email"
+                    , placeholder "Email"
+                    , type' "text"
+                    ]
                 ]
-                []
-            ]
-        , fieldset [ class "form-group" ]
-            [ label [ for "password" ] [ text "Password" ]
-            , input
-                [ class "form-control"
-                , id "password"
-                , placeholder "Password"
-                , type' "password"
-                , onInput Password
+            , fieldset [ class "form-group" ]
+                [ label [ for "password" ] [ text "Password" ]
+                , Input.textInput password
+                    [ class "form-control"
+                    , id "password"
+                    , placeholder "Password"
+                    , type' "password"
+                    ]
                 ]
-                []
+            , button [ type' "button", class "btn btn-primary", onClick Form.Submit ] [ text "LOGIN" ]
             ]
-        , button [ type' "button", class "btn btn-primary", onClick SignIn ] [ text "LOGIN" ]
-        ]
