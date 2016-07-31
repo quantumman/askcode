@@ -126,6 +126,25 @@ form form =
                 Nothing ->
                     ( "", "", text "" )
 
+        input type'' id' label' placeholder' =
+            let
+                field =
+                    Form.getFieldAsString id' form
+
+                ( formGroupClass, inputClass, error ) =
+                    validationFor field
+            in
+                fieldset [ class ("form-group " ++ formGroupClass) ]
+                    [ label [ for id' ] [ text label' ]
+                    , Input.textInput field
+                        [ class ("form-control " ++ inputClass)
+                        , id id'
+                        , placeholder placeholder'
+                        , type' type''
+                        ]
+                    , error
+                    ]
+
         email =
             Form.getFieldAsString "email" form
 
