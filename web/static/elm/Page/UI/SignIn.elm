@@ -54,11 +54,8 @@ validate =
 type Msg
     = NoOp
     | Form Form.Msg
-    | SignIn
     | SignInSuccess Credential
     | SignInFail ErrorMessage
-    | EmailOrUserName String
-    | Password String
     | Session Session.Msg
 
 
@@ -85,20 +82,11 @@ update message model =
             in
                 ({ model | form = form }) ! commands
 
-        SignIn ->
-            model ! []
-
         SignInSuccess credential ->
             model ! [ Session.store Session credential ]
 
         SignInFail error ->
             model ! [ Alert.notify <| Alert.Error error ]
-
-        EmailOrUserName email ->
-            { model | email = email } ! []
-
-        Password password ->
-            { model | password = password } ! []
 
         Session subMessage ->
             model ! []
