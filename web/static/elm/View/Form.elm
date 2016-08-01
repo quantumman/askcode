@@ -13,3 +13,10 @@ import Html.Events.Ext exposing (..)
 form : List (Html Form.Msg) -> Html Form.Msg
 form =
     Html.form [ onEnter Form.NoOp Form.Submit ]
+
+
+type alias Input error model field =
+    { type'' : String
+    , getField : String -> Form error model -> Form.FieldState error field
+    , inputTag : Form.FieldState error field -> List (Html.Attribute Form.Msg) -> Html Form.Msg
+    }
