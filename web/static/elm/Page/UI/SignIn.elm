@@ -145,9 +145,6 @@ form form =
                     , error
                     ]
 
-        email =
-            Form.getFieldAsString "email" form
-
         password =
             Form.getFieldAsString "password" form
     in
