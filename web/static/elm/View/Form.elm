@@ -20,3 +20,35 @@ type alias Input error model field =
     , getField : String -> Form error model -> Form.FieldState error field
     , inputTag : Form.FieldState error field -> List (Html.Attribute Form.Msg) -> Html Form.Msg
     }
+
+
+makeInput : Input e m b -> Form e m -> String -> String -> Maybe String -> Html Form.Msg
+makeInput { type'', getField, inputTag } form id' label' placeholder' =
+    let
+        validationFor { liveError } =
+            case liveError of
+                Just error ->
+                    ( "has-danger"
+                    , "form-control-danger"
+                    , div [ class "form-control-feedback" ] [ text <| toString error ]
+                    )
+
+                Nothing ->
+                    ( "", "", text "" )
+
+        field =
+            getField id' form
+
+        ( formGroupClass, inputClass, error ) =
+            validationFor field
+    in
+        fieldset [ class ("form-group " ++ formGroupClass) ]
+            [ label [ for id' ] [ text label' ]
+            , inputTag field
+                [ class ("form-control " ++ inputClass)
+                , id id'
+                , placeholder (Maybe.withDefault "" placeholder')
+                , type' type''
+                ]
+            , error
+            ]
