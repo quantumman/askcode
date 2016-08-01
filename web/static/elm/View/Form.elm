@@ -57,3 +57,8 @@ makeInput { type'', getField, inputTag } form id' label' placeholder' =
 input : Input e m b -> Form e m -> String -> String -> String -> Html Form.Msg
 input a b c d placeholder =
     makeInput a b c d (Just placeholder)
+
+
+input' : Input e m b -> Form e m -> String -> String -> Html Form.Msg
+input' a b c d =
+    makeInput a b c d Nothing
