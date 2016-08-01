@@ -62,3 +62,11 @@ input a b c d placeholder =
 input' : Input e m b -> Form e m -> String -> String -> Html Form.Msg
 input' a b c d =
     makeInput a b c d Nothing
+
+
+text' : Input e m String
+text' =
+    { type'' = "text"
+    , getField = Form.getFieldAsString
+    , inputTag = Input.textInput
+    }
