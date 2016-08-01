@@ -4,7 +4,7 @@ import Component exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
-import Html.Helpers as Html exposing (..)
+import View.Layout as Html exposing (..)
 import Page.UI.SignIn as SignIn
 
 
