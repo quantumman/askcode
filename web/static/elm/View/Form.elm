@@ -3,6 +3,7 @@ module View.Form exposing (..)
 import Form exposing (Form)
 import Form.Input as Input
 import Form.Validate as Validate exposing (..)
+import Validation exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
@@ -25,12 +26,12 @@ type alias Input error model field =
 makeInput : Input e m b -> Form e m -> String -> String -> Maybe String -> Html Form.Msg
 makeInput { type'', getField, inputTag } form id' label' placeholder' =
     let
-        validationFor { liveError } =
+        validationFor { value, liveError } =
             case liveError of
                 Just error ->
                     ( "has-danger"
                     , "form-control-danger"
-                    , div [ class "form-control-feedback" ] [ text <| toString error ]
+                    , div [ class "form-control-feedback" ] [ validationMessageFor label' value error ]
                     )
 
                 Nothing ->
