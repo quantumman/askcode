@@ -16,7 +16,7 @@
 |       +-- Utility.elm
 +-- Page                         /* Pages or UI components */
     +-- UI
-+-- Command                      /* Components but not have view */
++-- Command                      /* Components without view */
 |
 /* Misc */
 +-- Ace.elm
