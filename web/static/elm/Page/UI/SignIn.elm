@@ -144,9 +144,6 @@ form form =
                         ]
                     , error
                     ]
-
-        password =
-            Form.getFieldAsString "password" form
     in
         Html.form [ onEnter Form.NoOp Form.Submit ]
             [ input "text" "email" "Email" "Email"
