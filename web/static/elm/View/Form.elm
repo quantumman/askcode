@@ -70,3 +70,11 @@ text' =
     , getField = Form.getFieldAsString
     , inputTag = Input.textInput
     }
+
+
+password : Input e m String
+password =
+    { type'' = "password"
+    , getField = Form.getFieldAsString
+    , inputTag = Input.textInput
+    }
