@@ -7,7 +7,6 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Html.Helpers as Html exposing (..)
 import Page.Login as Login
 import Page.UI.Alert as Alert
 import Page.UI.SignUp as SignUp
@@ -15,6 +14,7 @@ import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
 import Style exposing (..)
 import Styles exposing (..)
+import View.Layout as View exposing (..)
 
 
 -- MODEL
@@ -191,10 +191,10 @@ item text ref current =
 
 topPage : Model -> Html Msg
 topPage model =
-    Html.row
-        [ Html.column 12
+    View.row
+        [ View.column 12
             [ Html.map SignUp (SignUp.view model.signUp) ]
-        , Html.column 12
+        , View.column 12
             [ Html.map Discussion
                 (Discussions.view (Page.Index) model.discussions)
             ]
