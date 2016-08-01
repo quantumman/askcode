@@ -13,6 +13,7 @@ import Http.Ext as Http exposing (..)
 import Http.Session as Session exposing (..)
 import Models exposing (..)
 import Page.UI.Alert as Alert exposing (notify, Model)
+import View.Form as Form exposing (..)
 import Task exposing (Task)
 
 
@@ -114,39 +115,8 @@ view model =
 
 form : Form () Account -> Html Form.Msg
 form form =
-    let
-        validationFor { liveError } =
-            case liveError of
-                Just error ->
-                    ( "has-danger"
-                    , "form-control-danger"
-                    , div [ class "form-control-feedback" ] [ text <| toString error ]
-                    )
-
-                Nothing ->
-                    ( "", "", text "" )
-
-        input type'' id' label' placeholder' =
-            let
-                field =
-                    Form.getFieldAsString id' form
-
-                ( formGroupClass, inputClass, error ) =
-                    validationFor field
-            in
-                fieldset [ class ("form-group " ++ formGroupClass) ]
-                    [ label [ for id' ] [ text label' ]
-                    , Input.textInput field
-                        [ class ("form-control " ++ inputClass)
-                        , id id'
-                        , placeholder placeholder'
-                        , type' type''
-                        ]
-                    , error
-                    ]
-    in
-        Html.form [ onEnter Form.NoOp Form.Submit ]
-            [ input "text" "email" "Email" "Email"
-            , input "text" "password" "Password" "Password"
-            , button [ type' "button", class "btn btn-primary", onClick Form.Submit ] [ text "LOGIN" ]
-            ]
+    Form.form
+        [ Form.input text' form "email" "Email" "Email"
+        , Form.input password form "password" "Password" "Password"
+        , button [ type' "button", class "btn btn-primary", onClick Form.Submit ] [ text "LOGIN" ]
+        ]
