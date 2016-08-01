@@ -150,14 +150,6 @@ form form =
     in
         Html.form [ onEnter Form.NoOp Form.Submit ]
             [ input "text" "email" "Email" "Email"
-            , fieldset [ class "form-group" ]
-                [ label [ for "password" ] [ text "Password" ]
-                , Input.textInput password
-                    [ class "form-control"
-                    , id "password"
-                    , placeholder "Password"
-                    , type' "password"
-                    ]
-                ]
+            , input "text" "password" "Password" "Password"
             , button [ type' "button", class "btn btn-primary", onClick Form.Submit ] [ text "LOGIN" ]
             ]
