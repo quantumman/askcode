@@ -49,8 +49,7 @@ validate =
 
 
 type Msg
-    = NoOp
-    | Form Form.Msg
+    = Form Form.Msg
     | SignInSuccess Credential
     | SignInFail ErrorMessage
     | Session Session.Msg
@@ -59,9 +58,6 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
-        NoOp ->
-            model ! []
-
         Form subMessage ->
             let
                 form =
