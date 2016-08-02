@@ -1,4 +1,4 @@
-module Http.Ext exposing (..)
+module Http.Extra exposing (..)
 
 import Http
 import Json.Decode as Decode exposing (..)

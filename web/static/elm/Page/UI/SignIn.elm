@@ -9,7 +9,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Html.Events.Ext exposing (..)
 import Http
-import Http.Ext as Http exposing (..)
+import Http.Extra as Http exposing (..)
 import Http.Session as Session exposing (..)
 import Models exposing (..)
 import Page.UI.Alert as Alert exposing (notify, Model)

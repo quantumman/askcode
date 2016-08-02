@@ -5,7 +5,7 @@ import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Http exposing (..)
-import Http.Ext as Http exposing (..)
+import Http.Extra as Http exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
 import Models exposing (..)
