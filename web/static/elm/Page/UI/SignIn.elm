@@ -1,5 +1,8 @@
 module Page.UI.SignIn exposing (..)
 
+import Form exposing (Form)
+import Form.Input as Input
+import Form.Validate as Validate exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
@@ -10,23 +13,35 @@ import Http.Ext as Http exposing (..)
 import Http.Session as Session exposing (..)
 import Models exposing (..)
 import Page.UI.Alert as Alert exposing (notify, Model)
+import View.Form as Form exposing (..)
 import Task exposing (Task)
 
 
 -- MODEL
 
 
-type alias Model =
+type alias Account =
     { email : String
     , password : String
     }
 
 
+type alias Model =
+    { form : Form () Account
+    }
+
+
 init : Model
 init =
-    { email = ""
-    , password = ""
+    { form = Form.initial [] validate
     }
+
+
+validate : Validation () Account
+validate =
+    form2 Account
+        (get "email" (email `andThen` nonEmpty))
+        (get "password" (string `andThen` nonEmpty))
 
 
 
@@ -35,11 +50,9 @@ init =
 
 type Msg
     = NoOp
-    | SignIn
+    | Form Form.Msg
     | SignInSuccess Credential
     | SignInFail ErrorMessage
-    | EmailOrUserName String
-    | Password String
     | Session Session.Msg
 
 
@@ -49,8 +62,22 @@ update message model =
         NoOp ->
             model ! []
 
-        SignIn ->
-            model ! [ signIn model ]
+        Form subMessage ->
+            let
+                form =
+                    Form.update subMessage model.form
+
+                commands =
+                    if Form.Submit == subMessage then
+                        [ Alert.dismiss
+                        , Form.getOutput form
+                            |> Maybe.map signIn
+                            |> Maybe.withDefault Cmd.none
+                        ]
+                    else
+                        [ Cmd.none ]
+            in
+                ({ model | form = form }) ! commands
 
         SignInSuccess credential ->
             model ! [ Session.store Session credential ]
@@ -58,17 +85,11 @@ update message model =
         SignInFail error ->
             model ! [ Alert.notify <| Alert.Error error ]
 
-        EmailOrUserName email ->
-            { model | email = email } ! []
-
-        Password password ->
-            { model | password = password } ! []
-
         Session subMessage ->
             model ! []
 
 
-signIn : Model -> Cmd Msg
+signIn : Account -> Cmd Msg
 signIn model =
     let
         task =
@@ -87,35 +108,15 @@ view : Model -> Html Msg
 view model =
     div [ class "card" ]
         [ div [ class "card-block" ]
-            [ form
+            [ Html.map Form (form model.form)
             ]
         ]
 
 
-form : Html Msg
-form =
-    Html.form [ onEnter NoOp SignIn ]
-        [ fieldset [ class "form-group" ]
-            [ label [ for "email" ] [ text "Email" ]
-            , input
-                [ class "form-control"
-                , id "email"
-                , placeholder "Email"
-                , type' "text"
-                , onInput EmailOrUserName
-                ]
-                []
-            ]
-        , fieldset [ class "form-group" ]
-            [ label [ for "password" ] [ text "Password" ]
-            , input
-                [ class "form-control"
-                , id "password"
-                , placeholder "Password"
-                , type' "password"
-                , onInput Password
-                ]
-                []
-            ]
-        , button [ type' "button", class "btn btn-primary", onClick SignIn ] [ text "LOGIN" ]
+form : Form () Account -> Html Form.Msg
+form form =
+    Form.form
+        [ Form.input text' form "email" "Email" "Email"
+        , Form.input password form "password" "Password" "Password"
+        , button [ type' "button", class "btn btn-primary", onClick Form.Submit ] [ text "LOGIN" ]
         ]

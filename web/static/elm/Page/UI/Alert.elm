@@ -75,9 +75,17 @@ deserialize data =
 port notify' : ( String, String ) -> Cmd msg
 
 
+port dismiss' : String -> Cmd msg
+
+
 notify : Message -> Cmd msg
 notify model =
     notify' <| serialize model
+
+
+dismiss : Cmd msg
+dismiss =
+    dismiss' ""
 
 
 type Msg
@@ -102,9 +110,15 @@ update message model =
 port receive : (( String, String ) -> msg) -> Sub msg
 
 
+port close : (String -> msg) -> Sub msg
+
+
 subscriptions : Sub Msg
 subscriptions =
-    receive Receive
+    Sub.batch
+        [ receive Receive
+        , close (\_ -> Close)
+        ]
 
 
 
@@ -140,4 +154,3 @@ view model =
                     alert text ""
     in
         div [] (List.map print model)
-

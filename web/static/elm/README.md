@@ -18,6 +18,7 @@
     +-- UI
 +-- Command                      /* Components without view */
 +-- View                         /* Components without msg and update */
++-- Validation.elm               /* Logic related to validation */
 |
 /* Misc */
 +-- Ace.elm

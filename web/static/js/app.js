@@ -132,6 +132,10 @@ elmApp.ports["notify'"].subscribe(message => {
   elmApp.ports.receive.send(message);
 });
 
+elmApp.ports["dismiss'"].subscribe(_ => {
+  elmApp.ports.close.send('');
+});
+
 
 // Import local files
 //
