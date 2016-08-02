@@ -6,7 +6,8 @@ import Json.Encode as Encode exposing (..)
 import Task exposing (Task)
 
 
-type alias ErrorMessage = String
+type alias ErrorMessage =
+    String
 
 
 post' : Decoder a -> String -> Encode.Value -> Task ErrorMessage a
