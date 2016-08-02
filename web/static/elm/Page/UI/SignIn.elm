@@ -40,8 +40,8 @@ init =
 validate : Validation () Account
 validate =
     form2 Account
-        (get "email" string)
-        (get "password" string)
+        (get "email" (email `andThen` nonEmpty))
+        (get "password" (string `andThen` nonEmpty))
 
 
 
