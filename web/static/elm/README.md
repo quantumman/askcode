@@ -16,7 +16,6 @@
 |       +-- Utility.elm
 +-- Page                         /* Pages or UI components */
     +-- UI
-+-- Command                      /* Components without view */
 +-- View                         /* Components without msg and update */
 +-- Validation.elm               /* Logic related to validation */
 |
