@@ -64,3 +64,14 @@ delete url =
             Jwt.send "DELETE" jwt (Decode.null ()) url Http.empty
     in
         Session.load `andThen` request
+
+
+patch : Decoder a -> String -> Encode.Value -> Task Error a
+patch decoder url payload =
+    let
+        request { jwt } =
+            Jwt.send "PATCH" jwt decoder url
+                <| Http.string
+                <| Encode.encode 0 payload
+    in
+        Session.load `andThen` request
