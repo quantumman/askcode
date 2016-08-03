@@ -18,6 +18,7 @@
         "evancz/elm-http": "3.0.1 <= v < 4.0.0",
         "jasonmahr/html-escape-sequences": "2.0.5 <= v < 3.0.0",
         "seanhess/elm-style": "1.0.1 <= v < 2.0.0",
+        "simonh1000/elm-jwt": "2.0.0 <= v < 3.0.0",
         "sporto/hop": "5.0.1 <= v < 6.0.0"
     },
     "elm-version": "0.17.0 <= v < 0.18.0"
