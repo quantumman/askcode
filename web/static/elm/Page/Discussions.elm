@@ -1,10 +1,10 @@
 module Page.Discussions exposing (..)
 
-import Discussions.Index as Index exposing (..)
-import Discussions.Model as Model exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
+import Page.Discussions.Index as Index exposing (..)
+import Page.Discussions.Model as Model exposing (..)
 import Routing.Page.Config exposing (..)
 
 

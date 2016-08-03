@@ -1,11 +1,11 @@
 module Page.Discussions.Index exposing (..)
 
-import Discussions.Model exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Http
 import Json.Decode as Decode exposing (..)
+import Page.Discussions.Model exposing (..)
 import Style exposing (..)
 import Styles exposing (..)
 import Task exposing (Task)
