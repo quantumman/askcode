@@ -55,3 +55,12 @@ put decoder url payload =
                 <| Encode.encode 0 payload
     in
         Session.load `andThen` request
+
+
+delete : String -> Task Error ()
+delete url =
+    let
+        request { jwt } =
+            Jwt.send "DELETE" jwt (Decode.null ()) url Http.empty
+    in
+        Session.load `andThen` request
