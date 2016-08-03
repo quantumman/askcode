@@ -29,3 +29,8 @@ andThen m f =
             Task.mapError HttpError (f x)
     in
         m' `Task.andThen` jwt' `Task.andThen` f'
+
+
+get : Decoder a -> String -> Task Error a
+get decoder url =
+    Session.load `andThen` (\{ jwt } -> Jwt.get jwt decoder url)
