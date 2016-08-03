@@ -102,6 +102,13 @@ update route model =
         ( model, command )
 
 
+navigateTo : Msg -> Cmd Msg
+navigateTo route =
+    reverse route
+        |> makeUrl routerConfig
+        |> Navigation.modifyUrl
+
+
 
 -- APP
 
