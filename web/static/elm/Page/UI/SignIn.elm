@@ -50,9 +50,8 @@ validate =
 
 type Msg
     = Form Form.Msg
-    | SignInSuccess Credential
+    | SignInSuccess ()
     | SignInFail ErrorMessage
-    | Session Session.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -76,25 +75,25 @@ update message model =
                 ({ model | form = form }) ! commands
 
         SignInSuccess credential ->
-            model ! [ Session.store Session credential ]
+            model ! []
 
         SignInFail error ->
             model ! [ Alert.notify <| Alert.Error error ]
 
-        Session subMessage ->
-            model ! []
 
+-- ACTION
 
 signIn : Account -> Cmd Msg
 signIn model =
     let
-        task =
+        request =
             Http.post' decodeCredential
                 "/api/sessions"
                 (encodeSession model)
+
+        task = request `Task.andThen` Session.store
     in
         Task.perform SignInFail SignInSuccess task
-
 
 
 -- VIEW

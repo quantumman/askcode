@@ -8,15 +8,7 @@ import Result exposing (Result)
 import Task exposing (Task)
 
 
--- MESSAGE
-
-
-type Msg
-    = StoreSuccess ()
-    | StoreFail Error
-    | LoadSuccess (Maybe Credential)
-    | LoadFail Error
-
+type alias Error = LocalStorage.Error
 
 
 -- TASK
@@ -27,19 +19,15 @@ key =
     "session"
 
 
-store : (Msg -> msg) -> Credential -> Cmd msg
-store fmsg credential =
+store : Credential -> Task x ()
+store credential =
     encodeCredential credential
         |> Encode.encode 0
         |> set key
-        |> Task.perform StoreFail StoreSuccess
-        |> Cmd.map fmsg
 
 
-load : (Msg -> msg) -> Cmd msg
-load fmsg =
+load : Task Error (Maybe Credential)
+load =
     get key
         |> Task.map (Decode.decodeString decodeCredential)
         |> Task.map Result.toMaybe
-        |> Task.perform LoadFail LoadSuccess
-        |> Cmd.map fmsg
