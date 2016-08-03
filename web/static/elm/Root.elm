@@ -2,11 +2,11 @@ module Root exposing (..)
 
 import App
 import Component exposing (..)
-import Discussions
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Page.Discussions as Discussions
 import Page.Login as Login
 import Page.UI.Alert as Alert
 import Page.UI.SignUp as SignUp
