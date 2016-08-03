@@ -13,6 +13,8 @@ import Http.Extra as Http exposing (..)
 import Http.Session as Session exposing (..)
 import Models exposing (..)
 import Page.UI.Alert as Alert exposing (notify, Model)
+import Routing.Config as Routing exposing (..)
+import Routing.Page.Config as Page exposing (..)
 import Task exposing (Task)
 import View.Form as Form exposing (..)
 
@@ -75,7 +77,7 @@ update message model =
                 ({ model | form = form }) ! commands
 
         SignInSuccess credential ->
-            model ! []
+            model ! [ Routing.navigateTo (Routing.Discussions Page.Index) ]
 
         SignInFail error ->
             model ! [ Alert.notify <| Alert.Error error ]
