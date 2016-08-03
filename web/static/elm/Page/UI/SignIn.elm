@@ -13,8 +13,8 @@ import Http.Extra as Http exposing (..)
 import Http.Session as Session exposing (..)
 import Models exposing (..)
 import Page.UI.Alert as Alert exposing (notify, Model)
-import View.Form as Form exposing (..)
 import Task exposing (Task)
+import View.Form as Form exposing (..)
 
 
 -- MODEL
