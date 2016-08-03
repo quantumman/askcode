@@ -14,6 +14,11 @@ defmodule Askcode.ErrorViewTest do
            "Server internal error"
   end
 
+  test "render 401.json" do
+    assert render_to_string(Askcode.ErrorView, "401.json", []) ==
+           "{\"error\":\"Authentication required\"}"
+  end
+
   test "render any other" do
     assert render_to_string(Askcode.ErrorView, "505.html", []) ==
            "Server internal error"
