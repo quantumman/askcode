@@ -34,3 +34,13 @@ andThen m f =
 get : Decoder a -> String -> Task Error a
 get decoder url =
     Session.load `andThen` (\{ jwt } -> Jwt.get jwt decoder url)
+
+
+post : Decoder a -> String -> Encode.Value -> Task Error a
+post decoder url payload =
+    Session.load
+        `andThen` (\{ jwt } ->
+                    Jwt.post jwt decoder url
+                        <| Http.string
+                        <| (Encode.encode 0 payload)
+                  )
