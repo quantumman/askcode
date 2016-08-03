@@ -81,7 +81,9 @@ update message model =
             model ! [ Alert.notify <| Alert.Error error ]
 
 
+
 -- ACTION
+
 
 signIn : Account -> Cmd Msg
 signIn model =
@@ -91,9 +93,11 @@ signIn model =
                 "/api/sessions"
                 (encodeSession model)
 
-        task = request `Task.andThen` Session.store
+        task =
+            request `Task.andThen` Session.store
     in
         Task.perform SignInFail SignInSuccess task
+
 
 
 -- VIEW
