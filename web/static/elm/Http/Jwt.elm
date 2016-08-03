@@ -44,3 +44,14 @@ post decoder url payload =
                         <| Http.string
                         <| (Encode.encode 0 payload)
                   )
+
+
+put : Decoder a -> String -> Encode.Value -> Task Error a
+put decoder url payload =
+    let
+        request { jwt } =
+            Jwt.send "PUT" jwt decoder url
+                <| Http.string
+                <| Encode.encode 0 payload
+    in
+        Session.load `andThen` request
