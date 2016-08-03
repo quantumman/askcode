@@ -91,18 +91,10 @@ type alias Msg =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update route model =
-    let
-        path =
-            reverse route
-
-        command =
-            makeUrl routerConfig path
-                |> Navigation.modifyUrl
-    in
-        ( model, command )
+    model ! [ navigateTo route ]
 
 
-navigateTo : Msg -> Cmd Msg
+navigateTo : Msg -> Cmd msg
 navigateTo route =
     reverse route
         |> makeUrl routerConfig
