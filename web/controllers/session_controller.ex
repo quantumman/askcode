@@ -18,4 +18,11 @@ defmodule Askcode.SessionController do
         |> render("error.json")
     end
   end
+
+
+  def unauthenticated(conn, _params) do
+    conn
+    |> put_status(:unauthorized)
+    |> render(Askcode.ErrorView, "401.json")
+  end
 end
