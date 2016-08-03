@@ -1,7 +1,7 @@
 module Http.Jwt exposing (..)
 
 import Http
-import Http.Extra exposing (..)
+import Http.Extra as Http exposing (..)
 import Http.Session as Session exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
@@ -75,3 +75,18 @@ patch decoder url payload =
                 <| Encode.encode 0 payload
     in
         Session.load `andThen` request
+
+
+
+-- Error message
+
+
+errorToString : Error -> String
+errorToString error =
+    case error of
+        HttpError e ->
+            Http.errorToString e
+
+        _ ->
+            -- TODO: Fix error message
+            "Error!"
