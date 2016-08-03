@@ -8,7 +8,9 @@ import Result exposing (Result)
 import Task exposing (Task)
 
 
-type alias Error = LocalStorage.Error
+type alias Error =
+    LocalStorage.Error
+
 
 
 -- TASK
