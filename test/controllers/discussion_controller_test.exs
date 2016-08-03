@@ -1,12 +1,19 @@
 defmodule Askcode.DiscussionControllerTest do
   use Askcode.ConnCase
 
+  require Forge
+
   alias Askcode.Discussion
   @valid_attrs %{code: "some content", description: "some content", subject: "some content"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    {:ok, user} = Forge.saved_user Askcode.Repo
+    {:ok, jwt, full_claims} = Guardian.encode_and_sign(user, :token１)
+    conn = conn
+    |> put_req_header("accept", "application/json")
+    |> put_req_header("authorization", "Bearer #{jwt}")
+    {:ok, conn: conn}
   end
 
   test "lists all entries on index", %{conn: conn} do

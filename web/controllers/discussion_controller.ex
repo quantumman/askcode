@@ -3,6 +3,8 @@ defmodule Askcode.DiscussionController do
 
   alias Askcode.Discussion
 
+  plug Guardian.Plug.EnsureAuthenticated, handler: Askcode.SessionController
+
   def index(conn, _params) do
     discussions =
       Repo.all(Discussion)
