@@ -4,8 +4,10 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Http
+import Http.Jwt as Jwt exposing (..)
 import Json.Decode as Decode exposing (..)
 import Page.Discussions.Model exposing (..)
+import Page.UI.Alert as Alert exposing (..)
 import Style exposing (..)
 import Styles exposing (..)
 import Task exposing (Task)
@@ -17,7 +19,7 @@ import Task exposing (Task)
 type Msg
     = Fetch
     | FetchSuccess (List Discussion)
-    | FetchError Http.Error
+    | FetchError Error
 
 
 update : Msg -> List Discussion -> ( List Discussion, Cmd Msg )
@@ -29,8 +31,8 @@ update message model =
         FetchSuccess model' ->
             ( model', Cmd.none )
 
-        FetchError _ ->
-            ( model, Cmd.none )
+        FetchError e ->
+            ( model, Alert.notify <| Alert.Error <| Jwt.errorToString e )
 
 
 fetchCommand : Cmd Msg
@@ -47,7 +49,7 @@ fetchCommand =
                 )
 
         task =
-            Http.get decode "/api/discussions"
+            Jwt.get decode "/api/discussions"
     in
         Task.perform FetchError FetchSuccess task
 
