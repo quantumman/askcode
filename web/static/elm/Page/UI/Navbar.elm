@@ -6,6 +6,7 @@ import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Routing.Config as Routing exposing (..)
+import Routing.Page.Config as Page exposing (Route)
 
 
 -- MODEL
@@ -20,6 +21,17 @@ type alias Model =
     , isLoggedIn : Bool
     , routes : Routing.Model
     }
+
+
+getLink : MenuId -> String
+getLink menuId =
+    let
+        route =
+            case menuId of
+                Home ->
+                    Routing.Discussions Page.Index
+    in
+        "/#" ++ Routing.reverse route
 
 
 
