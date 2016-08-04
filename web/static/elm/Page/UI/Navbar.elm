@@ -82,12 +82,16 @@ view model menuItems =
                 [ text "Ask Code" ]
             , ul [ class "nav navbar-nav" ] menuItemViews
             , Html.form [ class "form-inline pull-xs-right" ]
-                [ button
-                    [ class "btn btn-outline-primary"
-                    , type' "button"
-                    , onClick (NavigateTo Routing.SignIn)
-                    ]
-                    [ text "Login" ]
+                [ (if model.isLoggedIn then
+                    div [] []
+                   else
+                    button
+                        [ class "btn btn-outline-primary"
+                        , type' "button"
+                        , onClick (NavigateTo Routing.SignIn)
+                        ]
+                        [ text "Login" ]
+                  )
                 ]
             ]
 
