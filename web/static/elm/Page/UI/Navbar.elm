@@ -45,3 +45,18 @@ update message model =
 
 type alias MenuItem =
     MenuId -> Html Msg
+
+
+menuItem : String -> MenuId -> MenuItem
+menuItem text ref current =
+    let
+        active =
+            if ref == current then
+                "active"
+            else
+                ""
+    in
+        li [ class ("nav-item " ++ active) ]
+            [ a [ class "nav-link", href ("/#") ]
+                [ Html.text text ]
+            ]
