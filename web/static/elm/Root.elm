@@ -9,6 +9,7 @@ import Html.Events exposing (..)
 import Page.Discussions as Discussions
 import Page.Login as Login
 import Page.UI.Alert as Alert
+import Page.UI.Navbar as Navbar exposing (..)
 import Page.UI.SignUp as SignUp
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
@@ -27,6 +28,7 @@ type alias Model =
     , signUp : SignUp.Model
     , login : Login.Model
     , alert : Alert.Model
+    , navbar : Navbar.Model
     }
 
 
@@ -47,8 +49,11 @@ init routing =
 
         alert =
             Alert.init
+
+        navbar =
+            Navbar.init routing
     in
-        ( Model routing appModel discussionsModel signUpModel login alert
+        ( Model routing appModel discussionsModel signUpModel login alert navbar
         , Cmd.batch
             [ Cmd.map App appCommand
             , Cmd.map Discussion discussionsCommand
@@ -67,6 +72,7 @@ type Msg
     | SignUp SignUp.Msg
     | Login Login.Msg
     | Alert Alert.Msg
+    | Navbar Navbar.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -102,6 +108,11 @@ update msg model =
                 |> (\m -> { model | alert = m })
                 *> Alert
 
+        Navbar subMessage ->
+            Navbar.update subMessage model.navbar
+                |> (\m -> { model | navbar = m })
+                *> Navbar
+
 
 
 -- SUBSCRIPTIONS
@@ -122,7 +133,10 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div []
-        [ navBar model
+        [ Navbar.view model.navbar
+            [ menuItem "Home" Navbar.Home
+            ]
+            |> Html.map Navbar
         , div [ style [ vspace 5 Style.em ] ] []
         , div [ class "container" ]
             [ Html.map Alert (Alert.view model.alert)

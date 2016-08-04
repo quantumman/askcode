@@ -23,6 +23,14 @@ type alias Model =
     }
 
 
+init : Routing.Model -> Model
+init r =
+    { menuId = Home
+    , isLoggedIn = False
+    , routes = r
+    }
+
+
 getLink : MenuId -> String
 getLink menuId =
     let
