@@ -30,12 +30,14 @@ type alias Account =
 
 type alias Model =
     { form : Form () Account
+    , succeeded : Bool
     }
 
 
 init : Model
 init =
     { form = Form.initial [] validate
+    , succeeded = False
     }
 
 
@@ -77,10 +79,10 @@ update message model =
                 ({ model | form = form }) ! commands
 
         SignInSuccess credential ->
-            model ! [ Routing.navigateTo (Routing.Discussions Page.Index) ]
+            { model | succeeded = True } ! [ Routing.navigateTo (Routing.Discussions Page.Index) ]
 
         SignInFail error ->
-            model ! [ Alert.notify <| Alert.Error error ]
+            { model | succeeded = False } ! [ Alert.notify <| Alert.Error error ]
 
 
 
