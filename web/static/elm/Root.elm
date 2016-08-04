@@ -6,6 +6,8 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Http.Session as Session exposing (..)
+import Models exposing (..)
 import Page.Discussions as Discussions
 import Page.Login as Login
 import Page.UI.Alert as Alert
@@ -15,6 +17,7 @@ import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
 import Style exposing (..)
 import Styles exposing (..)
+import Task exposing (Task)
 import View.Layout as View exposing (..)
 
 
@@ -29,6 +32,7 @@ type alias Model =
     , login : Login.Model
     , alert : Alert.Model
     , navbar : Navbar.Model
+    , isLoggedIn : Bool
     }
 
 
@@ -53,10 +57,11 @@ init routing =
         navbar =
             Navbar.init routing
     in
-        ( Model routing appModel discussionsModel signUpModel login alert navbar
+        ( Model routing appModel discussionsModel signUpModel login alert navbar False
         , Cmd.batch
             [ Cmd.map App appCommand
             , Cmd.map Discussion discussionsCommand
+            , Session.load' (LoadSession)
             ]
         )
 
@@ -67,6 +72,7 @@ init routing =
 
 type Msg
     = NavigateTo Routing.Msg
+    | LoadSession (Maybe Credential)
     | App App.Msg
     | Discussion Discussions.Msg
     | SignUp SignUp.Msg
@@ -82,6 +88,21 @@ update msg model =
             Routing.update subMessage model.routes
                 |> (\m -> { model | routes = m })
                 *> NavigateTo
+
+        LoadSession credential ->
+            let
+                navbar =
+                    model.navbar
+
+                navbar' =
+                    case credential of
+                        Just _ ->
+                            { navbar | isLoggedIn = True }
+
+                        Nothing ->
+                            { navbar | isLoggedIn = False }
+            in
+                { model | navbar = navbar' } ! []
 
         App subMessage ->
             App.update subMessage model.app
