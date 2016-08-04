@@ -1,5 +1,8 @@
 module Page.UI.Navbar exposing (..)
 
+import Routing.Config as Routing exposing (..)
+
+
 -- MODEL
 
 
@@ -12,3 +15,11 @@ type alias Model =
     , isLoggedIn : Bool
     , routes : Routing.Model
     }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = NavigateTo Routing.Msg
