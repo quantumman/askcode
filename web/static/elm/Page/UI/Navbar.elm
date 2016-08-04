@@ -5,3 +5,10 @@ module Page.UI.Navbar exposing (..)
 
 type MenuId
     = Home
+
+
+type alias Model =
+    { menuId : MenuId
+    , isLoggedIn : Bool
+    , routes : Routing.Model
+    }
