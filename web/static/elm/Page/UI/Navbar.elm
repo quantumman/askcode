@@ -47,6 +47,27 @@ type alias MenuItem =
     MenuId -> Html Msg
 
 
+view : Model -> List MenuItem -> Html Msg
+view model menuItems =
+    let
+        menuItemViews =
+            List.map (\m -> m model.menuId) menuItems
+    in
+        nav [ class "navbar navbar-full navbar-fixed-top navbar-light bg-faded" ]
+            [ a [ class "navbar-brand", href "#/" ]
+                [ text "Ask Code" ]
+            , ul [ class "nav navbar-nav" ] menuItemViews
+            , Html.form [ class "form-inline pull-xs-right" ]
+                [ button
+                    [ class "btn btn-outline-primary"
+                    , type' "button"
+                    , onClick (NavigateTo Routing.SignIn)
+                    ]
+                    [ text "Login" ]
+                ]
+            ]
+
+
 menuItem : String -> MenuId -> MenuItem
 menuItem text ref current =
     let
