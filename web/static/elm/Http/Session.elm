@@ -28,8 +28,7 @@ store credential =
         |> set key
 
 
-load : Task Error (Maybe Credential)
+load : Task Error (Result String Credential)
 load =
     get key
         |> Task.map (Decode.decodeString decodeCredential)
-        |> Task.map Result.toMaybe

@@ -16,14 +16,14 @@ type Error
     | HttpError Http.Error
 
 
-andThen : Task Session.Error (Maybe Credential) -> (Credential -> Task Http.Error a) -> Task Error a
+andThen : Task Session.Error (Result String Credential) -> (Credential -> Task Http.Error a) -> Task Error a
 andThen m f =
     let
         m' =
             Task.mapError SessionError m
 
-        jwt' =
-            Task.fromMaybe (EmptySessionError "Credential is empty")
+        jwt' x =
+            (Task.fromResult x) |> Task.mapError EmptySessionError
 
         f' x =
             Task.mapError HttpError (f x)
@@ -86,6 +86,9 @@ errorToString error =
     case error of
         HttpError e ->
             Http.errorToString e
+
+        EmptySessionError e ->
+            e
 
         _ ->
             -- TODO: Fix error message
