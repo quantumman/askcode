@@ -1,6 +1,10 @@
 module Page.UI.Navbar exposing (..)
 
 import Component exposing (..)
+import Html exposing (..)
+import Html.App as Html
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Routing.Config as Routing exposing (..)
 
 
@@ -33,3 +37,11 @@ update message model =
             Routing.update subMessage model.routes
                 |> (\m -> { model | routes = m })
                 *> NavigateTo
+
+
+
+-- VIEWS
+
+
+type alias MenuItem =
+    MenuId -> Html Msg
