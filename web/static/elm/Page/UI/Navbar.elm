@@ -90,6 +90,6 @@ menuItem text ref current =
                 ""
     in
         li [ class ("nav-item " ++ active) ]
-            [ a [ class "nav-link", href ("/#") ]
+            [ a [ class "nav-link", href <| getLink ref ]
                 [ Html.text text ]
             ]
