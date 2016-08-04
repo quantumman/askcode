@@ -40,11 +40,15 @@ getLink menuId =
 
 type Msg
     = NavigateTo Routing.Msg
+    | OpenMenuItem MenuId
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
+        OpenMenuItem menuId ->
+            { model | menuId = menuId } ! []
+
         NavigateTo subMessage ->
             Routing.update subMessage model.routes
                 |> (\m -> { model | routes = m })
@@ -90,6 +94,6 @@ menuItem text ref current =
                 ""
     in
         li [ class ("nav-item " ++ active) ]
-            [ a [ class "nav-link", href <| getLink ref ]
+            [ a [ class "nav-link", href <| getLink ref, onClick <| OpenMenuItem ref ]
                 [ Html.text text ]
             ]
