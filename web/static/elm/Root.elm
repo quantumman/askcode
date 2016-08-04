@@ -163,46 +163,6 @@ content model =
             div [] [ h2 [] [ text "Not Found!" ] ]
 
 
-navBar : Model -> Html Msg
-navBar model =
-    nav [ class "navbar navbar-full navbar-fixed-top navbar-light bg-faded" ]
-        [ a [ class "navbar-brand", href "#/" ]
-            [ text "Ask Code" ]
-        , ul [ class "nav navbar-nav" ]
-            [ item "Home" (Routing.Discussions Page.Index) model.routes.route
-            ]
-        , Html.form [ class "form-inline pull-xs-right" ]
-            [ button
-                [ class "btn btn-outline-primary"
-                , type' "button"
-                , onClick (NavigateTo Routing.SignIn)
-                ]
-                [ text "Login" ]
-            ]
-        ]
-
-
-item : String -> Routing.Route -> Routing.Route -> Html Msg
-item text ref current =
-    let
-        ref' =
-            Routing.reverse ref
-
-        current' =
-            Routing.reverse current
-
-        active =
-            if ref' == current' then
-                "active"
-            else
-                ""
-    in
-        li [ class ("nav-item " ++ active) ]
-            [ a [ class "nav-link", href ("/#" ++ ref') ]
-                [ Html.text text ]
-            ]
-
-
 topPage : Model -> Html Msg
 topPage model =
     View.row
