@@ -24,6 +24,13 @@ type Msg
     | Close
 
 
+update : Msg -> Model -> ( Model, Cmd Msg )
+update message model =
+    case message of
+        Toggle ->
+            { model | isOpened = not model.isOpened } ! []
+
+
 
 --- STYLE
 
