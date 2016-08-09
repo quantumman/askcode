@@ -2,7 +2,9 @@ module Page.UI.Popover exposing (..)
 
 import Html exposing (..)
 import Html.App as Html
+import Html.Attributes exposing (style)
 import Html.Events exposing (..)
+import Html.Extra exposing (..)
 import Style exposing (..)
 import Styles exposing (..)
 
@@ -51,3 +53,18 @@ popover =
     , backgroundColor "#FFFFFF"
     , borderRadius "5px 5px 5px 5px"
     ]
+
+
+
+-- VIEW
+
+
+view : Model -> List (Html msg) -> Html msg
+view model innerHtml =
+    if (model.isOpened) then
+        div [ style [ position relative, display inlineBlock ] ]
+            [ div [ style popover, role "tooltip" ]
+                  innerHtml
+            ]
+    else
+        div [] []
