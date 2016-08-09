@@ -5,8 +5,11 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Models exposing (..)
+import Page.UI.Popover as Popover exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
+import View.Layout as Layout exposing (..)
 
 
 -- MODEL
@@ -20,6 +23,8 @@ type alias Model =
     { menuId : MenuId
     , isLoggedIn : Bool
     , routes : Routing.Model
+    , popover : Popover.Model
+    , user : User
     }
 
 
@@ -28,6 +33,8 @@ init r =
     { menuId = Home
     , isLoggedIn = False
     , routes = r
+    , popover = Popover.init
+    , user = { avatar = "", email = "" }
     }
 
 
@@ -49,6 +56,7 @@ getLink menuId =
 type Msg
     = NavigateTo Routing.Msg
     | OpenMenuItem MenuId
+    | Popover Popover.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -61,6 +69,11 @@ update message model =
             Routing.update subMessage model.routes
                 |> (\m -> { model | routes = m })
                 *> NavigateTo
+
+        Popover subMessage ->
+            Popover.update subMessage model.popover
+                |> (\m -> { model | popover = m })
+                *> Popover
 
 
 
@@ -82,17 +95,37 @@ view model menuItems =
                 [ text "Ask Code" ]
             , ul [ class "nav navbar-nav" ] menuItemViews
             , Html.form [ class "form-inline pull-xs-right" ]
-                [ (if model.isLoggedIn then
-                    div [] []
-                   else
-                    button
+                (if model.isLoggedIn then
+                    [ button
+                        [ onClick <| Popover Popover.Toggle
+                        , class "btn btn-outline-info"
+                        , type' "button"
+                        ]
+                        [ text "Username" ]
+                    , Popover.view model.popover
+                        [ div [ class "container" ]
+                            [ Layout.row
+                                [ Layout.column 2
+                                    [ img [ class "img-circle", src model.user.avatar, alt "U" ] [] ]
+                                , Layout.column 10
+                                    [ text "Username" ]
+                                , Layout.column 2
+                                    [ text "📧" ]
+                                , Layout.column 10
+                                    [ text model.user.email ]
+                                ]
+                            ]
+                        ]
+                    ]
+                 else
+                    [ button
                         [ class "btn btn-outline-primary"
                         , type' "button"
                         , onClick (NavigateTo Routing.SignIn)
                         ]
                         [ text "Login" ]
-                  )
-                ]
+                    ]
+                )
             ]
 
 
