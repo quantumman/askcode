@@ -9,6 +9,7 @@ import Models exposing (..)
 import Page.UI.Popover as Popover exposing (..)
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
+import View.Layout as Layout exposing (..)
 
 
 -- MODEL
@@ -103,11 +104,15 @@ view model menuItems =
                         [ text "Username" ]
                     , Popover.view model.popover
                         [ div [ class "container" ]
-                            [ div [ class "row" ]
-                                [ div [ class "col-xs-2 img-circle" ]
-                                    [ img [ src model.user.avatar, alt "U" ] [] ]
-                                , div [ class "col-xs-10" ]
+                            [ Layout.row
+                                [ Layout.column 2
+                                    [ img [ class "img-circle", src model.user.avatar, alt "U" ] [] ]
+                                , Layout.column 10
                                     [ text "Username" ]
+                                , Layout.column 2
+                                    [ text "📧" ]
+                                , Layout.column 10
+                                    [ text model.user.email ]
                                 ]
                             ]
                         ]
