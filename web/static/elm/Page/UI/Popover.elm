@@ -7,6 +7,15 @@ import Style exposing (..)
 import Styles exposing (..)
 
 
+-- MODEL
+
+
+type alias Model =
+    { isOpened : Bool
+    }
+
+
+
 -- UPDATE
 
 
