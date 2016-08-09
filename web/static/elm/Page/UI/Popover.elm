@@ -17,6 +17,12 @@ type alias Model =
     }
 
 
+init : Model
+init =
+    { isOpened = False
+    }
+
+
 
 -- UPDATE
 
