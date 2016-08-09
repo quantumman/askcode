@@ -32,3 +32,14 @@ load : Task Error (Result String Credential)
 load =
     get key
         |> Task.map (Decode.decodeString decodeCredential)
+
+
+load' : (Maybe Credential -> msg) -> Cmd msg
+load' fmsg =
+    let
+        task =
+            load
+                |> Task.map Result.toMaybe
+                |> Task.mapError (\_ -> Nothing)
+    in
+        Task.perform fmsg fmsg task
