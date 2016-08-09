@@ -28,8 +28,7 @@ init =
 
 
 type Msg
-    = Open
-    | Close
+    = Toggle
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
