@@ -6,14 +6,18 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Http.Session as Session exposing (..)
+import Models exposing (..)
 import Page.Discussions as Discussions
 import Page.Login as Login
 import Page.UI.Alert as Alert
+import Page.UI.Navbar as Navbar exposing (..)
 import Page.UI.SignUp as SignUp
 import Routing.Config as Routing exposing (..)
 import Routing.Page.Config as Page exposing (Route)
 import Style exposing (..)
 import Styles exposing (..)
+import Task exposing (Task)
 import View.Layout as View exposing (..)
 
 
@@ -27,6 +31,8 @@ type alias Model =
     , signUp : SignUp.Model
     , login : Login.Model
     , alert : Alert.Model
+    , navbar : Navbar.Model
+    , isLoggedIn : Bool
     }
 
 
@@ -47,11 +53,15 @@ init routing =
 
         alert =
             Alert.init
+
+        navbar =
+            Navbar.init routing
     in
-        ( Model routing appModel discussionsModel signUpModel login alert
+        ( Model routing appModel discussionsModel signUpModel login alert navbar False
         , Cmd.batch
             [ Cmd.map App appCommand
             , Cmd.map Discussion discussionsCommand
+            , Session.load' (LoadSession)
             ]
         )
 
@@ -62,11 +72,13 @@ init routing =
 
 type Msg
     = NavigateTo Routing.Msg
+    | LoadSession (Maybe Credential)
     | App App.Msg
     | Discussion Discussions.Msg
     | SignUp SignUp.Msg
     | Login Login.Msg
     | Alert Alert.Msg
+    | Navbar Navbar.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -76,6 +88,21 @@ update msg model =
             Routing.update subMessage model.routes
                 |> (\m -> { model | routes = m })
                 *> NavigateTo
+
+        LoadSession credential ->
+            let
+                navbar =
+                    model.navbar
+
+                navbar' =
+                    case credential of
+                        Just _ ->
+                            { navbar | isLoggedIn = True }
+
+                        Nothing ->
+                            { navbar | isLoggedIn = False }
+            in
+                { model | navbar = navbar' } ! []
 
         App subMessage ->
             App.update subMessage model.app
@@ -102,6 +129,11 @@ update msg model =
                 |> (\m -> { model | alert = m })
                 *> Alert
 
+        Navbar subMessage ->
+            Navbar.update subMessage model.navbar
+                |> (\m -> { model | navbar = m })
+                *> Navbar
+
 
 
 -- SUBSCRIPTIONS
@@ -122,7 +154,10 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div []
-        [ navBar model
+        [ Navbar.view model.navbar
+            [ menuItem "Home" Navbar.Home
+            ]
+            |> Html.map Navbar
         , div [ style [ vspace 5 Style.em ] ] []
         , div [ class "container" ]
             [ Html.map Alert (Alert.view model.alert)
@@ -147,46 +182,6 @@ content model =
 
         NotFound ->
             div [] [ h2 [] [ text "Not Found!" ] ]
-
-
-navBar : Model -> Html Msg
-navBar model =
-    nav [ class "navbar navbar-full navbar-fixed-top navbar-light bg-faded" ]
-        [ a [ class "navbar-brand", href "#/" ]
-            [ text "Ask Code" ]
-        , ul [ class "nav navbar-nav" ]
-            [ item "Home" (Routing.Discussions Page.Index) model.routes.route
-            ]
-        , Html.form [ class "form-inline pull-xs-right" ]
-            [ button
-                [ class "btn btn-outline-primary"
-                , type' "button"
-                , onClick (NavigateTo Routing.SignIn)
-                ]
-                [ text "Login" ]
-            ]
-        ]
-
-
-item : String -> Routing.Route -> Routing.Route -> Html Msg
-item text ref current =
-    let
-        ref' =
-            Routing.reverse ref
-
-        current' =
-            Routing.reverse current
-
-        active =
-            if ref' == current' then
-                "active"
-            else
-                ""
-    in
-        li [ class ("nav-item " ++ active) ]
-            [ a [ class "nav-link", href ("/#" ++ ref') ]
-                [ Html.text text ]
-            ]
 
 
 topPage : Model -> Html Msg
