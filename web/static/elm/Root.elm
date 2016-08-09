@@ -96,8 +96,8 @@ update msg model =
 
                 navbar' =
                     case credential of
-                        Just _ ->
-                            { navbar | isLoggedIn = True }
+                        Just x ->
+                            { navbar | isLoggedIn = True, user = x.user }
 
                         Nothing ->
                             { navbar | isLoggedIn = False }
