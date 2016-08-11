@@ -36,6 +36,13 @@ type alias Model =
     }
 
 
+type alias Page msg model =
+    { model : model
+    , update : msg -> model -> ( model, msg )
+    , view : model -> Html msg
+    }
+
+
 init : Routing.Model -> ( Model, Cmd Msg )
 init routing =
     let
