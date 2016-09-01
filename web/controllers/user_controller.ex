@@ -38,9 +38,9 @@ defmodule Askcode.UserController do
     send_resp(conn, :no_content, "")
   end
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ :invalid) do
     model
-    |> User.changeset
+    |> User.changeset(params)
     |> generate_encrypted_password
   end
 
